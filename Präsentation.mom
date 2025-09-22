@@ -1,0 +1,2322 @@
+.\" vim:fileencoding=utf-8:ft=nroff:foldmethod=marker
+.\" ! pdfmom -G -t -mpic -Kutf8 "%" > "%:r.pdf"
+.TITLE "Linux Grundlagen und Projekt Kurs"
+.SUBTITLE "Distributionen, Desktop, Installation, Prozesse, Shell Scripting," "Systemd, Logging, SSH, Netzwerk, Sicherheit"
+.AUTHOR "Nick Hildebrandt"
+.MISC "Linux Projekt Kurs" "Siemens Energy"
+.COPYRIGHT " \*[$AUTHOR] 2025"
+.
+.\": {{{ Präsentation einrichten
+
+.PDF_TITLE "\*[$TITLE]"
+.DOCTYPE SLIDES \
+  ASPECT 16:9 \
+  HEADER "\*[$MISC_1]" "" "\*[$MISC_2]" \
+  FOOTER "" "" "\*S[+2]\*[SLIDE#]\*S[-2]"
+.NEWCOLOR red       #900000
+.NEWCOLOR blue      #00007b
+.HEADER_COLOR       red
+.HEADER_RULE
+.FOOTER_RULE off
+.T_MARGIN 100p
+.L_MARGIN 50p
+.R_MARGIN 50p
+.B_MARGIN 35p
+.FOOTER_MARGIN 30p
+.
+.HEADING_STYLE 1 \
+    COLOR blue \
+    SPACE_AFTER
+.
+.COVER TITLE SUBTITLE MISC COPYRIGHT
+.
+.START
+.\": }}}
+.
+.\": Ein bisschen was über mich {{{
+.HEADING 1 "Ein bisschen was über mich"
+.SPACE
+.BOX PI
+.PS
+C: ellipse "Nick Hildebrandt"  "Bitte du/Nick" wid 2 ht 1
+
+arrow up .8 from C.n; "Fachinformatiker Anwendungsentwicklung" above
+arrow up right from C.ne; "Siemens Energy Berlin (Schaltwerk)" ljust above
+arrow up left from C.nw; "Linux Daily Driver seit 2018" rjust above
+
+arrow left .8 from C.w; "Diverse Bauprojekte " rjust
+arrow right .8 from C.e; " Brandenburger seit 20 Jahren" ljust
+
+arrow down .8 from C.s; "Linux Server & Netzwerk Selfhosting seit 2019" below
+arrow down right from C.se; "Embedded Systems & Mikrocontroller" ljust below
+arrow down left from C.sw; "C-Programmierung" rjust below
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Etwas über euch {{{
+.NEWSLIDE
+.HEADING 1 "Etwas über euch"
+.SPACE
+.BOX PIC
+.PS
+H: box "Name, Alter, Werk, Interessen / Hobbys ..." wid 4
+arrow down left from H.b; box "Vorerfahrung mit Linux" wid 3
+arrow down right from H.b; box "Erwartungen an diesen Kurs" wid 3
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Was noch wichtig ist {{{
+.NEWSLIDE
+.HEADING 1 "Was noch wichtig ist"
+.SPACE
+.LIST
+.ITEM 10p
+Bitte immer \*[BOLDER]SOFORT FRAGEN\*[BOLDERX] wenn etwas unverständlich ist
+.ITEM 10p
+Alle Kursdaten sind online: \*[BOLDER]https://github.com/nickhildebrandt/Linux-Projekt-Berlin\*[BOLDERX]
+.ITEM 10p
+Meine E-Mail auch für die Zukunft: \*[BOLDER]nick.hildebrandt@siemens-energy.com\*[BOLDERX]
+.LIST OFF
+\": }}}
+.
+.\": Wochenüberblick {{{
+.NEWSLIDE
+.HEADING 1 "Wochenüberblick"
+.SPACE
+.LIST
+.ITEM 10p
+\*[BOLDER]Montag:\*[BOLDERX] Einführung, Distributionen, Desktop, Installation
+.ITEM 10p
+\*[BOLDER]Dienstag:\*[BOLDERX] Linux Grundlagen, Prozesse, Shell Scripting
+.ITEM 10p
+\*[BOLDER]Mittwoch:\*[BOLDERX] Systemd, Logging, SSH, Netzwerk
+.ITEM 10p
+\*[BOLDER]Donnerstag:\*[BOLDERX] Sicherheit, Backups, Virtualisierung, Container
+.LIST OFF
+.\": }}}
+.
+.\": Einführung - Was ist Linux? - Rechercheaufgabe{{{
+.NEWSLIDE
+.HEADING 1 "Einführung - Was ist Linux? - Rechercheaufgabe"
+.SPACE
+.LIST DIGIT
+.ITEM 10p
+Was ist Linux und was ist GNU?
+.ITEM 10p
+Wie entstand GNU und wie entstand Linux?
+.ITEM 10p
+Was haben GNU und Linux miteinander zu tun?
+.ITEM 10p
+Was sind Distributionen und welche gibt es?
+.ITEM 10p
+Was sind Desktopumgebungen und welche gibt es?
+.ITEM 10p
+Welche UI-Toolkits nutzen die verschiedenen Desktopumgebungen?
+.ITEM 10p
+Was ist ein Display-Server?
+.ITEM 10p
+Wie unterscheiden sich Xorg und Wayland?
+.LIST OFF
+.\": }}}
+.
+.\": Was ist Linux? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist Linux?"
+.SPACE
+.LIST
+.ITEM 10p
+Linux ist der \*[BOLDER]Kern (Kernel)\*[BOLDERX] eines Betriebssystems
+.ITEM 10p
+Er steuert die \*[BOLDER]Hardware\*[BOLDERX] (CPU, Speicher, Geräte)
+.ITEM 10p
+Linux selbst ist \*[BOLDER]kein vollständiges Betriebssystem\*[BOLDERX]
+.ITEM 10p
+1991 von Linus Torvalds entwickelt (später auch Git), als freie Alternative zu
+Minix (Unix)
+.ITEM 10p
+Mit einer E-Mail stellte er sein Projekt vor und staterte die Weltweite
+gemeinsame Entwicklung
+.ITEM 10p
+Andere Programme + Linux = komplettes \*[BOLDER]Betriebssystem\*[BOLDERX]
+.ITEM 10p
+Wird benutzt für \*[BOLDER]PCs, Server, Smartphones (Android) und Embedded-Geräte\*[BOLDERX]
+.LIST OFF
+.\": }}}
+.
+.\": Was ist Unix? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist Unix?"
+.SPACE
+.LIST
+.ITEM 10p
+Ursprünglich in den 1970er Jahren bei \*[BOLDER]AT&T Bell Labs\*[BOLDERX] entwickelt
+.ITEM 10p
+Von \*[BOLDER]Ken Thompson\*[BOLDERX] und \*[BOLDER]Dennis Ritchie\*[BOLDERX], die auch die \*[BOLDER]C-Programmiersprache\*[BOLDERX] schufen
+.ITEM 10p
+\*[BOLDER]Komplettes Betriebssystem\*[BOLDERX] (monolithisch), nicht nur ein Kernel
+.ITEM 10p
+Vor allem genutzt auf Großrechnern und Servern
+.ITEM 10p
+Unix selbst gibt es heute nicht mehr von AT&T
+Teile des Quellcodes wurden veröffentlicht → Grundlage für freie Systeme wie \*[BOLDER]BSD\*[BOLDERX]
+Daneben existieren noch kommerzielle Varianten wie \*[BOLDER]AIX, HP-UX, Solaris\*[BOLDERX]
+.LIST OFF
+.\": }}}
+.
+.\": Vergleich: Linux und Unix {{{
+.NEWSLIDE
+.HEADING 1 "Linux vs. Unix"
+.SPACE
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB
+- -
+l | l.
+Linux | Unix
+Open-Source (GPL) | Proprietär, kommerziell
+In C entwickelt (Kernel + GNU-Tools) | In C entwickelt (originale Unix-Tools)
+Kernel + Zusatzsoftware nötig | Komplettes Betriebssystem (monolithisch)
+.TE
+.BOX OFF
+.SPACE
+.QUOTE
+Linux ist kein Unix, sondern \*[BOLDER]Unix-like\*[BOLDERX]:
+Es hat den Systemaufbau und die Unix-Philosophie übernommen,
+wurde aber unabhängig als freier Kernel neu entwickelt.
+.QUOTE OFF
+.\": }}}
+.
+.\": Was ist GNU? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist GNU?"
+.SPACE
+.LIST
+.ITEM 10p
+\*[BOLDER]GNU\*[BOLDERX] = „\*[BOLDER]G\*[BOLDERX]NU’s \*[BOLDER]N\*[BOLDERX]ot \*[BOLDER]U\*[BOLDERX]nix“ (ein Wortspiel)
+.ITEM 10p
+Eine \*[BOLDER]Sammlung freier Programme\*[BOLDERX] (Compiler, Tools, Shells usw.)
+.ITEM 10p
+Ziel: Ein freies Unix-kompatibles Betriebssystem schaffen
+.ITEM 10p
+Alle Teile waren da – nur der Kernel fehlte
+.ITEM 10p
+Mit dem \*[BOLDER]Linux-Kernel\*[BOLDERX] zusammen ergibt sich ein komplettes Betriebssystem: \*[BOLDER]GNU/Linux\*[BOLDERX]
+.ITEM 10p
+Wichtig: Ohne GNU-Programme könnte man Linux alleine kaum benutzen
+.LIST OFF
+.\": }}}
+.
+.\": GNU, Freie Software und Open Source {{{
+.NEWSLIDE
+.HEADING 1 "GNU, Freie Software und Open Source"
+.LIST
+.ITEM 10p
+\*[BOLDER]Richard Stallman\*[BOLDERX] gründete GNU und die \*[BOLDER]Free
+Software Foundation (FSF)\*[BOLDERX] aus Frustration, weil er am MIT einen
+fehlerhaften Druckertreiber nicht reparieren durfte – der Quellcode war
+proprietär und nicht zugänglich.
+.ITEM 10p
+Die FSF hatte das Ziel, \*[BOLDER]freie Software\*[BOLDERX] zu schaffen und
+diese unter der \*[BOLDER]GNU General Public License (GPL)\*[BOLDERX] zu
+veröffentlichen.
+.ITEM 10p
+\*[BOLDER]Diese Lizenz garantiert vier Rechte: \*[BOLDERX]
+.LIST DIGIT
+.SHIFT_LIST 12p
+.ITEM 5p
+Freiheit, Software auszuführen
+.ITEM 5p
+Freiheit, den Quellcode zu verstehen
+.ITEM 5p
+Freiheit, Software zu verändern
+.ITEM 5p
+Freiheit, Software weiterzugeben
+.LIST OFF
+.ITEM 10p
+Mit \*[BOLDER]Open Source\*[BOLDERX] ist die Quelloffenheit gemeint (ohne die
+ethische Komponente der Nutzerrechte).
+.LIST OFF
+.QUOTE
+Was ist eine Software Lizenz?
+.QUOTE OFF
+.\": }}}
+.
+.\": Große Open-Source-Projekte {{{
+.NEWSLIDE
+.HEADING 1 "Große Open-Source-Projekte"
+.BOX PIC
+.PS
+box "\fB Linux Kernel \fP" wid 5 ht 0.6
+move left 2.5
+move down 0.3
+box "Alle ~7 Min. Verbesserungen" "Release alle ~6 Monate" "> 15.000 Entwickler weltweit" wid 5 ht 1.5
+move up 1.8
+move right 2.8
+box "\fB Apache HTTP Server \fP" wid 5 ht 0.6
+move left 2.5
+move down 0.3
+box "Seit 1995" "Meistgenutzter Webserver" "Apache Software Foundation" wid 5 ht 1.5
+move up 1.8
+move right 2.8
+box "\fB PostgreSQL \fP" wid 5 ht 0.6
+move left 2.5
+move down 0.3
+box "Ursprung 1986 in Berkeley" "Stabilität & Funktionsvielfalt" "Populäre Datenbank" wid 5 ht 1.5
+.PE
+.BOX OFF
+.LIST
+.ITEM 10p
+Jeder kann den Code einsehen und Fehler / Sicherheitslücken beheben (kollektive
+Kontrolle)
+.ITEM 10p
+Schnellere Entwicklung durch Zusammenarbeit und Entkopplung von einzelnen
+Unternehmen
+.ITEM 10p
+Die Existenz der Software hängt nicht vom Überleben eines Unternehmens ab
+.LIST OFF
+.\": }}}
+.
+.\": Linux Distributionen im Vergleich {{{
+.NEWSLIDE
+.HEADING 1 "Linux Distributionen im Vergleich"
+.SPACE
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB | lB
+- - - -
+l | l | l | l.
+| Debian | Arch Linux | Red Hat Enterprise Linux
+Paketformat: | .deb | Paketformat: PKGBUILD | Paketformat: .rpm
+Paketmanager: | APT | Paketmanager: pacman | Paketmanager: dnf / yum
+Release-Zyklus: | Stable Releases | Rolling Release | Enterprise Releases (LTS)
+Nutzungsmodell: | Frei & kostenlos | Frei & kostenlos | Bezahlte Enterprise-Version
+Forks: | Ubuntu, Linux Mint | Manjaro (auf Arch-Basis) | CentOS, Fedora
+.TE
+.BOX OFF
+.SPACE
+.QUOTE
+Distributionen unterscheiden sich vor allem im \*[BOLDER]Release-Zyklus\*[BOLDERX],
+dem \*[BOLDER]Paketmanager\*[BOLDERX] und den \*[BOLDER]Nutzungsbedingungen\*[BOLDERX] (frei oder bezahlt).
+.QUOTE OFF
+.\": }}}
+.
+.\": Aufbau der Desktopumgebungen unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Aufbau der Desktopumgebungen unter Linux"
+.BOX PIC
+.PS
+DM: box "\fBDisplay Manager\fP" "Login, startet Session" wid 4 ht 1.2
+arrow right
+DS: box "\fBDisplay Server\fP" "Xorg oder Wayland" wid 4 ht 1.2
+arrow right
+DE: box "\fBDesktop-Umgebung\fP" "GNOME, KDE, Xfce" wid 4 ht 1.2
+arrow right
+GUI: box "\fBProgramme\fP" "UI-Toolkits (GTK, QT)" wid 4 ht 1.2
+.PE
+.BOX OFF
+.LIST
+.ITEM 10p
+\fBDisplay Manager\fP: Login-Bildschirm, startet den Display-Server und die Desktop-Sitzung
+.ITEM 10p
+\fBDisplay Server\fP: Vermittelt zwischen Programmen und Hardware (Xorg = älter, Wayland = moderner, sicherer)
+.ITEM 10p
+\fBGUI-Toolkits\fP: Bibliotheken wie GTK oder Qt, die grafische Elemente (Fenster, Buttons, Menüs) bereitstellen
+.LIST OFF
+.SPACE
+.QUOTE
+Wayland ist eine modernere reine Client Alternative zu X.Org, arbeitet besser
+mit 3D-Grafikkarten zusammen und verhindert, dass Programme Eingaben anderer
+ausspähen – schränkt aber Funktionen wie Bildschirmaufnahmen ein.
+.QUOTE OFF
+.\": }}}
+.
+.\": Vergleich: Linux-Desktops {{{
+.NEWSLIDE
+.HEADING 1 "Linux-Desktops im Vergleich"
+.SPACE
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB | lB
+- - - -
+l | l | l | l.
+| GNOME (seit 1999) | KDE Plasma (seit 1996) | Xfce (seit 1996)
+Toolkit: | GTK 4 | Qt 5/6 | GTK 2/3
+Display-Server: | Wayland | X11 (Wayland im Aufbau) | X11
+Charakteristik: | Minimalistisch | Sehr anpassbar | Ressourcenschonend
+.TE
+.BOX OFF
+.SPACE
+.QUOTE
+Alle Desktops lassen sich unter jeder Distribution installieren.
+Einige Distributionen sind jedoch auf einen bestimmten Desktop oder eine bestimmte Nutzererfahrung optimiert.
+.QUOTE OFF
+.QUOTE
+Darüber hinaus existieren viele weitere Desktops und sogenannte Window-Manager,
+die es ermöglichen, eigene Arbeitsumgebungen zu gestalten oder für Embedded-Systeme zu optimieren.
+.QUOTE OFF
+.\": }}}
+.
+.\": Linux install - Übersicht {{{
+.NEWSLIDE
+.HEADING 1 "Linux installieren – Übersicht"
+.SPACE
+.BOX PIC
+.PS
+box "Linux-Distribution auswählen" wid 5 ht 1.2
+arrow right
+ISO: box ".iso / .img-Datei herunterladen" wid 5 ht 1.2
+arrow down 1 left from ISO.b
+MEDIA: box "ISO auf USB-Stick/DVD schreiben" "z. B. mit Balena Etcher" wid 6 ht 1.2
+arrow down 1 right from ISO.b
+VM: box "ISO in virtuelle Maschine einlegen" wid 5 ht 1.2
+move down 1.5 left 3.7
+FINAL: box "Live-System / Installer" "Booten" wid 3.5 ht 1
+arrow right from MEDIA.b to FINAL.l
+arrow left from VM.b to FINAL.r
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Debian installieren {{{
+.NEWSLIDE
+.HEADING 1 "Debian installieren"
+.LIST DIGIT
+.ITEM 10p
+Debian-ISO herunterladen – \*[BOLDER]netinst\*[BOLDERX], um automatisch immer
+die aktuellste Version zu installieren
+.ITEM 10p
+Vom Medium starten und \*[BOLDER]Graphical install\*[BOLDERX] auswählen -
+Sprache \*[BOLDER]Deutsch\*[BOLDERX] wählen
+.ITEM 10p
+Netzwerk automatisch konfigurieren - Hostname setzen \*[BOLDERX]
+\*[BOLDER](Namen der Maschine)\*[BOLDERX]
+.ITEM 10p
+\*[BOLDER]Kein Root-Passwort\*[BOLDERX] (Felder leer lassen) - \*[BOLDER]Name /
+Passwort für den Benutzer\*[BOLDERX] vergeben – dieser ist dann
+\*[BOLDER]gleichzeitig Administrator\*[BOLDERX]
+.ITEM 10p
+Partitionierung: \*[BOLDER]Geführt – gesamte Festplatte verwenden - Änderungen
+auf die Festplatte schreiben\*[BOLDERX]
+.ITEM 10p
+Paketmanager für Deutschland (deb.debian.org) konfigurieren -
+\*[BOLDER]GNOME\*[BOLDERX] und \*[BOLDER]Standard-Systemwerkzeuge\*[BOLDERX]
+auswählen (Bei einem Server \*[BOLDER]nur Standard-Systemwerkzeuge\*[BOLDERX])
+.ITEM 10p
+\*[BOLDER]Installation des Bootloaders\*[BOLDERX] (GRUB) bestätigen - danach
+\*[BOLDER]Neustarten\*[BOLDERX]
+.LIST OFF
+.\": }}}
+.
+.\": Partitionsschema unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Partitionsschema unter Linux"
+.QUOTE
+Eine Partition teilt eine Festplatte in Abschnitte, die für verschiedene Zwecke genutzt
+und mit unterschiedlichen Dateisystemen formatiert werden können.
+.QUOTE OFF
+.BOX PIC
+.PS
+box "\fBEFI (FAT32)\fP" \
+    "Notwendig für UEFI-Systeme" \
+    "Enthält den Bootloader" \
+    "Bei BIOS-Boot Optional (ersten 512 Byte)" wid 8 ht 2
+move right 0
+box "\fBSwap\fP" \
+    "Auslagerungsspeicher für Rammangel" \
+    "Auch als Swap-Datei (dynamisch - ZRAM)" \
+    "Nicht Essentiell (SSD)" wid 8 ht 2
+move left 8 down 1
+box "\fBDaten (ext4, Btrfs, ZFS)\fP" \
+    "Enthält System & Benutzerdaten" \
+    "Btrfs/ZFS ermöglichen Datenintegrität & mehrere Festplatten" \
+    "FHS-Ordner können eigene Partitionen sein" wid 16 ht 2
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Filesystem Hierarchy Standard – Überblick {{{
+.NEWSLIDE
+.HEADING 1 "Filesystem Hierarchy Standard (FHS)"
+.SPACE
+.QUOTE
+Der Filesystem Hierarchy Standard (FHS) stammt aus der Unix-Welt und legt fest,
+welche Verzeichnisse ein Betriebssystem besitzen muss und wie sie strukturiert sind.
+.QUOTE OFF
+.SPACE
+.LIST
+.ITEM 10p
+Unter Linux werden Pfade mit \*[BOLDER] / (Forward Slash) \*[BOLDERX]
+geschrieben - bei Windows \*[BOLDER] \\ (Backslash) \*[BOLDERX]
+.ITEM 10p
+Es gibt \*[BOLDER] keine Laufwerksbuchstaben \*[BOLDERX] Geräte werden in einen
+Pfad eingebunden
+.ITEM 10p
+Linux, macOS BSD haben eigene Varianten vom FHS entwickelt und dieses erweitert
+.LIST OFF
+.\": }}}
+.
+.\": FHS-Ordner Funktionen {{{
+.NEWSLIDE
+.HEADING 1 "FHS-Ordner Funktionen"
+.BOX TS
+.TS ADJUST
+box center tab(|);
+lb  | l.
+/bin            | Wichtige Benutzerprogramme (essenzielle Befehle)
+/sbin           | Systemprogramme für Administration
+/etc            | Systemkonfigurationsdateien
+/proc /dev /sys | Virtuelle Dateisysteme des Kernels mit Geräten und Prozessen
+/var            | Veränderliche Daten (Logs, Spools, Caches)
+/tmp            | Temporäre Dateien
+/usr            | Anwendungsprogramme und Bibliotheken
+/lib            | Wichtige Systembibliotheken
+/home           | Persönliche Verzeichnisse der Benutzer
+/boot           | Kernel, Bootloader und Startdateien
+/mnt /media     | Mountpoints für z.B. Festplatten
+/opt            | Optionale Zusatzsoftware
+/root           | Home-Verzeichnis des Administrators (root)
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Der Linux Bootvorgang {{{
+.NEWSLIDE
+.HEADING 1 "Der Linux Bootvorgang"
+.SPACE
+.BOX PS
+.PS
+box "Hardware Start" "BIOS/UEFI" "POST" wid 3 ht 2
+arrow right
+box "Bootloader" "z.b. GRUB/LILO" "Linux Kernel" wid 3 ht 2
+arrow right
+box "Kernel laden" "vmlinuz &" "initrd" wid 3 ht 2
+arrow right
+box "PID 1 starten" "Init System" "Systemd" wid 3 ht 2
+arrow right
+box "Systemd Targets" "Festplatten," "Netzwerk usw." wid 3 ht 2
+move to last box.x,-1
+arrow down
+box "User Slice" "User units" wid 3 ht 2
+.PE
+.BOX OFF
+.QUOTE
+Das Init System startet für alle Funktionen (WLAN, Display...) das richtige Programm - \*[BOLDER]einen Prozess\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Runlevel und Systemd Targets {{{
+.NEWSLIDE
+.HEADING 1 "Runlevel und Systemd Targets"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB
+- - -
+n | l | l.
+Runlevel | Modus | Systemd Target
+0 | Herunterfahren                              | poweroff.target
+1 | Einzelbenutzermodus ohne Netzwerk und GUI   | rescue.target
+2 | Mehrbenutzerbetrieb ohne Netzwerk und GUI   | wie rescue.target
+3 | Mehrbenutzerbetrieb ohne GUI                | multi-user.target
+4 | Nicht definiert                             | Nicht definiert
+5 | Mehrbenutzerbetrieb mit GUI                 | graphical.target
+6 | Neustart                                    | reboot.target
+.TE
+.BOX OFF
+.QUOTE
+Runlevel wurden von \*[BOLDER]Systemd Targets\*[BOLDERX] abgelöst
+.QUOTE OFF
+.QUOTE
+init und runnlevel geht noch: \*[BOLDER]systemctl isolate und systemctl get-default\*[BOLDERX] ist bevorzugt
+.QUOTE OFF
+.\": }}}
+.
+.\": Was ist eigentlich ein Prozess?  {{{
+.NEWSLIDE
+.HEADING 1 "Was ist eigentlich ein Prozess?"
+.BOX PIC
+.PS
+H: box "Prozess = Gerade ausgeführtes Programm" wid 4
+arrow down left from H.b; box "Priorität (nice) Wert" wid 3
+arrow down 1 from H.b; box "Mutterprozess Min. PID 1 (Init)" wid 3
+arrow down from last box.b; box "PID = Prozess Nummer (ID)" wid 3
+arrow down right from H.b; box "Prozess Zustand" wid 3
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Prozess Zustände {{{
+.NEWSLIDE
+.HEADING 1 "Prozess Zustände"
+.SPACE
+.BOX TS
+.TS
+box center nospaces tab(|);
+lb | lB | lb
+- - -
+c | lb | l.
+Status | Name | Zustand
+R | Running   | Prozess läuft und führt Anweisungen aus
+S | Schlafend | Prozess wartet auf das Eintreten eines Ereignisses, z.B. auf Benutzereingaben
+T | Gestoppt  | Prozess wurde durch ein Signal gestoppt und führt keine Anweisungen aus
+Z | Zombie    | Prozess hat die Ausführung abgeschlossen, wurde nicht von der Mutter getrennt
+.TE
+.BOX OFF
+.QUOTE
+Der Zustand kann in htop in der Spalte \*[BOLDER]S\*[BOLDERX] abgelesen werden
+.QUOTE OFF
+.QUOTE
+Mann kann durch das: \*[BOLDER]Senden von Signalen\*[BOLDERX] den Zustand verändern
+.QUOTE OFF
+.\": }}}
+.
+.\": Prozess Prioritäten (Nice-Wert) {{{
+.NEWSLIDE
+.HEADING 1 "Prozess Prioritäten (Nice-Wert)"
+.BOX PIC
+.PS
+box "Wieviel CPU Zeit bekommt ein Prozess vom Scheduler?" "Standard = 0 nice -n WERT BEFEHL" wid 5 ht 1
+arrow down from last box.b
+line left 3 <-->
+"-20       "
+arrow down; box "Mehr Zeit" "Wichtiger" wid 2 ht 1
+move to last line.s
+line right 3 <-->
+"       +19"
+arrow down; box "Weniger Zeit" "Unwichtiger" wid 2 ht 1
+
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Prozesse anzeigen - top/htop  {{{
+.NEWSLIDE
+.HEADING 1 "Prozesse anzeigen - top/htop"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+Ausgabe von top:
+
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM   TIME+   COMMAND
+001 root      20   0  167404  11976   9176 S   0.0   0.1   0:00.39 systemd
+006 root      20   0    3504    364    132 S   0.0   0.0   0:02.73 init
+088 root      20   0    6608   2616   2372 S   0.0   0.0   0:00.02 cron
+139 root      20   0    5496   1036    944 S   0.0   0.0   0:00.00 agetty
+140 root      20   0    5872   1000    912 S   0.0   0.0   0:00.00 agetty
+156 nick      20   0  168144   2908      0 S   0.0   0.0   0:00.00 (sd-pam)
+161 nick      20   0    7196   3428   3136 S   0.0   0.0   0:00.00 bash
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Prozesse anzeigen - ps  {{{
+.NEWSLIDE
+.HEADING 1 "Prozesse anzeigen - ps"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+Ausgabe von ps: Aktuelles TTY bzw. Terminal \*[BOLDER]Was ist der Unterschied?\*[BOLDERX]
+PID   TTY      TIME     CMD
+83888 pts/0    00:00:00 bash
+84079 pts/0    00:00:00 ps
+
+Ausgabe von ps -u BENUTZERNAME: Alle Benutzer Prozesse
+PID  TTY TIME     CMD
+1282 ?\   00:03:50 pipewire
+1286 ?\   00:06:03 firefox
+
+Ausgabe von ps -aux: Alle Prozesse
+USER    PID %CPU %MEM VSZ     RSS  TTY      STAT START   TIME COMMAND
+root    1   0.0  0.0  167780  9016 ?\        Ss   Mär09   0:02 /sbin/init
+root    2   0.0  0.0  0       0    ?\        S    Mär09   0:00 \*[BOLDER][kthreadd]\*[BOLDERX]
+
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Unterschied Terminal - TTY  {{{
+.NEWSLIDE
+.HEADING 1 "Unterschied Terminal - TTY"
+.BOX PIC
+.PS
+box "TTY" wid 2
+arrow down from last box.b; box "Ursprünglich physische Text-Terminals" "Heute virtuelle Terminals" wid 3.5 ht 1
+
+move right 4 up 1.5
+
+box "Terminal" wid 2
+arrow down from last box.b; box "= Konsole:" "Programm das Texteingaben annimmt" "und Ausgaben anzeigt" wid 3.5 ht 1
+
+move left 2 down 0.5
+
+box "Pseudo-Terminal (PTY) - PTS (Pseudo Terminal Slave)" wid 6
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Vorder- und Hintergrund Prozesse  {{{
+.NEWSLIDE
+.HEADING 1 "Vorder- und Hintergrund Prozesse"
+.SPACE 2
+.BOX PIC
+.PS
+box "Vordergrund Prozesse" wid 2
+arrow down from last box.b; box "Blockieren Ein-Ausgabe" "Standard für jeden Befehl"wid 4 ht 1
+
+move up 1.75 right 3.5
+box "Hintergrund Prozesse" wid 2
+arrow down from last box.b; box "Schreiben in das Terminal" "Befehle können dabei ausgeführt werden" wid 4 ht 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Hintergrund Prozesse erstellen {{{
+.NEWSLIDE
+.HEADING 1 "Hintergrund Prozesse erstellen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+Neue Prozesse:
+BEFEHL \*[BOLDER]&\*[BOLDERX]
+
+Aktive Prozesse:
+1. Schlafen legen mit \*[BOLDER]STRG + Z\*[BOLDERX]
+2. Jobs anzeigen mit jobs
+3. \*[BOLDER]bg JOB_ID\*[BOLDERX] - Hintergrund bzw. \*[BOLDER]fg JOB_ID\*[BOLDERX] - Hintergrund
+
+Beispielausgabe von jobs:
+\*[BOLDER][1]\*[BOLDERX]-  Angehalten              sleep 100
+\*[BOLDER][2]\*[BOLDERX]+  Angehalten              sleep 5055
+
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": PID ermitteln {{{
+.NEWSLIDE
+.HEADING 1 "PID ermitteln"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+Manuell nach der Prozess ID (PID) Suchen:
+ps -u BENUTZERNAME
+
+Alle Prozesse mit einem bestimmten Namen anzeigen:
+pgrep NAME
+
+Ausgabe von pgrep chromium:
+314473
+375796
+440524
+440756
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Prozesse und Signale {{{
+.NEWSLIDE
+.HEADING 1 "Prozesse und Signale"
+.SPACE
+.BOX PIC
+.PS
+Start: box "Shell: bash" wid 2
+arrow right
+box "Befehl: sleep 100" wid 2
+arrow right
+box "Signal Handler (Optional)" wid 3
+line down from Start.b to last box.x,last box.y-.75  "Signal senden mit Nummer"
+arrow up
+.PE
+.BOX OFF
+.QUOTE
+Unter Linux besitzt jedes Signal eine eindeutige Nummer. Programme können
+Signale anhand dieser Nummern abfangen und entsprechend handeln, um
+beispielsweise beim Beenden noch offene Daten zu speichern und das Programm
+sauber zu beenden.
+.QUOTE OFF
+.\": }}}
+.
+.\": Prozesse beenden (killen) {{{
+.NEWSLIDE
+.HEADING 1 "Prozesse beenden (killen)"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lb | lB | lb
+- - -
+n | lb | l.
+Nummer | Name | Beschreibung
+2  | SIGINT  | Unterbrechung (z.B. mit Strg+C), Programm kann sauber beenden
+15 | SIGTERM | Standardmäßiges Beenden, erlaubt sauberes beenden
+9  | SIGKILL | Erzwingt sofortiges Beenden, keine Bereinigung möglich
+.TE
+.BOX OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+Einen Prozess mit seiner Prozess ID (PID) beenden:
+kill -SIGNAL_NUMMER PID
+
+Alle Prozesse mit einem bestimmten Namen beenden:
+pkill SIGNAL_NUMMER NAME
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgaben – Prozesse unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgaben – Prozesse unter Linux"
+.SPACE
+.LIST DIGIT
+.ITEM 5p
+Zeige alle laufenden Prozesse mit dem Befehl top an
+.ITEM 5p
+Finde die PID deiner Shell mit dem Befehl pgrep bash heraus
+.ITEM 5p
+Starte den Befehl sleep 60 als Hintergrundprozess
+.ITEM 5p
+Starte den Befehl sleep 30 mit niedriger Priorität mittels nice -n 10 sleep 30
+.ITEM 5p
+Starte sleep 100, pausiere ihn mit STRG+Z und setze ihn dann mit bg im Hintergrund fort
+.ITEM 5p
+Erstelle mit sleep 120 & einen Hintergrundprozess und beende ihn kontrolliert mittels kill -15 PID
+.ITEM 5p
+Starte sleep 300 & und erzwinge mit kill -9 PID ein sofortiges Ende dieses Prozesses
+.LIST OFF
+.\": }}}
+.
+.\": Systemd: Prozess- und Applikationsinfrastruktur API {{{
+.NEWSLIDE
+.HEADING 1 "Systemd: Prozess- und Applikationsinfrastruktur API"
+.SPACE 2
+.BOX PIC
+.PS
+C: ellipse "Systemd (Init)" wid 2
+
+arrow up .8 from C.n; "Prozess Dienste" above
+arrow up right from C.ne; "Netzwerk" ljust above
+arrow up left from C.nw; "Bootloader" rjust above
+
+arrow left .8 from C.w; "Container " rjust
+arrow right .8 from C.e; " Control Groups" ljust
+
+arrow down .8 from C.s; "Mounts" below
+arrow down right from C.se; "Aufgabenplanung" ljust below
+arrow down left from C.sw; "D-BUS API" rjust below
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Wie funktioniert Systemd? {{{
+.NEWSLIDE
+.HEADING 1 "Wie funktioniert Systemd?"
+.SPACE 2
+.BOX PIC
+.PS
+Start: box "Units" "Ressourcen, die Systemd verwalten kann" wid 4 ht 1
+arrow down left from Start.b; box "Einheitlicher Konfigurations Syntax" wid 4
+arrow down right from Start.b; box "Units = Timer, Services, Mounts, etc." wid 4
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Beispiel: Services {{{
+.NEWSLIDE
+.HEADING 1 "Beispiel: Services"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+[Unit]
+Description=Mein einfacher Service
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+
+# Benutzer und Gruppe, unter denen der Prozess läuft
+User=nick
+Group=nick
+
+# Start- und Stop-Kommandos definieren
+ExecStart=/usr/bin/mein_programm --option wert
+ExecStop=/usr/bin/mein_programm --stop
+
+# Systemverzeichnisse sind schreibgeschützt (/usr, /etc, /boot)
+ProtectSystem=strict # oder ReadWritePaths=RW-ORDNER
+
+# Eigenes /tmp, /dev und Netzwerk
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+
+# Kein sudo oder doas
+NoNewPrivileges=yes
+
+#CPU und RAM begrenzen
+MemoryLimit=500M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Wo liegen die Konfigurationsdateien? {{{
+.NEWSLIDE
+.HEADING 1 "Wo liegen die Konfigurationsdateien?"
+.BOX PIC
+.PS
+box "1. Admin: /etc/systemd/system/NAME.service|.timer|..." wid 7 ht .4
+arrow down from last box.b; box "2. Temporär: /run/systemd/system/NAME.service|.timer|..." wid 7 ht .4
+arrow down from last box.b; box "3. Pakete: /lib/systemd/system/NAME.service|.timer|..." wid 7 ht .4
+arrow down from last box.b; box "4. Benutzer Session: $HOME/.config/systemd/user/NAME.service|.timer|..." wid 7 ht .4
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Wie interagiere ich mit einem Service? {{{
+.NEWSLIDE
+.HEADING 1 "Wie interagiere ich mit einem Service?"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+Wenn eine Unit Konfigurationsdatei verändert wurde: Systemd Neustarten
+# @root
+\*[BOLDER]systemctl daemon-reload\*[BOLDERX]
+
+Service aktivieren
+# @root
+\*[BOLDER]systemctl enable NAME.service\*[BOLDERX]
+
+Service starten
+# @root
+\*[BOLDER]systemctl start NAME.service\*[BOLDERX]
+
+Status anzeigen
+\*[BOLDER]systemctl status NAME.service\*[BOLDERX]
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: Eigener System Service {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Eigener Systemd Service"
+.QUOTE
+Erstelle und starte mithilfe der Vorlage in /etc/systemd/system/test.service einen Service für den Befehl sleep infinity
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+[Unit]
+Description=Mein einfacher Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sleep infinity
+
+[Install]
+WantedBy=multi-user.target
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE ADJUST -1
+Tipp: Du kannst Dateien mit z.B. nano /etc/systemd/system/test.service bearbeiten
+.QUOTE OFF
+.\": }}}
+.
+.\": Aufgabenplanung {{{
+.NEWSLIDE
+.HEADING 1 "Aufgabenplanung"
+.QUOTE
+Mit Cron oder Timer Units kannst du Befehle zu einem bestimmten Zeitpunkt automatisiert ausführen
+.QUOTE OFF
+.TS
+box center nospaces tab(|);
+lb | lB
+- -
+l | l.
+Systemd Timer Units | Crontab
+Steuerung über *.timer und *.service Dateien  | Steuerung über /etc/crontab oder crontab -e
+OnCalendar= für Zeitsteuerung                 | */5 * * * * Syntax für Zeitsteuerung
+Minimale Genauigkeit: 1 Sekunde               | Minimale Genauigkeit: 1 Minute
+Abhängigkeiten über Units möglich             | Keine direkten Abhängigkeiten möglich
+Logging erfolgt über journald                 | Logging meist in separaten Dateien oder per Mail
+Aktivierung: systemctl enable/start           | Automatisch nach Änderung der Crontab aktiv
+Status sichtbar mit systemctl list-timers     | Keine einfache Statusübersicht vorhanden
+.TE
+.\": }}}
+.
+.\": Crontab erstellen {{{
+.NEWSLIDE
+.HEADING 1 "Crontab erstellen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+crontab -e # Als Benutzer unter dem der Crontab läuft
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- \*[BOLDER]Am besten nano\*[BOLDERX]
+
+[Minute] [Stunde] [Tag(Monat)] [Monat] [Wochentag] BEFEHL # * = Jede
+
+# Alle zwei Minuten für 10 Sekunden schlafen
+2 * * * * sleep 10
+
+@yearly     Einmal pro Jahr (0 0 1 1 *)
+@monthly    Einmal pro Monat (0 0 1 * *)
+@weekly     Einmal pro Woche (0 0 * * 0)
+@daily      Einmal pro Tag (0 0 * * *)
+@hourly     Einmal pro Stunde (0 * * * *)
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Systemd Timer Units {{{
+.NEWSLIDE
+.HEADING 1 "Systemd Timer Units"
+.SPACE 2
+.BOX PIC
+.PS
+box "Systemd Service" "test.service" wid 2 ht 2
+line right 5 <--> "Jeder Timer hat eine gleichnamige Service-Unit" above
+box "System Timer" "test.timer" wid 2 ht 2
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Systemd Timer Service erstellen {{{
+.NEWSLIDE
+.HEADING 1 "Systemd Timer Service erstellen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# @root
+nano /etc/systemd/system/test.service
+[Unit]
+Description=test ausgeben
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/echo "test"
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Systemd Timer Unit erstellen {{{
+.NEWSLIDE
+.HEADING 1 "Systemd Timer Unit erstellen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+nano /etc/systemd/system/test.timer
+[Unit]
+Description=Starte den Systemd Service test.service alle 10 Minuten
+
+[Timer]
+# OnCalendar=daily # Jeden Tag um 00:00 Uhr
+# OnCalendar=hourly # Jede volle Stunde
+# OnCalendar=2025-12-24 18:00:00 # Einmalig am 24. Dezember 2025 um 18:00 Uhr
+# OnCalendar=Fri 13:00:00 # Jeden Freitag um 13:00 Uhr
+OnCalendar=*:0/10:*
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Wie interagiere ich mit einem Timer? {{{
+.NEWSLIDE
+.HEADING 1 "Wie interagiere ich mit einem Timer?"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+Alle Timer anzeigen
+# @root
+\*[BOLDER]systemctl list-timers\*[BOLDERX]
+
+Wenn eine Unit Konfigurationsdatei verändert wurde: Systemd Neustarten
+# @root
+\*[BOLDER]systemctl daemon-reload\*[BOLDERX]
+
+Timer aktivieren
+@root
+\*[BOLDER]systemctl enable NAME.timer\*[BOLDERX]
+\*[BOLDER]systemctl start NAME.timer\*[BOLDERX]
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe Aufgabenplanung {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Aufgabenplanung"
+.LIST DIGIT
+.ITEM 10p
+Erstelle mit dem Befehl 'crontab -e' eine Crontab für den Root-Benutzer, die jede Stunde den Befehl 'echo "Hallo Welt"' ausführt.
+.ITEM 10p
+Erstelle einen systemd-Service in der Datei '/etc/systemd/system/test.service',
+der den Befehl 'echo "Hallo Welt"' als oneshot ausführt. Erstelle anschließend
+die gleichnamige Timer-Unit in der Datei '/etc/systemd/system/test.timer' und
+sorge dafür, dass der Timer jede Stunde ausgeführt wird. Aktiviere danach nur
+den Timer und lasse dir anschließend alle aktiven Timer auf dem System
+anzeigen.
+.LIST OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Wichtige Befehle @root
+crontab -e
+systemctl list-timers
+systemctl daemon-reload
+systemctl enable NAME.timer
+systemctl eingabe NAME.timer
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Was ist ein Shell? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist eine Shell?"
+.BOX PIC
+.PS
+circle fill 0.5  rad 1.5 at 0,0
+circle fill 0.2 rad 1 at 0,0
+circle fill 0 "Kernel" rad 0.75 at 0,0
+line right 3 from 0.75,0.5 "API (C Bibliothek)" ljust above
+line right 1 from 1.25,-0.5 "Shell" ljust above
+arrow right; "  Software" ljust
+line down <--> from last line.c; box "Benutzer" wid 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Sh, Bash und Zsh {{{
+.NEWSLIDE
+.HEADING 1 "Sh, Bash und Zsh"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB | LB
+- - - -
+l | l | l | l.
+Eigenschaft           | sh                | bash                      | zsh
+Standard auf          | Unix, BSD, POSIX  | Linux, älteres macOS      | macOS, Linux, BSD
+POSIX-kompatibel      | Ja                | Teilweise                 | Nein
+sh-kompatibel         | Ja                | Ja (größtenteils)         | Teilweise
+Skripting             | Grundlegend       | Erweiterte Funktionen     | Noch mächtiger
+Autovervollständigung | Einfach           | Besser                    | Sehr fortgeschritten
+Globbing              | Basis (`*`, `?`)  | Erweitert (`**`, `@( )`)  | Sehr mächtig (`<1-100>`)
+.TE
+.BOX OFF
+.QUOTE
+Sh wurde durch POSIX standardisiert und z. B. in dash implementiert, während
+Bash, zsh und fish mehr Funktionen bieten, aber nicht dem Standard folgen.
+.QUOTE OFF
+.QUOTE
+Bash und sh sind der Standard auf Servern, Embedded- und Netzwerkgeräten.
+.QUOTE OFF
+.\": }}}
+.
+.\": Was ist eigentlich POSIX? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist eigentlich POSIX?"
+.SPACE 2
+.QUOTE
+\*[BOLDER]P\*[BOLDERX]ortable \*[BOLDER]O\*[BOLDERX]perating \*[BOLDER]S\*[BOLDERX]ystem \*[BOLDER]I\*[BOLDERX]nterface
+X = Uni\*[BOLDER]x\*[BOLDERX]
+.QUOTE OFF
+.QUOTE
+POSIX ist ein Standard für die Umsetzung eines Unix- oder unixähnlichen
+Betriebssystems, der von der IEEE (Institute of Electrical and Electronics
+Engineers) seit 1988 entwickelt wird; er spezifiziert z. B. Shell-Syntax,
+Dateisystem- und Prozessverwaltung, um die Portabilität von Software zwischen
+verschiedenen Unix-Systemen zu gewährleisten.
+.QUOTE OFF
+.\": }}}
+.
+.\": Ein Befehl im Detail {{{
+.NEWSLIDE
+.HEADING 1 "Ein Befehl im Detail"
+.BOX PIC
+.PS
+arrow right 2 "Eingabe (stdin)" above
+box "Befehl = Programm" "echo" wid 2.5 ht 1
+arrow right
+box "Option / Flag 'n'" "-n" wid 1.8 ht 1
+arrow right
+box "Argument 1" "'test'" wid 1.8 ht 1
+arrow right 2 "Exit Code" "0 = Erfolg"
+arrow right up 1 from last box.r; box "Standard Ausgabe" "stdout (1)" wid 2.2 ht 1
+arrow right down 1 from 2nd last box.r; box "Standard Error" "stderr (2)" wid 2.2 ht 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Was ist ein Shell Skript? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist ein Shell Skript?"
+.SPACE
+.QUOTE
+Ein Shell-Skript ist eine Aneinanderreihung von Shell-Befehlen in einer
+Textdatei, die von der Shell interpretiert ein neues Programm ergibt.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+#!/bin/bash <-- Shebang = Welche Shell
+# Datei: test.sh <-- Kommentar
+echo "Hallo Welt" <-- Befehl
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.SPACE
+.QUOTE
+Shell Skripte werden zur Automatisierung und Beschreibung von z.B. Server Konfiguration genutzt
+.QUOTE OFF
+.QUOTE
+\*[BOLDER]Bevor wir das Skript ausführen (`./NAME`), muss es mit `chmod +x NAME` ausführbar gemacht werden\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Variablen {{{
+.NEWSLIDE
+.HEADING 1 "Variablen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+#!/bin/bash
+
+# Zeichenkette (String = Standard)
+text="Hallo Bash"
+echo "Text: ${text}"
+
+# Ganze Zahl (Integer) => (declare -i)
+zahl=42
+echo "Text: ${zahl}"
+
+# Array (declare -a)
+arr=("Apfel" "Birne" "Kirsche")
+echo "Array: ${arr[0]}, ${arr[1]}, ${arr[2]}"
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Ausgabe von Befehlen in Variablen {{{
+.NEWSLIDE
+.HEADING 1 "Ausgabe von Befehlen in Variablen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+#!/bin/bash
+
+# String zuweisen
+datum=$(echo "Inhalt")
+echo "Datum: ${datum}"
+
+# Array (Pro Zeile / Tab)
+dateien=($(ls))
+echo "Datei: ${dateien[0]}"
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Sichere Interpolation von Variablen und Befehlen {{{
+.NEWSLIDE
+.HEADING 1 "Sichere Interpolation von Variablen und Befehlen"
+.QUOTE
+Ohne Anführungszeichen werden Variablen mit Leerzeichen in mehrere Teile
+Variablen in geschweiften Klammern schützen zusätzlich vor falscher
+Interpretation bei zusammengesetzten Namen wie ${user}name
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+#!/bin/bash
+
+# Bei Befehlen
+echo "$(hostname)"
+
+# Bei Variablen (statt $name)
+name="Max Mustermann"
+echo "${Max Mustermann}"
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Umgebungsvariablen {{{
+.NEWSLIDE
+.HEADING 1 "Umgebungsvariablen"
+.QUOTE
+Umgebungsvariablen enthalten Informationen über den aktuellen Zustand des
+Systems und der Benutzerumgebung.
+.QUOTE OFF
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB
+- -
+l | l.
+Variable            | Bedeutung
+${PATH}             | Suchpfad für ausführbare Programme
+${HOME}             | Pfad zum Home-Verzeichnis des aktuellen Benutzers
+${USER}             | Aktuell angemeldeter Benutzername
+${SHELL}            | Pfad zur verwendeten Login-Shell (z.B. /bin/bash)
+${PWD}              | Aktuelles Arbeitsverzeichnis
+${OLDPWD}           | Vorheriges Arbeitsverzeichnis (z.B. nach `cd -`)
+${LANG}             | Standardsprache und Zeichensatz (z.B. en_US.UTF-8)
+${LC_ALL}           | Überschreibt alle LC_* Sprach-/Regionseinstellungen
+${DISPLAY}          | X11 Display-Nummer (z.B. :0 für grafische Sitzungen)
+${XDG_SESSION_TYPE} | Typ der aktuellen Sitzung (z.B. tty, x11, wayland)
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Nutzereingaben: stdin {{{
+.NEWSLIDE
+.HEADING 1 "Nutzereingaben: stdin"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST
+.CODE BREAK
+#!/bin/bash
+echo "Name?:"
+read eingabe
+echo "Sie sind: ${eingabe}"
+
+# Aufruf
+# Über eine Pipe
+echo "Hallo Welt" | skript.sh <-- Name der skript Datei
+# oder einfach über die Tastatur antworten + ENTER
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.SPACE
+.QUOTE
+Eine Unix-Pipe (|) leitet die Ausgabe eines Befehls als Eingabe (stdin) an einen anderen Befehl weiter.
+.QUOTE OFF
+.\": }}}
+.
+.\": Ausgaben: stdout und stderr {{{
+.NEWSLIDE
+.HEADING 1 "Ausgaben: stdout und stderr"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST
+.CODE BREAK
+#!/bin/bash
+
+# Normale Info Ausgabe
+echo "Test"
+
+# Fehler ausgeben
+# 1 (stdout) = Ausgabe von echo nehmen und nach 2 (sterr) umleiten
+echo "Error!!!" 1>&2
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.SPACE
+.QUOTE
+Die Trennung von stdout und stderr erleichtert Fehleranalyse, Logging und gezielte Umleitungen
+.QUOTE OFF
+.\": }}}
+.
+.\": Ausgaben an Dateien {{{
+.NEWSLIDE
+.HEADING 1 "Ausgaben an Dateien"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST
+.CODE BREAK
+#!/bin/bash
+
+# Dateiinhalt überschreiben
+echo "Test" > datei
+
+# Dateiinhalt behalten und Text hinzufügen
+echo "Test2" >> datei
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.SPACE
+.QUOTE
+Das Umleiten von Ausgaben in Dateien ist nützlich für Logging, da es Prozesse
+dokumentiert und die Fehlersuche erleichtert.
+.QUOTE OFF
+.\": }}}
+.
+.\": Besonde Orte für I/O {{{
+.NEWSLIDE
+.HEADING 1 "Das Nichts - /dev/null"
+.SPACE 2
+.QUOTE
+/dev/null - Void des Kernels – alles, was hier landet, verschwindet
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Ausgabe verstecken
+echo "Ich bin nicht zu sehen" > /dev/null
+
+# Fehler nicht ausgeben
+find / -name datei 2>/dev/null
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: Benutzer-Log {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Benutzer-Log"
+.QUOTE_LEFT
+.QUOTE
+Schreibe ein Bash-Skript, das:
+.QUOTE OFF
+.LIST DIGIT
+.ITEM 10p
+Den Benutzer nach seinem Namen fragt und die Eingabe in einer Variablen speichert
+.ITEM 10p
+Das aktuelle Datum und die Uhrzeit speichert
+.ITEM 10p
+Diese Informationen in eine Datei schreibt, und den Benutzer freundlich begrüßt
+.LIST OFF
+.CENTER_BLOCK
+.QUOTE ADJUST
+.CODE BREAK
+$ ./benutzerlog.sh
+Wie heißt du?
+> Alex
+Hallo Alex! Deine Anmeldung wurde gespeichert.
+
+$ cat benutzerlog.txt
+Alex hat sich am 2025-03-20 um 14:35:12 angemeldet.
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": If Kontrollstruktur und Fehlerauswertung {{{
+.NEWSLIDE
+.HEADING 1 "If Kontrollstruktur und Fehlerauswertung"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST
+.CODE BREAK ADJUST -1
+#!/bin/bash
+
+# Sleep ohne Zeit verursacht einen Fehler
+sleep
+
+# Den Rückgabewert kann mann über ${?} auslesen
+echo ${?} # = 1 (Fehler) 0 wäre OK
+
+# Mit if überprüfen
+if $(sleep); then
+    echo "Alles Okay"
+else
+    echo "NEIN!"
+fi
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Im Fehlerfall Skript abbrechen {{{
+.NEWSLIDE
+.HEADING 1 "Im Fehlerfall Skript abbrechen"
+.QUOTE
+Standardmäßig führt ein Bash-Skript alle Befehle bis zum Ende aus, auch wenn
+einer davon mit einem Fehler (Statuscode ≠ 0) endet. Um das zu verhindern, kann
+am Anfang des Skripts folgende Option gesetzt werden
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+#!/bin/bash
+
+# Skript abbrechen, wenn ein Befehl fehlschlägt (Exit-Code ≠ 0)
+set -e
+
+# Fehler, wenn auf eine nicht gesetzte Variable zugegriffen wird
+set -u
+
+# Fehler, wenn ein Befehl in einer Pipeline fehlschlägt
+set -o pipefail
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": If Kontrollstruktur Vergleiche {{{
+.NEWSLIDE
+.HEADING 1 "If Kontrollstruktur Vergleiche"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+if [[ ${?} == 1 ]]; then
+    echo "Error"
+fi
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.TS
+box center nospaces tab(:);
+lB : lB : lB
+- - -
+l : l : l.
+Vergleich           : Boolisch              : Arithmetisch
+Gleich              : $a == $b              : $a -eq $b
+Ungleich            : $a != $b              : $a -ne $b
+Größer als          : $a > $b               : $a -gt $b
+Größer oder gleich  : $a >= $b              : $a -ge $b
+Kleiner als         : $a < $b               : $a -lt $b
+Kleiner oder gleich : $a <= $b              : $a -le $b
+Logisches UND       : $a -gt 0 && $b -gt 0  : $a -gt 0 -a $b -gt 0
+Logisches ODER      : $a -gt 0 || $b -gt 0  : $a -gt 0 -o $b -gt 0
+.TE
+.\": }}}
+.
+.\": Switch-Case für Argumente {{{
+.NEWSLIDE
+.HEADING 1 "Switch-Case für Argumente"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+${0} = Programm Name => test.sh
+${1} = Ersten Argument usw.
+${*} = Alle Argumente
+${#} = Anzahl der Argumente
+
+case ${1} in
+    hallo)
+        echo "Hallo"
+        ;;
+    *)
+        echo "Wenn nichts zutrifft"
+        ;;
+esac
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": While Schleife {{{
+.NEWSLIDE
+.HEADING 1 "While Schleife"
+.SPACE 1
+.QUOTE
+Solange die Bedingung der while-Schleife true ist, werden die Befehle in ihr ausgeführt.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+while [[ ${1} ]]; do # Eine Variable ist true wenn sie nicht leer ist
+    echo ${1}
+    shift # shift verschiebt die Positionsparameter ${1}, ${2}, … nach links
+          # ${1} => ${2} usw.
+done
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": For Schleife {{{
+.NEWSLIDE
+.HEADING 1 "For Schleife"
+.SPACE 1
+.QUOTE
+For-Schleifen dienen dazu, über Listen (z.B. von Dateien) zu iterieren oder
+eine Aktion mehrfach auszuführen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# ls * - Alle Dateien im aktuellen Ordner ausgeben
+for DATEI in "$(ls *)"; do
+    echo "Datei gefunden: ${DATEI}"
+done
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: Interaktives Skript mit Argumenten {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Interaktives Skript mit Argumenten"
+.LIST DIGIT
+.ITEM 10p
+Brich das Skript bei Fehlern, nicht gesetzten Variablen oder Pipe-Fehlern ab
+.ITEM 10p
+Frage den Benutzer nach seinem Namen mit read
+.ITEM 10p
+Speichere das aktuelle Datum, die Uhrzeit und den Hostnamen in Variablen
+.ITEM 10p
+Begrüße den Benutzer mit einer Nachricht wie „Hallo NAME auf HOST!“
+.ITEM 10p
+Schreibe Name, Datum, Uhrzeit und Hostname in eine Logdatei
+.ITEM 10p
+Gib bei Benutzernamen azubi zusätzlich Umgebungsvariablen wie $HOME und $SHELL aus
+.ITEM 10p
+Erstelle ein Array mit drei zufälligen Hinweisen und gib sie mit einer for-Schleife aus
+.ITEM 10p
+Verarbeite alle übergebenen Argumente ($1, $2, …) mit einer while-Schleife und shift
+.ITEM 10p
+Nutze case, um bei Argumenten wie --debug oder --help passende Ausgaben zu machen
+.LIST OFF
+.\": }}}
+.
+.\": Übungsaufgabe: Eigenes Bash Skript {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Eigenes Bash Skript"
+.QUOTE_LEFT
+.QUOTE
+Wähle eine der folgenden Aufgaben oder eine eigene Idee:
+.QUOTE OFF
+.QUOTE_CENTER
+.LIST DIGIT
+.ITEM 10p
+Überlege dir ein Skript, das regelmäßig (z.B. alle 10 Sekunden oder via Cron)
+deinen Rechner überwacht: z.B. wie viele Prozesse du hast, was gerade
+besonders viel CPU verbraucht, oder wie viele Tabs Firefox offen hat.  Lass dir
+die Infos cool anzeigen – vielleicht mit Farben oder Emojis. Vielleicht
+schreibst du sie auch in ein Logfile.
+.ITEM 10p
+Schreib ein interaktives Bash-Textadventure mit Verzweigungen (read, case, if).
+Am Anfang wird ein „Prozessname“ genannt (z.B. Schattenprozess X), den man
+sich merken muss.  Im Laufe der Geschichte triffst du Entscheidungen (links,
+rechts, kämpfen, fliehen ...), und am Ende musst du den richtigen Namen
+eingeben, um den Endboss zu besiegen.
+.ITEM 10p
+Du bist Linux-Admin und dein Rechner wird von Chaosprozessen überrannt.  Bau
+dir ein Bash-Skript + systemd-Service, das beim Booten oder einmal täglich
+automatisch alte Prozesse killt, unnötige Logdateien löscht, oder dich warnt,
+wenn etwas „unordentlich“ ist.
+.LIST OFF
+.\": }}}
+.
+.\": Bearbeitungshinweis {{{
+.NEWSLIDE
+.HEADING 1 "Bearbeitungshinweis"
+.SPACE 2
+.LIST
+.ITEM 10p
+\*[BOLDER]Googeln und KI\*[BOLDERX] sind ausdrücklich erwünscht
+.ITEM 10p
+Ihr könnt mir jederzeit alle \*[BOLDER]Fragen stellen\*[BOLDERX] – ich helfe gerne
+.ITEM 10p
+Bringt \*[BOLDER]eigene Ideen\*[BOLDERX] ein und probiert viel aus
+.ITEM 10p
+Das Skript sollte später um \*[BOLDER]Logging und Netzwerkbefehle\*[BOLDERX] erweitert werden können
+.ITEM 10p
+Die \*[BOLDER]nächsten Nachmittage\*[BOLDERX] stehen dafür zur Verfügung
+.LIST OFF
+.\": }}}
+.
+.\": Logging {{{
+.NEWSLIDE
+.HEADING 1 "Logging"
+.QUOTE
+Logging ist das automatische Aufzeichnen von Ereignissen, Abläufen oder Fehlern
+in einem System, um deren Verhalten nachvollziehen und analysieren zu können.
+.QUOTE OFF
+.QUOTE
+Log Dateien befinden sich in /log
+.QUOTE OFF
+.BOX PIC
+.PS
+box "Klartext" wid 2
+arrow down from last box.b; box "cat /var/log/..." "tail -f /var/log/..." wid 2 ht 1
+move up 1.75 right 1.5
+box "Binär / DB" wid 2
+arrow down from last box.b; box "Spezielle Software" "last -f btmp / wtmp" wid 2 ht 1
+move up 1.75 right 1.5
+box "Journal" wid 2
+arrow down from last box.b; box "journalctl" "journalctl -u UNIT" wid 2 ht 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Die wichtigsten Logdateien {{{
+.NEWSLIDE
+.HEADING 1 "Die wichtigsten Logdateien"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB
+- -
+l | l.
+Logdatei (mit Pfad)             | Zweck
+/var/log/syslog                 | Allgemeine Systemmeldungen (Dienste, Kernel, Cron, Netzwerk)
+/var/log/auth.log               | Authentifizierungsversuche, sudo, ssh-Logins
+/var/log/wtmp                   | Binärlog: Anmeldungen, Neustarts, Runlevel-Änderungen
+/var/log/btmp                   | Binärlog: Fehlgeschlagene Loginversuche
+/var/log/lastlog                | Binärlog: Letzte erfolgreiche Anmeldung jedes Nutzers
+/var/log/faillog                | Binärlog: Fehlgeschlagene Logins pro Benutzer
+/var/log/apt/history.log        | Chronik von Paketinstallationen über apt
+/var/log/apt/term.log           | Terminalausgaben von apt
+.TE
+.QUOTE
+Viele Logdateien enthalten ähnliche Informationen. Je nach Quelle – etwa
+Kernel, Hardware oder Systemdienste – unterscheiden sie sich vor allem im
+Detailgrad und Kontext der protokollierten Ereignisse.
+.QUOTE OFF
+.BOX OFF
+.\": }}}
+.
+.\": Übungsaufgabe: Logs auslesen und durchsuchen {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Logs auslesen und durchsuchen"
+.SPACE 1
+.LIST DIGIT
+.ITEM 10p
+Lies mit journalctl -b das Log des aktuellen Bootvorgangs aus und beschreibe, was angezeigt wird.
+.ITEM 10p
+Zeige mit journalctl -k alle Kernelmeldungen an und erkläre, woran du sie erkennst.
+.ITEM 10p
+Finde mit journalctl -u ssh alle Logeinträge des SSH-Dienstes.
+.ITEM 10p
+Durchsuche mit journalctl | grep -i failed das Journal nach fehlgeschlagenen Aktionen.
+.ITEM 10p
+Zeige mit systemctl list-units --failed alle fehlgeschlagenen systemd-Units an.
+.LIST OFF
+.\": }}}
+.
+.\": Rsyslog - Die Idee {{{
+.NEWSLIDE
+.HEADING 1 "Rsyslog - Die Idee"
+.SPACE 1
+.BOX PIC
+.PS
+C: ellipse "Rsyslog" "Zentrale Auswertung" wid 2 ht 1
+
+arrow up .8 from C.n; "Rsyslog Client" above
+arrow up right from C.ne; "IP/Telefon" ljust above
+arrow up left from C.nw; "Netzwerkhardware" rjust above
+
+arrow left .8 from C.w; "Container " rjust
+arrow right .8 from C.e; " Virtuelle Maschinen" ljust
+
+arrow down .8 from C.s; "Smart Geräte" below
+arrow down right from C.se; "Roboter" ljust below
+arrow down left from C.sw; "Sicherheitshardware" rjust below
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Rsyslog Server {{{
+.NEWSLIDE
+.HEADING 1 "Rsyslog Server"
+.QUOTE
+Rsyslog sammelt Log Dateien von Geräten aus dem Netzwerk
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root - Alle Befehle
+apt install rsyslog # (systemctl status rsyslog) = sollte laufen
+
+nano /etc/rsyslog.conf # Am besten .d Ornder
+module(load="imtcp")
+input(type="imtcp" port="514")
+
+nano /etc/rsyslog.d/10-remote.conf
+$template RemoteLogs,"/var/log/remote/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?RemoteLogs
+& stop
+
+systemctl restart rsyslog
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Rsyslog Client {{{
+.NEWSLIDE
+.HEADING 1 "Rsyslog Client"
+.QUOTE
+Sendet Log Dateien an Server aus dem Netzwerk
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# @root - Alle Befehle
+apt install rsyslog
+systemctl status rsyslog (sollte laufen)
+
+nano /etc/rsyslog.d/90-remote.conf # Am besten .d Ornder
+*.* @@192.0.2.10:514
+
+systemctl restart rsyslog
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE
+\*[BOLDERX]Achtung: Logs werden gerade noch unverschlüsselt übertragen\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Nachrichten zum Log hinzufügen {{{
+.NEWSLIDE
+.HEADING 1 "Nachrichten zum Log hinzufügen"
+.QUOTE
+mit dem logger Befehl Können wir Nachrichten zum Syslog hinzufügen
+.QUOTE OFF
+.SPACE 1
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+logger "Hallo - Test"
+
+logger -p user.info "This is an info message"
+logger -p daemon.warning "A warning from daemon"
+
+logger -p <facility>.<level>
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Log facilitys {{{
+.NEWSLIDE
+.HEADING 1 "Log facilitys"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB
+- -
+l | l.
+Facility    | Beschreibung
+auth        | Sicherheits-/Authentifizierungsnachrichten
+authpriv    | Private Authentifizierungsnachrichten
+cron        | Cron- und At-Dienst-Nachrichten
+daemon      | Sonstige Systemdienste
+kern        | Kernel-Nachrichten (nur vom Kernel)
+lpr         | Drucksystem
+mail        | E-Mail-System
+news        | Usenet-/Netzwerk-Nachrichten
+syslog      | Interne syslog-Nachrichten
+user        | Nachrichten auf Benutzerebene (Standard)
+uucp        | UUCP-System
+local0      | Zur lokalen Verwendung reserviert
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Log level {{{
+.NEWSLIDE
+.HEADING 1 "Log level"
+.SPACE 1
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lb
+- - -
+l | n | l.
+Level     | Nummer | Bedeutung
+emerg     | 0      | System unbenutzbar (Notfall)
+alert     | 1      | Sofortige Maßnahmen erforderlich
+crit      | 2      | Kritischer Zustand
+err       | 3      | Fehler
+warning   | 4      | Warnung
+notice    | 5      | Wichtige, normale Information
+info      | 6      | Allgemeine Information
+debug     | 7      | Debug-Informationen
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Logs automatisch Löschen {{{
+.NEWSLIDE
+.HEADING 1 "Logs automatisch Löschen"
+.QUOTE
+Wenn wir Logs nicht automatisch rotieren (also alte Logs löschen oder archivieren),
+wird unser System irgendwann aufgrund von zu wenig Speicher nichtmehr funktionieren
+.QUOTE OFF
+.QUOTE
+logrotate = Service, der alte Logs rotiert
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root - Alle Befehle
+apt install logrotate # (systemctl status logrotate) = sollte laufen
+
+nano /etc/logrotate.conf # (systemctl restart logrotate)
+# rotate log files weekly
+weekly
+# keep 4 weeks worth of backlogs
+rotate 4
+# create new (empty) log files after rotating old ones
+create
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Erste Hilfe bei Fehlern unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Erste Hilfe bei Fehlern unter Linux"
+.SPACE 1
+.LIST DIGIT
+.ITEM 10p
+Zeige aktuelle Systemfehler mit journalctl -xe oder journalctl -u SERVICE an
+.ITEM 10p
+Durchsuche Logdateien mit grep -r -f error warning /var/log nach Fehlern
+.ITEM 10p
+Starte Programme mit --debug oder -vv, um mehr Details zu sehen.
+.ITEM 10p
+Prüfe Dienste mit systemctl status dienstname.
+.ITEM 10p
+Zeige Dateiberechtigungen mit ls -l /pfad/zur/datei an.
+.ITEM 10p
+Teste die Netzwerkverbindung mit ping -c 4 1.1.1.1.
+.ITEM 10p
+Suche Hardwarefehler mit dmesg | grep -i error.
+.LIST OFF
+.\": }}}
+.
+.\":  Übungsaufgabe: Remote Logging{{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Remote Logging"
+.LIST DIGIT
+.ITEM 10p
+Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
+Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
+.ITEM 10p
+Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
+Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
+Verwendet auf dem sendenden Rechner den Befehl logger mit verschiedenen
+Facilities und Loglevels (z.B. -p local0.info, -p authpriv.warning) und
+überprüft auf dem empfangenden Rechner, ob die Nachrichten korrekt im Syslog
+ankommen.
+.ITEM 10p
+Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
+Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
+Erstellt gemeinsam eine Logrotate-Konfigurationsdatei, sodass die Datei alle 2 Wochen
+rotiert wird.
+.ITEM 10p
+Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
+Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
+Testet eure Konfiguration mit logrotate --debug /etc/logrotate.d/custom und
+überprüft, ob sie fehlerfrei funktioniert.
+.LIST OFF
+.\": }}}
+.
+.\":  Netzwerkgrundlagen {{{
+.NEWSLIDE
+.HEADING 1 "Netzwerkgrundlagen"
+.SPACE 1
+.BOX PIC
+.PS
+C: ellipse "Netzwerk" wid 2
+
+arrow up .8 from C.n; "IPv4/IPv6" above
+arrow up right from C.ne; "DHCP" ljust above
+arrow up left from C.nw; "DNS" rjust above
+
+arrow left .8 from C.w; "ping " rjust
+arrow right .8 from C.e; " sockets" ljust
+
+arrow down .8 from C.s; "TCP/UDP" below
+arrow down right from C.se; "Interfaces" ljust below
+arrow down left from C.sw; "OSI-Modell" rjust below
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Statusinformationen anzeigen {{{
+.NEWSLIDE
+.HEADING 1 "Statusinformationen anzeigen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Aktuelle IP-Adressen (IPv4 und IPv6) für alle Interfaces anzeigen
+ip address show
+
+# Routing-Tabelle inklusive Metric anzeigen
+ip route show
+
+# Aktive Netzwerkverbindungen und Ports (ähnlich wie netstat)
+ss -tulnp # ss = Moderne Alternative zu netstat
+
+# Verbindung Schließen
+kill (-9) PID_AUS_SS
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Netzwerkverbindung Testen {{{
+.NEWSLIDE
+.HEADING 1 "Netzwerkverbindung Testen"
+.QUOTE
+Wenn man einen Ping über das Netzwerk senden kann und der Zielrechner
+eine Antwort zurückschickt, zeigt das, dass die Konfiguration korrekt
+funktioniert. ICMP (Ping) wird in manchen Netzwerken blockiert – in solchen
+Fällen kann man sich damit behelfen, eine Webseite per HTTP herunterzuladen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# ICMP Ping senden
+ping google.de
+ping 1.1.1.1
+
+# HTTP Request (Webseite Herunterladen)
+wget google.de
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Hostname Konfiguration {{{
+.NEWSLIDE
+.HEADING 1 "Hostname Konfiguration"
+.QUOTE
+Der Hostname gibt den Namen des Rechners innerhalb des lokalen Netzwerks an
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# @root
+nano /etc/hostname
+MEIN_NAME
+
+# Hostname anzeigen
+hostname
+
+# Hostname für Netzwerke anzeigen
+getent hosts
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": DNS Server Konfiguration {{{
+.NEWSLIDE
+.HEADING 1 "DNS Server Konfiguration"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+nano /etc/resolv.conf
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+
+# DNS Server Testen
+dig google.de
+
+# IP adresse für Domain
+nslookup google.dein
+
+# Reverse-lookup - Domain für IP
+host 1.1.1.1
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Statische Hostname Auflösung {{{
+.NEWSLIDE
+.HEADING 1 "Statische Hostname Auflösung"
+.QUOTE
+Wenn dem DNS-Server der Name, z.B. 'vpn', eines lokalen Rechners nicht bekannt
+ist, kann man in der Hosts-Datei für jede IP-Adresse einen Hostnamen und eine
+Domain-Konfiguration eintragen und so auch im lokalen Netzwerk Namen anstelle
+von IP-Adressen verwenden – ganz ohne eigenen DNS-Server.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# @root
+nano /etc/hosts
+
+127.0.0.1       localhost
+127.0.1.1       pc-nh2.ts13.lan pc-nh2
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Netzwerk Frontends {{{
+.NEWSLIDE
+.HEADING 1 "Netzwerk Frontends"
+.SPACE 1
+.BOX PIC
+.PS
+Start: box "ip Befehl" wid 2
+arrow down 1 left 1.5 from Start.b; box "ifup/down" "/etc/network/interfaces" wid 2.5 ht 1
+arrow down 1 from Start.b; box "Network Manager" "nmtui/nmcli" wid 2.5 ht 1
+arrow down 1 right 1.5 from Start.b; box "Systemd Networkd" "Network Units" wid 2.5 ht 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": ifup/down IPv4 über DHCP (Standard) {{{
+.NEWSLIDE
+.HEADING 1 "ifup/down IPv4 über DHCP (Standard)"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+nano /etc/network/interfaces
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+# Netzwerk Neustarten und Konfiguration einlesen
+systemctl restart networking.service
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": ifup/down IPv4 über feste IP {{{
+.NEWSLIDE
+.HEADING 1 "ifup/down IPv4 über feste IP"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+nano /etc/network/interfaces
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address 192.168.1.10
+    netmask 255.255.255.0
+
+# Netzwerk Neustarten und Konfiguration einlesen
+systemctl restart networking.service
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Interfaces an- und ausschalten {{{
+.NEWSLIDE
+.HEADING 1 "Interfaces an- und ausschalten"
+.QUOTE
+Wenn das Netzwerkinterface heruntergefahren wird, sind keine Verbindungen mehr
+möglich. Wird es gestartet, wird die aktuelle Konfiguration aus
+/etc/network/interfaces geladen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+
+# Interface anschalten
+ifup INTERFACENAME
+
+# Interface ausschalten
+ifdown INTERFACENAME
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: Netzwerkbefehle {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Netzwerkbefehle"
+.LIST DIGIT
+.ITEM 10p
+Zeige die aktuellen IP-Adressen (IPv4 und IPv6) und Routing-Tabelle an
+.ITEM 10p
+Liste alle aktiven Netzwerkverbindungen und zugehörige Ports auf
+.ITEM 10p
+Prüfe die Erreichbarkeit von google.de per ICMP (Ping) und HTTP
+.ITEM 10p
+Ändere den Hostnamen des Systems dauerhaft in /etc/hostname und zeige in an
+.ITEM 10p
+Trage den DNS-Server 1.1.1.1 in die Resolver-Konfiguration ein
+.ITEM 10p
+Ermittle die IP-Adresse einer Domain per nslookup und führe einen Reverse-Lookup durch
+.ITEM 10p
+Löse die IP-Adresse deines Banknachbarn über den Hostnamen nachbar.sepe.local auf
+.ITEM 10p
+Konfiguriere ein Interface mit statischer IP und danach wieder mit DHCP in der interfaces-Datei
+.ITEM 10p
+Aktiviere und Deaktiviere ein Netzwerkinterface manuell
+.LIST OFF
+.\": }}}
+.
+.\": SSH - Die Idee {{{
+.NEWSLIDE
+.HEADING 1 "SSH - Die Idee"
+.QUOTE
+SSH steht für Secure Shell und ermöglicht die sichere, verschlüsselte
+Fernsteuerung und Datenübertragung zwischen Computern über ein Netzwerk
+.QUOTE OFF
+.BOX PIC
+.PS
+box "SSH Client" "" "Tastatureingaben" "" "Ausgabe" wid 2.5 ht 2
+arrow right 3 "Verschlüsselt" "Passwort oder Schlüsseldatei"
+box "SSH Server (sshd)" "" "Ausführen der Befehle" "" "Terminal läuft hier" wid 2.5 ht 2
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": SSH Server installieren {{{
+.NEWSLIDE
+.HEADING 1 "SSH Server installieren"
+.QUOTE
+Das Paket openssh-server bringt nur den SSH-Server mit. Möchte man auch auf
+andere Computer per SSH zugreifen, muss zusätzlich das Paket openssh-client
+installiert werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+
+apt install openssh-server
+
+systemctl enable sshd
+systemctl start sshd
+
+systemctl status sshd
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": SSH Server konfigurieren {{{
+.NEWSLIDE
+.HEADING 1 "SSH Server konfigurieren"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# @root
+nano /etc/ssh/sshd_config # (systemctl restart sshd)
+Port 22
+ListenAddress 0.0.0.0
+
+# Authentication:
+PermitRootLogin prohibit-password
+StrictModes yes
+MaxAuthTries 3
+MaxSessions 2
+PubkeyAuthentication yes
+
+PermitTunnel no
+X11Forwarding no
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": SSH Verbindung aufbauen und Dateien kopieren {{{
+.NEWSLIDE
+.HEADING 1 "SSH Verbindung aufbauen und Dateien kopieren"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Mit dem SSH Server Terminal verbinden
+ssh ZIEL_BENUTZER@ZIEL_HOST
+
+# Dateien vom Client zum Server kopieren
+scp DATEI ZIEL_BENUTZER@ZIEL_HOST:/PFAD
+
+# Ordner vom Client zum Server kopieren
+scp -r DATEI ZIEL_BENUTZER@ZIEL_HOST:/PFAD
+
+# Dateien vom Server zum Client kopieren
+scp ZIEL_BENUTZER@ZIEL_HOST:/PFAD SPEICHERORT
+
+# Ordner vom Server zum Client kopieren
+scp -r ZIEL_BENUTZER@ZIEL_HOST:/PFAD SPEICHERORT
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: SSH {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: SSH"
+.SPACE 1
+.LIST DIGIT
+.ITEM 10p
+Installiere über apt das Paket openssh-server und stelle sicher, dass der
+SSH-Dienst über systemd gestartet wird und läuft
+.ITEM 10p
+Konfiguriere den SSH-Server so, dass Root-Verbindungen erlaubt sind und maximal
+3 fehlgeschlagene Anmeldeversuche sowie höchstens 2 gleichzeitige Verbindungen
+zugelassen werden.
+.ITEM 10p
+Schließe dich mit einem Partner zusammen und versucht, euch gegenseitig per SSH
+auf dem jeweils anderen Computer anzumelden und Befehle auszuführen.
+.ITEM 10p
+Kopiert anschließend Dateien und Ordner per scp von einem Computer auf den
+anderen
+.LIST OFF
+.\": }}}
+
