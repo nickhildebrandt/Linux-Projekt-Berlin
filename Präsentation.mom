@@ -1,13 +1,12 @@
 .\" vim:fileencoding=utf-8:ft=nroff:foldmethod=marker
 .\" ! pdfmom -G -t -mpic -Kutf8 "%" > "%:r.pdf"
 .TITLE "Linux Grundlagen und Projekt Kurs"
-.SUBTITLE "Distributionen, Desktop, Installation, Prozesse, Shell Scripting," "Systemd, Logging, SSH, Netzwerk, Sicherheit"
+.SUBTITLE "Distributionen, Desktop, Installation, Kernel, Prozesse, Shell Scripting," "Systemd, Logging, SSH, Netzwerk"
 .AUTHOR "Nick Hildebrandt"
 .MISC "Linux Projekt Kurs" "Siemens Energy"
 .COPYRIGHT " \*[$AUTHOR] 2025"
 .
 .\": {{{ Präsentation einrichten
-
 .PDF_TITLE "\*[$TITLE]"
 .DOCTYPE SLIDES \
   ASPECT 16:9 \
@@ -36,7 +35,7 @@
 .\": Ein bisschen was über mich {{{
 .HEADING 1 "Ein bisschen was über mich"
 .SPACE
-.BOX PI
+.BOX PIC
 .PS
 C: ellipse "Nick Hildebrandt"  "Bitte du/Nick" wid 2 ht 1
 
@@ -100,7 +99,6 @@ Meine E-Mail auch für die Zukunft: \*[BOLDER]nick.hildebrandt@siemens-energy.co
 .\": Einführung - Was ist Linux? - Rechercheaufgabe{{{
 .NEWSLIDE
 .HEADING 1 "Einführung - Was ist Linux? - Rechercheaufgabe"
-.SPACE
 .LIST DIGIT
 .ITEM 10p
 Was ist Linux und was ist GNU?
@@ -119,6 +117,8 @@ Was ist ein Display-Server?
 .ITEM 10p
 Wie unterscheiden sich Xorg und Wayland?
 .LIST OFF
+.SPACE
+.pdfhref W -D "https://www.youtube.com/watch?v=rrB13utjYV4" "Linux in 100 Sekunden"
 .\": }}}
 .
 .\": Was ist Linux? {{{
@@ -277,6 +277,12 @@ Unternehmen
 .ITEM 10p
 Die Existenz der Software hängt nicht vom Überleben eines Unternehmens ab
 .LIST OFF
+.SPACE
+.pdfhref W -D "https://www.youtube.com/watch?v=yVpbFMhOAwE" "Wie Linux entwickelt wird – Beispiel für kollaborative Entwicklung"
+.QUOTE
+\*[BOLDER]\
+
+.QUOTE OFF
 .\": }}}
 .
 .\": Linux Distributionen im Vergleich {{{
@@ -301,6 +307,29 @@ Forks: | Ubuntu, Linux Mint | Manjaro (auf Arch-Basis) | CentOS, Fedora
 .QUOTE
 Distributionen unterscheiden sich vor allem im \*[BOLDER]Release-Zyklus\*[BOLDERX],
 dem \*[BOLDER]Paketmanager\*[BOLDERX] und den \*[BOLDER]Nutzungsbedingungen\*[BOLDERX] (frei oder bezahlt).
+.QUOTE OFF
+.\": }}}
+.
+.\": Anwendungsbereiche von Linux {{{
+.NEWSLIDE
+.HEADING 1 "Anwendungsbereiche von Linux"
+.PS
+box "\fBServer\fP" "Web-, Datenbank-" "Cloud-Systeme" wid 3 ht 1
+move right
+box "\fBDesktop\fP" "Laptops" "Workstations" wid 3 ht 1
+move right
+box "\fBSmartphones\fP" "Android" wid 3 ht 1
+move down 1.5 left 7
+box "\fBEmbedded-Systeme\fP" "Smart-Home" "IoT-Geräte" wid 3 ht 1
+move right 3.5
+box "\fBSupercomputer\fP" "Top-500 Supercomputer" wid 3 ht 1
+move right
+box "\fBIndustrie & Automotive\fP" "Roboter" "Steuerungen" wid 3 ht 1
+.PE
+.BOX OFF
+.SPACE
+.QUOTE
+Warum ausgerechnet Linux?
 .QUOTE OFF
 .\": }}}
 .
@@ -484,6 +513,128 @@ lb  | l.
 .BOX OFF
 .\": }}}
 .
+.\": Was ist ein Shell? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist eine Shell?"
+.BOX PIC
+.PS
+circle fill 0.5  rad 1.5 at 0,0
+circle fill 0.2 rad 1 at 0,0
+circle fill 0 "Kernel" rad 0.75 at 0,0
+line right 3 from 0.75,0.5 "API (C Bibliothek)" ljust above
+line right 1 from 1.25,-0.5 "Shell" ljust above
+arrow right; "  Software" ljust
+line down <--> from last line.c; box "Benutzer" wid 1
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Sh, Bash und Zsh {{{
+.NEWSLIDE
+.HEADING 1 "Sh, Bash und Zsh"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB | LB
+- - - -
+l | l | l | l.
+Eigenschaft           | sh                | bash                      | zsh
+Standard auf          | Unix, BSD, POSIX  | Linux, älteres macOS      | macOS, Linux, BSD
+POSIX-kompatibel      | Ja                | Teilweise                 | Nein
+sh-kompatibel         | Ja                | Ja (größtenteils)         | Teilweise
+Skripting             | Grundlegend       | Erweiterte Funktionen     | Noch mächtiger
+Autovervollständigung | Einfach           | Besser                    | Sehr fortgeschritten
+Globbing              | Basis (`*`, `?`)  | Erweitert (`**`, `@( )`)  | Sehr mächtig (`<1-100>`)
+.TE
+.BOX OFF
+.QUOTE
+Sh wurde durch POSIX standardisiert und z. B. in dash implementiert, während
+Bash, zsh und fish mehr Funktionen bieten, aber nicht dem Standard folgen.
+.QUOTE OFF
+.QUOTE
+Bash und sh sind der Standard auf Servern, Embedded- und Netzwerkgeräten.
+.QUOTE OFF
+.\": }}}
+.
+.\": Was ist eigentlich POSIX? {{{
+.NEWSLIDE
+.HEADING 1 "Was ist eigentlich POSIX?"
+.SPACE 2
+.QUOTE
+\*[BOLDER]P\*[BOLDERX]ortable \*[BOLDER]O\*[BOLDERX]perating \*[BOLDER]S\*[BOLDERX]ystem \*[BOLDER]I\*[BOLDERX]nterface
+X = Uni\*[BOLDER]x\*[BOLDERX]
+.QUOTE OFF
+.QUOTE
+POSIX ist ein Standard für die Umsetzung eines Unix- oder unixähnlichen
+Betriebssystems, der von der IEEE (Institute of Electrical and Electronics
+Engineers) seit 1988 entwickelt wird; er spezifiziert z. B. Shell-Syntax,
+Dateisystem- und Prozessverwaltung, um die Portabilität von Software zwischen
+verschiedenen Unix-Systemen zu gewährleisten.
+.QUOTE OFF
+.\": }}}
+.
+.\": Grafische Terminal-Emulatoren {{{
+.NEWSLIDE
+.HEADING 1 "Grafische Terminal-Emulatoren"
+.QUOTE
+Ein grafischer Terminal-Emulator ist ein Programm mit Fensteroberfläche,  
+das ein klassisches Text-Terminal nachbildet, in dem man Befehle eingeben  
+und deren Ausgaben direkt angezeigt bekommen kann.
+.QUOTE OFF
+.SPACE
+.LIST
+.ITEM 10p
+\*[BOLDER]GNOME Terminal\*[BOLDERX] (Standard unter GNOME 3)
+.ITEM 10p
+\*[BOLDER]GNOME Console\*[BOLDERX] (moderne, einfache Alternative)
+.ITEM 10p
+\*[BOLDER]Konsole\*[BOLDERX] (Terminal-Emulator der KDE-Plasma-Umgebung)
+.LIST OFF
+.SPACE
+.QUOTE
+Unter GNOME startet man das Terminal über \*[BOLDER]Aktivitäten -
+Terminal\*[BOLDERX] (Strg + Alt + T).
+.QUOTE OFF
+.\": }}}
+.
+.\": Unterschied Terminal - TTY  {{{
+.NEWSLIDE
+.HEADING 1 "Unterschied Terminal - TTY"
+.BOX PIC
+.PS
+box "TTY" wid 2
+arrow down from last box.b; box "Ursprünglich physische Text-Terminals" "Heute virtuelle Terminals" wid 3.5 ht 1
+
+move right 4 up 1.5
+
+box "Terminal" wid 2
+arrow down from last box.b; box "= Konsole:" "Programm das Texteingaben annimmt" "und Ausgaben anzeigt" wid 3.5 ht 1
+
+move left 2 down 0.5
+
+box "Pseudo-Terminal (PTY) - PTS (Pseudo Terminal Slave)" wid 6
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Ein Befehl im Detail {{{
+.NEWSLIDE
+.HEADING 1 "Ein Befehl im Detail"
+.BOX PIC
+.PS
+arrow right 2 "Eingabe (stdin)" above
+box "Befehl = Programm" "echo" wid 2.5 ht 1
+arrow right
+box "Option / Flag 'n'" "-n" wid 1.8 ht 1
+arrow right
+box "Argument 1" "'test'" wid 1.8 ht 1
+arrow right 2 "Exit Code" "0 = Erfolg"
+arrow right up 1 from last box.r; box "Standard Ausgabe" "stdout (1)" wid 2.2 ht 1
+arrow right down 1 from 2nd last box.r; box "Standard Error" "stderr (2)" wid 2.2 ht 1
+.PE
+.BOX OFF
+.\": }}}
+.
 .\": Der Linux Bootvorgang {{{
 .NEWSLIDE
 .HEADING 1 "Der Linux Bootvorgang"
@@ -641,26 +792,6 @@ root    2   0.0  0.0  0       0    ?\        S    Mär09   0:00 \*[BOLDER][kthre
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.\": }}}
-.
-.\": Unterschied Terminal - TTY  {{{
-.NEWSLIDE
-.HEADING 1 "Unterschied Terminal - TTY"
-.BOX PIC
-.PS
-box "TTY" wid 2
-arrow down from last box.b; box "Ursprünglich physische Text-Terminals" "Heute virtuelle Terminals" wid 3.5 ht 1
-
-move right 4 up 1.5
-
-box "Terminal" wid 2
-arrow down from last box.b; box "= Konsole:" "Programm das Texteingaben annimmt" "und Ausgaben anzeigt" wid 3.5 ht 1
-
-move left 2 down 0.5
-
-box "Pseudo-Terminal (PTY) - PTS (Pseudo Terminal Slave)" wid 6
-.PE
-.BOX OFF
 .\": }}}
 .
 .\": Vorder- und Hintergrund Prozesse  {{{
@@ -1105,84 +1236,6 @@ systemctl eingabe NAME.timer
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.\": }}}
-.
-.\": Was ist ein Shell? {{{
-.NEWSLIDE
-.HEADING 1 "Was ist eine Shell?"
-.BOX PIC
-.PS
-circle fill 0.5  rad 1.5 at 0,0
-circle fill 0.2 rad 1 at 0,0
-circle fill 0 "Kernel" rad 0.75 at 0,0
-line right 3 from 0.75,0.5 "API (C Bibliothek)" ljust above
-line right 1 from 1.25,-0.5 "Shell" ljust above
-arrow right; "  Software" ljust
-line down <--> from last line.c; box "Benutzer" wid 1
-.PE
-.BOX OFF
-.\": }}}
-.
-.\": Sh, Bash und Zsh {{{
-.NEWSLIDE
-.HEADING 1 "Sh, Bash und Zsh"
-.BOX TS
-.TS
-box center nospaces tab(|);
-lB | lB | lB | LB
-- - - -
-l | l | l | l.
-Eigenschaft           | sh                | bash                      | zsh
-Standard auf          | Unix, BSD, POSIX  | Linux, älteres macOS      | macOS, Linux, BSD
-POSIX-kompatibel      | Ja                | Teilweise                 | Nein
-sh-kompatibel         | Ja                | Ja (größtenteils)         | Teilweise
-Skripting             | Grundlegend       | Erweiterte Funktionen     | Noch mächtiger
-Autovervollständigung | Einfach           | Besser                    | Sehr fortgeschritten
-Globbing              | Basis (`*`, `?`)  | Erweitert (`**`, `@( )`)  | Sehr mächtig (`<1-100>`)
-.TE
-.BOX OFF
-.QUOTE
-Sh wurde durch POSIX standardisiert und z. B. in dash implementiert, während
-Bash, zsh und fish mehr Funktionen bieten, aber nicht dem Standard folgen.
-.QUOTE OFF
-.QUOTE
-Bash und sh sind der Standard auf Servern, Embedded- und Netzwerkgeräten.
-.QUOTE OFF
-.\": }}}
-.
-.\": Was ist eigentlich POSIX? {{{
-.NEWSLIDE
-.HEADING 1 "Was ist eigentlich POSIX?"
-.SPACE 2
-.QUOTE
-\*[BOLDER]P\*[BOLDERX]ortable \*[BOLDER]O\*[BOLDERX]perating \*[BOLDER]S\*[BOLDERX]ystem \*[BOLDER]I\*[BOLDERX]nterface
-X = Uni\*[BOLDER]x\*[BOLDERX]
-.QUOTE OFF
-.QUOTE
-POSIX ist ein Standard für die Umsetzung eines Unix- oder unixähnlichen
-Betriebssystems, der von der IEEE (Institute of Electrical and Electronics
-Engineers) seit 1988 entwickelt wird; er spezifiziert z. B. Shell-Syntax,
-Dateisystem- und Prozessverwaltung, um die Portabilität von Software zwischen
-verschiedenen Unix-Systemen zu gewährleisten.
-.QUOTE OFF
-.\": }}}
-.
-.\": Ein Befehl im Detail {{{
-.NEWSLIDE
-.HEADING 1 "Ein Befehl im Detail"
-.BOX PIC
-.PS
-arrow right 2 "Eingabe (stdin)" above
-box "Befehl = Programm" "echo" wid 2.5 ht 1
-arrow right
-box "Option / Flag 'n'" "-n" wid 1.8 ht 1
-arrow right
-box "Argument 1" "'test'" wid 1.8 ht 1
-arrow right 2 "Exit Code" "0 = Erfolg"
-arrow right up 1 from last box.r; box "Standard Ausgabe" "stdout (1)" wid 2.2 ht 1
-arrow right down 1 from 2nd last box.r; box "Standard Error" "stderr (2)" wid 2.2 ht 1
-.PE
-.BOX OFF
 .\": }}}
 .
 .\": Was ist ein Shell Skript? {{{
@@ -1726,153 +1779,6 @@ Zeige mit systemctl list-units --failed alle fehlgeschlagenen systemd-Units an.
 .LIST OFF
 .\": }}}
 .
-.\": Rsyslog - Die Idee {{{
-.NEWSLIDE
-.HEADING 1 "Rsyslog - Die Idee"
-.SPACE 1
-.BOX PIC
-.PS
-C: ellipse "Rsyslog" "Zentrale Auswertung" wid 2 ht 1
-
-arrow up .8 from C.n; "Rsyslog Client" above
-arrow up right from C.ne; "IP/Telefon" ljust above
-arrow up left from C.nw; "Netzwerkhardware" rjust above
-
-arrow left .8 from C.w; "Container " rjust
-arrow right .8 from C.e; " Virtuelle Maschinen" ljust
-
-arrow down .8 from C.s; "Smart Geräte" below
-arrow down right from C.se; "Roboter" ljust below
-arrow down left from C.sw; "Sicherheitshardware" rjust below
-.PE
-.BOX OFF
-.\": }}}
-.
-.\": Rsyslog Server {{{
-.NEWSLIDE
-.HEADING 1 "Rsyslog Server"
-.QUOTE
-Rsyslog sammelt Log Dateien von Geräten aus dem Netzwerk
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK ADJUST -1
-# @root - Alle Befehle
-apt install rsyslog # (systemctl status rsyslog) = sollte laufen
-
-nano /etc/rsyslog.conf # Am besten .d Ornder
-module(load="imtcp")
-input(type="imtcp" port="514")
-
-nano /etc/rsyslog.d/10-remote.conf
-$template RemoteLogs,"/var/log/remote/%HOSTNAME%/%PROGRAMNAME%.log"
-*.* ?RemoteLogs
-& stop
-
-systemctl restart rsyslog
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Rsyslog Client {{{
-.NEWSLIDE
-.HEADING 1 "Rsyslog Client"
-.QUOTE
-Sendet Log Dateien an Server aus dem Netzwerk
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-# @root - Alle Befehle
-apt install rsyslog
-systemctl status rsyslog (sollte laufen)
-
-nano /etc/rsyslog.d/90-remote.conf # Am besten .d Ornder
-*.* @@192.0.2.10:514
-
-systemctl restart rsyslog
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.QUOTE
-\*[BOLDERX]Achtung: Logs werden gerade noch unverschlüsselt übertragen\*[BOLDERX]
-.QUOTE OFF
-.\": }}}
-.
-.\": Nachrichten zum Log hinzufügen {{{
-.NEWSLIDE
-.HEADING 1 "Nachrichten zum Log hinzufügen"
-.QUOTE
-mit dem logger Befehl Können wir Nachrichten zum Syslog hinzufügen
-.QUOTE OFF
-.SPACE 1
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-logger "Hallo - Test"
-
-logger -p user.info "This is an info message"
-logger -p daemon.warning "A warning from daemon"
-
-logger -p <facility>.<level>
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Log facilitys {{{
-.NEWSLIDE
-.HEADING 1 "Log facilitys"
-.BOX TS
-.TS
-box center nospaces tab(|);
-lB | lB
-- -
-l | l.
-Facility    | Beschreibung
-auth        | Sicherheits-/Authentifizierungsnachrichten
-authpriv    | Private Authentifizierungsnachrichten
-cron        | Cron- und At-Dienst-Nachrichten
-daemon      | Sonstige Systemdienste
-kern        | Kernel-Nachrichten (nur vom Kernel)
-lpr         | Drucksystem
-mail        | E-Mail-System
-news        | Usenet-/Netzwerk-Nachrichten
-syslog      | Interne syslog-Nachrichten
-user        | Nachrichten auf Benutzerebene (Standard)
-uucp        | UUCP-System
-local0      | Zur lokalen Verwendung reserviert
-.TE
-.BOX OFF
-.\": }}}
-.
-.\": Log level {{{
-.NEWSLIDE
-.HEADING 1 "Log level"
-.SPACE 1
-.BOX TS
-.TS
-box center nospaces tab(|);
-lB | lB | lb
-- - -
-l | n | l.
-Level     | Nummer | Bedeutung
-emerg     | 0      | System unbenutzbar (Notfall)
-alert     | 1      | Sofortige Maßnahmen erforderlich
-crit      | 2      | Kritischer Zustand
-err       | 3      | Fehler
-warning   | 4      | Warnung
-notice    | 5      | Wichtige, normale Information
-info      | 6      | Allgemeine Information
-debug     | 7      | Debug-Informationen
-.TE
-.BOX OFF
-.\": }}}
-.
 .\": Logs automatisch Löschen {{{
 .NEWSLIDE
 .HEADING 1 "Logs automatisch Löschen"
@@ -1921,33 +1827,6 @@ Zeige Dateiberechtigungen mit ls -l /pfad/zur/datei an.
 Teste die Netzwerkverbindung mit ping -c 4 1.1.1.1.
 .ITEM 10p
 Suche Hardwarefehler mit dmesg | grep -i error.
-.LIST OFF
-.\": }}}
-.
-.\":  Übungsaufgabe: Remote Logging{{{
-.NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Remote Logging"
-.LIST DIGIT
-.ITEM 10p
-Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
-Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
-.ITEM 10p
-Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
-Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
-Verwendet auf dem sendenden Rechner den Befehl logger mit verschiedenen
-Facilities und Loglevels (z.B. -p local0.info, -p authpriv.warning) und
-überprüft auf dem empfangenden Rechner, ob die Nachrichten korrekt im Syslog
-ankommen.
-.ITEM 10p
-Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
-Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
-Erstellt gemeinsam eine Logrotate-Konfigurationsdatei, sodass die Datei alle 2 Wochen
-rotiert wird.
-.ITEM 10p
-Konfiguriert gemeinsam rsyslog so, dass alle Lognachrichten über TCP an den
-Rechner des Partners übertragen werden (Port 514, TLS nicht erforderlich).
-Testet eure Konfiguration mit logrotate --debug /etc/logrotate.d/custom und
-überprüft, ob sie fehlerfrei funktioniert.
 .LIST OFF
 .\": }}}
 .
