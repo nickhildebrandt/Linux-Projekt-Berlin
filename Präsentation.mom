@@ -118,7 +118,7 @@ Was ist ein Display-Server?
 Wie unterscheiden sich Xorg und Wayland?
 .LIST OFF
 .SPACE
-.pdfhref W -D "https://www.youtube.com/watch?v=rrB13utjYV4" "Linux in 100 Sekunden"
+.pdfhref W -D "https://labex.io/linuxjourney" "Linux interaktiv Lernen"
 .\": }}}
 .
 .\": Was ist Linux? {{{
@@ -411,6 +411,34 @@ arrow left from VM.b to FINAL.r
 .BOX OFF
 .\": }}}
 .
+.\": Linux unter Windows ausführen – Virtualisierung {{{
+.NEWSLIDE
+.HEADING 1 "Linux unter Windows ausführen durch Virtualisierung"
+.QUOTE
+\*[BOLDER]Virtualisierung bedeutet, dass ein Hypervisor eine komplette  Rechnerumgebung
+nachbildet. So kann ein Betriebssystem wie Linux  innerhalb von Windows laufen.
+Ein Beispiel für einen Hypervisor ist VirtualBox.\*[BOLDERX]
+.QUOTE OFF
+.LIST DIGIT
+.ITEM 10p
+VirtualBox von der offiziellen Webseite
+.pdfhref W -D "https://download.virtualbox.org/virtualbox/7.2.2/VirtualBox-7.2.2-170484-Win.exe" "herunterladen"
+und installieren
+.ITEM 10p
+Neue virtuelle Maschine anlegen und Name + Typ \*[BOLDER]Linux - Debian\*[BOLDERX] auswählen
+.ITEM 10p
+Arbeitsspeicher \*[BOLDER](RAM) auf 4096MB\*[BOLDERX]
+.ITEM 10p
+Virtuelle \*[BOLDER]Festplattengröße auf 30GB\*[BOLDERX]
+.ITEM 10p
+ISO-Datei von Debian
+.pdfhref W -D "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso" "herunterladen"
+und in die VM einlegen
+.ITEM 10p
+\*[BOLDER]Virtuelle Maschine starten\*[BOLDERX] und Linux-Installer durchlaufen
+.LIST OFF
+.\": }}}
+.
 .\": Debian installieren {{{
 .NEWSLIDE
 .HEADING 1 "Debian installieren"
@@ -439,6 +467,33 @@ auswählen (Bei einem Server \*[BOLDER]nur Standard-Systemwerkzeuge\*[BOLDERX])
 \*[BOLDER]Installation des Bootloaders\*[BOLDERX] (GRUB) bestätigen - danach
 \*[BOLDER]Neustarten\*[BOLDERX]
 .LIST OFF
+.\": }}}
+.
+.\": Treiber unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Treiber unter Linux"
+.SPACE
+.BOX PIC
+.PS
+K: box "\fBTreiber\fP" \
+    "Kommunikation mit Hardware" \
+    "Als Kernel-Module mitgeliefert" wid 8 ht 3
+arrow right
+U: box "\fBUserspace-Teil\fP" \
+    "API für mehrere Module" \
+    "z. B. Mesa für Grafikkarten" wid 8 ht 3
+arrow right
+A: box "\fBAnwendungen\fP" \
+    "Nutzen die Zentralen APIs" \
+    "z. B. Spiele, Grafikprogramme" wid 8 ht 3
+.PE
+.BOX OFF
+.SPACE
+.QUOTE
+Unter Linux liefert der Kernel die meisten Treiber bereits mit und lädt beim
+Start automatisch die passenden Module. Fehlen Treiber, können zusätzliche
+Kernel-Module – auch proprietäre – installiert werden.
+.QUOTE OFF
 .\": }}}
 .
 .\": Partitionsschema unter Linux {{{
