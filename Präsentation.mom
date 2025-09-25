@@ -12,8 +12,8 @@
   ASPECT 16:9 \
   HEADER "\*[$MISC_1]" "" "\*[$MISC_2]" \
   FOOTER "" "" "\*S[+2]\*[SLIDE#]\*S[-2]"
-.NEWCOLOR red       #900000
-.NEWCOLOR blue      #00007b
+.NEWCOLOR red       #009999
+.NEWCOLOR blue      #551a8b
 .HEADER_COLOR       red
 .HEADER_RULE
 .FOOTER_RULE off
@@ -74,11 +74,13 @@ arrow down right from H.b; box "Erwartungen an diesen Kurs" wid 3
 .ITEM 10p
 Bitte immer \*[BOLDER]SOFORT FRAGEN\*[BOLDERX] wenn etwas unverständlich ist
 .ITEM 10p
-Alle Kursdaten sind online: \*[BOLDER]https://github.com/nickhildebrandt/Linux-Projekt-Berlin\*[BOLDERX]
+Pausen und Mittagszeiten
 .ITEM 10p
-Meine E-Mail auch für die Zukunft: \*[BOLDER]nick.hildebrandt@siemens-energy.com\*[BOLDERX]
+Donnerstag kleiner Test mit Note
+.ITEM 10p
+Mitarbeit Spielt auch eine Rolle
 .LIST OFF
-\": }}}
+.\": }}}
 .
 .\": Wochenüberblick {{{
 .NEWSLIDE
@@ -93,6 +95,28 @@ Meine E-Mail auch für die Zukunft: \*[BOLDER]nick.hildebrandt@siemens-energy.co
 \*[BOLDER]Mittwoch:\*[BOLDERX] Systemd, Logging, SSH, Netzwerk
 .ITEM 10p
 \*[BOLDER]Donnerstag:\*[BOLDERX] Sicherheit, Backups, Virtualisierung, Container
+.LIST OFF
+.\": }}}
+.
+.\": Minecraft Server Projekt {{{
+.NEWSLIDE
+.HEADING 1 "Minecraft Server Projekt"
+.SPACE
+.LIST DIGIT
+.ITEM 10p
+Debian Server-VM ohne grafische Oberfläche aufsetzen
+.ITEM 10p
+Java und sonstige Abhängigkeiten installieren
+.ITEM 10p
+Service-Benutzer und Gruppe für Minecraft anlegen
+.ITEM 10p
+Minecraft Server Software finden, z.B. PaperMc
+.ITEM 10p
+Systemd-Service für Minecraft Server erstellen
+.ITEM 10p
+Automatische Backups der Welt einrichten
+.ITEM 10p
+SSH Zugang zum Server mit Schlüsseldatei einrichten
 .LIST OFF
 .\": }}}
 .
@@ -568,7 +592,57 @@ lb  | l.
 .BOX OFF
 .\": }}}
 .
-.\": Was ist ein Shell? {{{
+.\": Alles ist eine Datei {{{
+.NEWSLIDE
+.HEADING 1 "Alles ist eine Datei"
+.QUOTE
+Unter Linux (Unix) gilt die Philosophie: \*[BOLDER]Alles ist eine Datei\*[BOLDERX]
+.QUOTE OFF
+.LIST
+.ITEM 10p
+\*[BOLDER]/dev\*[BOLDERX] – Geräte (Festplatten, Terminals, USB-Sticks, Drucker)
+.ITEM 10p
+\*[BOLDER]/sys\*[BOLDERX] – Kernel- und Geräteeinstellungen (z. B.
+Energieverwaltung, Treiber-Infos)
+.ITEM 10p
+\*[BOLDER]/proc\*[BOLDERX] – Informationen über Prozesse und den Kernel
+(virtuelles Dateisystem)
+.ITEM 10p
+\*[BOLDER]/etc\*[BOLDERX] – Konfigurationsdateien für Dienste und das System
+.LIST OFF
+.SPACE
+.QUOTE
+\*[BOLDER]Vorteil:\*[BOLDERX] Alles kann mit denselben Werkzeugen über das
+Dateisystem gelesen, geschrieben und bearbeitet werden.
+.QUOTE OFF
+.\": }}}
+.
+.\": Interaktion mit dem Computer {{{
+.NEWSLIDE
+.HEADING 1 "Interaktion mit dem Computer"
+.BOX PIC
+.PS
+B: box "\fBBenutzer\fP" wid 3 ht 1.2
+
+arrow down 1 right from B.se
+G: box "\fBGrafische Benutzeroberfläche (GUI)\fP" \
+       "Seit den 1980er-Jahren" \
+       "Interaktion durch grafische Elemente" wid 9 ht 2.5
+
+arrow down 1 left from B.sw
+S: box "\fBShell (Konsole)\fP" \
+       "Seit den 1970er-Jahren" \
+       "Interaktion durch Eingabe von Befehlen" wid 9 ht 2.5
+.PE
+.BOX OFF
+.SPACE
+.QUOTE
+Linux kann sowohl mit grafischen als auch mit rein textbasierten Oberflächen genutzt werden. 
+Auf Servern wird aus Sicherheits- und Stabilitätsgründen meist kein Desktop installiert, 
+sondern ausschließlich die Shell verwendet.
+.QUOTE OFF
+.\": }}}
+.
 .NEWSLIDE
 .HEADING 1 "Was ist eine Shell?"
 .BOX PIC
@@ -688,6 +762,300 @@ arrow right up 1 from last box.r; box "Standard Ausgabe" "stdout (1)" wid 2.2 ht
 arrow right down 1 from 2nd last box.r; box "Standard Error" "stderr (2)" wid 2.2 ht 1
 .PE
 .BOX OFF
+.\": }}}
+.
+.\": Pfade - Wo Befehle ausgeführt werden {{{
+.NEWSLIDE
+.HEADING 1 "Pfade - Wo Befehle ausgeführt werden"
+.QUOTE
+Ein \*[BOLDER]Pfad\*[BOLDERX] beschreibt den Ort einer Datei oder eines
+Verzeichnisses  im Dateisystem. Dabei gibt es:
+.QUOTE OFF
+.LIST
+.ITEM 10p
+\*[BOLDER]Absolute Pfade\*[BOLDERX]: beginnen immer mit \*[BOLDER]/\*[BOLDERX],
+z. B. \*[BOLDER]/home/nick/Dokumente\*[BOLDERX]
+.ITEM 10p
+\*[BOLDER]Relative Pfade\*[BOLDERX]: beziehen sich auf das aktuelle
+Verzeichnis, z. B. \*[BOLDER] ../Bilder \*[BOLDERX]
+.LIST OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Aktuelles Verzeichnis anzeigen
+pwd
+
+# Beispielausgabe:
+/home/nick/Dokumente
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": ls anzeigen - was sich in einem Ordner befindet {{{
+.NEWSLIDE
+.HEADING 1 "ls - anzeigen, was sich in einem Ordner befindet"
+.QUOTE
+Mit \*[BOLDER]ls\*[BOLDERX] lässt sich der Inhalt eines Verzeichnisses anzeigen.  
+Mit der Option \*[BOLDER]-a\*[BOLDERX] werden auch versteckte Dateien (beginnen mit Punkt) angezeigt.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Aktuelles Verzeichnis (relativer Pfad)
+ls
+
+# Absoluter Pfad
+ls /home/nick/Dokumente
+
+# Mit versteckten Dateien
+ls -a
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": cd – in ein anderes Verzeichnis wechseln {{{
+.NEWSLIDE
+.HEADING 1 "cd – in ein anderes Verzeichnis wechseln"
+.QUOTE
+Mit \*[BOLDER]cd\*[BOLDERX] kann man zwischen Verzeichnissen wechseln.  
+Es lassen sich sowohl relative als auch absolute Pfade verwenden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Relativer Pfad (ein Verzeichnis nach oben)
+cd ..
+
+# Absoluter Pfad
+cd /home/nick/Dokumente
+
+# Zurück ins Home-Verzeichnis
+cd ~
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": cp – Dateien und Ordner kopieren {{{
+.NEWSLIDE
+.HEADING 1 "cp – Dateien und Ordner kopieren"
+.QUOTE
+Mit \*[BOLDER]cp\*[BOLDERX] werden Dateien und Verzeichnisse kopiert.  
+Für Ordner muss die Option \*[BOLDER]-r\*[BOLDERX] (rekursiv) verwendet werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Datei mit relativem Pfad kopieren
+cp datei.txt ../backup/
+
+# Datei mit absolutem Pfad kopieren
+cp /home/nick/test.txt /home/nick/Dokumente/
+
+# Ganzen Ordner kopieren (rekursiv)
+cp -r /home/nick/Bilder /home/nick/Backup/
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": mv – Dateien und Ordner verschieben/umbenennen {{{
+.NEWSLIDE
+.HEADING 1 "mv – Dateien und Ordner verschieben/umbenennen"
+.QUOTE
+Mit \*[BOLDER]mv\*[BOLDERX] können Dateien und Verzeichnisse verschoben oder umbenannt werden.  
+Es ist kein rekursives Flag erforderlich.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Datei verschieben (relativ)
+mv datei.txt ../backup/
+
+# Datei verschieben (absolut)
+mv /home/nick/test.txt /home/nick/Dokumente/
+
+# Ordner verschieben oder umbenennen
+mv /home/nick/Bilder /home/nick/Backup/
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": rm – Dateien und Ordner löschen {{{
+.NEWSLIDE
+.HEADING 1 "rm – Dateien und Ordner löschen"
+.QUOTE
+Mit \*[BOLDER]rm\*[BOLDERX] werden Dateien gelöscht.  
+Für ganze Ordner und deren Inhalte wird die Option \*[BOLDER]-r\*[BOLDERX] (rekursiv) benötigt.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Einzelne Datei löschen
+rm datei.txt
+
+# Ordner rekursiv löschen
+rm -r alter_ordner
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": ln – Verknüpfungen anlegen {{{
+.NEWSLIDE
+.HEADING 1 "ln – Verknüpfungen anlegen"
+.QUOTE
+Mit \*[BOLDER]ln\*[BOLDERX] lassen sich Verknüpfungen auf Dateien erstellen.  
+Es gibt \*[BOLDER]harte Links\*[BOLDERX] (Zeigen auf die Ziel Inode Nummer)  
+und \*[BOLDER]symbolische Links\*[BOLDERX] (zeigen auf den Ziel Pfad).
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Harter Link (zweiter Name für dieselbe Datei)
+ln original.txt kopie.txt
+
+# Symbolischer Link (wie eine Abkürzung)
+ln -s /home/nick/original.txt link.txt
+
+# Symbolischen Link löschen
+rm link.txt
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Inode-Nummern {{{
+.NEWSLIDE
+.HEADING 1 "Inode-Nummern"
+.QUOTE
+Jede Datei im Linux-Dateisystem hat eine eindeutige
+\*[BOLDER]Inode-Nummer\*[BOLDERX] welche Metadaten wie Besitzer, Rechte, Größe
+und Speicherort enthält. Mehrere Dateinamen können auf dieselbe Inode zeigen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Mit -i zeigt ls die Inode-Nummern an
+ls -i
+
+# Beispielausgabe:
+123456 datei.txt
+123456 kopie.txt   <-- harter Link (gleiche Inode)
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": cat, less, head, tail – Ausgeben von Dateien {{{
+.NEWSLIDE
+.HEADING 1 "cat, less, head, tail – Ausgeben von Dateien"
+.QUOTE
+Mit \*[BOLDER]cat, less, head\*[BOLDERX] und \*[BOLDER]tail\*[BOLDERX] können Inhalte von Dateien angezeigt werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# cat – gesamte Datei ausgeben
+cat datei.txt
+
+# less – gesamte Datei mit scrolling ausgeben
+less datei.txt
+
+# head – erste Zeilen anzeigen / tail – letzte Zeilen anzeigen  
+head datei.txt
+head -n 5 datei.txt
+tail datei.txt
+tail -f /var/log/syslog   # "live" folgen
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Dateien bearbeiten mit Nano {{{
+.NEWSLIDE
+.HEADING 1 "Dateien bearbeiten mit Nano"
+.QUOTE
+\*[BOLDER]Nano\*[BOLDERX] ist ein einfacher Texteditor für die Shell, leicht verständlich  
+und für Einsteiger geeignet.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+nano datei.txt # Datei öffnen/bearbeiten
+
+# Bewegen in der Datei: Pfeiltasten
+# Speichern: Strg + O
+# Beenden: Strg + X
+# Text suchen Strg + W
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Dateien bearbeiten mit Vim {{{
+.NEWSLIDE
+.HEADING 1 "Dateien bearbeiten mit Vim"
+.QUOTE
+\*[BOLDER]Vim\*[BOLDERX] ist ein komplexer Editor mit vielen Funktionen, der durch Plugins  
+zu einer vollwertigen Entwicklungsumgebung erweitert werden kann.
+.pdfhref W -D "https://www.youtube.com/watch?v=-txKSRn0qeA" "Vim in 100 Sekunden" 
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Datei öffnen/bearbeiten
+vim datei.txt
+
+# Bewegung im Text
+\*[BOLDER] h, j, k, l \*[BOLDERX] (links, runter, hoch, rechts) oder \*[BOLDER] Pfeiltasten \*[BOLDERX]
+
+# In den Insert-Modus wechseln um Text einzugeben
+\*[BOLDER] i \*[BOLDERX] - (\*[BOLDER] ESC \*[BOLDERX]) zum verlassen des Insert-Modus
+
+# Speichern / Beenden
+:write   oder   :w ⇒ :quit oder :q
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Hilfe bei Kommandos erhalten {{{
+.NEWSLIDE
+.HEADING 1 "Hilfe bei Kommandos erhalten"
+.QUOTE
+Unter Linux gibt es mehrere Möglichkeiten, sich Hilfe zu einem Befehl anzeigen zu lassen.  
+Viele Programme bieten eine \*[BOLDER]-h\*[BOLDERX]- oder \*[BOLDER]--help\*[BOLDERX]-Option.  
+Detaillierte Informationen stehen in den \*[BOLDER]Manpages\*[BOLDERX] zur Verfügung.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Kurzinfo zum Befehl
+ls --help
+cp -h
+
+# Ausführliche Dokumentation (Manpage)
+man ls
+man cp
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
 .\": }}}
 .
 .\": Der Linux Bootvorgang {{{
@@ -1019,6 +1387,8 @@ arrow down left from Start.b; box "Einheitlicher Konfigurations Syntax" wid 4
 arrow down right from Start.b; box "Units = Timer, Services, Mounts, etc." wid 4
 .PE
 .BOX OFF
+.SPACE
+.pdfhref W -D "https://www.youtube.com/watch?v=o_AIw9bGogo&t=106s" "The Tragedy of systemd"
 .\": }}}
 .
 .\": Beispiel: Services {{{
@@ -1718,53 +2088,6 @@ Nutze case, um bei Argumenten wie --debug oder --help passende Ausgaben zu mache
 .LIST OFF
 .\": }}}
 .
-.\": Übungsaufgabe: Eigenes Bash Skript {{{
-.NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Eigenes Bash Skript"
-.QUOTE_LEFT
-.QUOTE
-Wähle eine der folgenden Aufgaben oder eine eigene Idee:
-.QUOTE OFF
-.QUOTE_CENTER
-.LIST DIGIT
-.ITEM 10p
-Überlege dir ein Skript, das regelmäßig (z.B. alle 10 Sekunden oder via Cron)
-deinen Rechner überwacht: z.B. wie viele Prozesse du hast, was gerade
-besonders viel CPU verbraucht, oder wie viele Tabs Firefox offen hat.  Lass dir
-die Infos cool anzeigen – vielleicht mit Farben oder Emojis. Vielleicht
-schreibst du sie auch in ein Logfile.
-.ITEM 10p
-Schreib ein interaktives Bash-Textadventure mit Verzweigungen (read, case, if).
-Am Anfang wird ein „Prozessname“ genannt (z.B. Schattenprozess X), den man
-sich merken muss.  Im Laufe der Geschichte triffst du Entscheidungen (links,
-rechts, kämpfen, fliehen ...), und am Ende musst du den richtigen Namen
-eingeben, um den Endboss zu besiegen.
-.ITEM 10p
-Du bist Linux-Admin und dein Rechner wird von Chaosprozessen überrannt.  Bau
-dir ein Bash-Skript + systemd-Service, das beim Booten oder einmal täglich
-automatisch alte Prozesse killt, unnötige Logdateien löscht, oder dich warnt,
-wenn etwas „unordentlich“ ist.
-.LIST OFF
-.\": }}}
-.
-.\": Bearbeitungshinweis {{{
-.NEWSLIDE
-.HEADING 1 "Bearbeitungshinweis"
-.SPACE 2
-.LIST
-.ITEM 10p
-\*[BOLDER]Googeln und KI\*[BOLDERX] sind ausdrücklich erwünscht
-.ITEM 10p
-Ihr könnt mir jederzeit alle \*[BOLDER]Fragen stellen\*[BOLDERX] – ich helfe gerne
-.ITEM 10p
-Bringt \*[BOLDER]eigene Ideen\*[BOLDERX] ein und probiert viel aus
-.ITEM 10p
-Das Skript sollte später um \*[BOLDER]Logging und Netzwerkbefehle\*[BOLDERX] erweitert werden können
-.ITEM 10p
-Die \*[BOLDER]nächsten Nachmittage\*[BOLDERX] stehen dafür zur Verfügung
-.LIST OFF
-.\": }}}
-.
 .\": Logging {{{
 .NEWSLIDE
 .HEADING 1 "Logging"
@@ -2253,4 +2576,3 @@ Kopiert anschließend Dateien und Ordner per scp von einem Computer auf den
 anderen
 .LIST OFF
 .\": }}}
-
