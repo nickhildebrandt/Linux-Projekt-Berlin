@@ -652,7 +652,7 @@ circle fill 0.2 rad 1 at 0,0
 circle fill 0 "Kernel" rad 0.75 at 0,0
 line right 3 from 0.75,0.5 "API (C Bibliothek)" ljust above
 line right 1 from 1.25,-0.5 "Shell" ljust above
-arrow right; "  Software" ljust
+arrow right; "  Software (\fBProgramme = Befehle\fP)" ljust
 line down <--> from last line.c; box "Benutzer" wid 1
 .PE
 .BOX OFF
@@ -1034,6 +1034,179 @@ vim datei.txt
 .QUOTE_CENTER
 .\": }}}
 .
+.\": Administratorberechtigungen unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Administratorberechtigungen unter Linux"
+.QUOTE
+Wie unter Windows sind für systemverändernde Aktionen unter Linux höhere Rechte nötig. 
+Dafür gibt es den \*[BOLDER]Root\-Nutzer\*[BOLDERX], der volle Systemrechte hat. Oft ist das Root-Konto deaktiviert.
+Stattdessen erhalten normale Benutzer per \*[BOLDER]sudo\*[BOLDERX] oder \*[BOLDER]doas\*[BOLDERX] temporär Root-Rechte.
+.QUOTE OFF
+\*[BOLDER]Einmalig als Root einen Befehl ausführen\*[BOLDERX]:
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+sudo apt update
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.ITEM 10p
+\*[BOLDER]Root-Shell öffnen\*[BOLDERX]:
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+CODE BREAK
+sudo -i        # oder: su -  (wenn Root-Account aktiv)
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.ITEM 10p
+\*[BOLDER]Datei sicher als Root bearbeiten\*[BOLDERX]:
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+CODE BREAK
+sudoedit /etc/fstab
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.ITEM 10p
+\*[BOLDER]Benutzer zur sudo-Gruppe hinzufügen\*[BOLDERX] (Beispiel):
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+CODE BREAK
+sudo usermod -aG sudo nick
+# oder bei Debian-basierten Systemen: adduser nick sudo
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.ITEM 10p
+\*[BOLDER]Sudo-Rechte sicher verwalten\*[BOLDERX]:
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+CODE BREAK
+sudo visudo
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.ITEM 10p
+\*[BOLDER]Alternative zu sudo: doas\*[BOLDERX] (einfachere Konfiguration):
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+CODE BREAK
+doas systemctl restart sshd
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.LIST OFF
+.\": }}}
+.
+.\": Dateiberechtigungen unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Dateiberechtigungen unter Linux"
+.SPACE
+.QUOTE
+Unter Linux gibt es drei grundlegende Berechtigungen: 
+\*[BOLDER]Lesen, Schreiben \*[BOLDERX] und \*[BOLDER]Ausführen \*[BOLDERX].
+Diese gelten jeweils für:
+einen \*[BOLDER]Benutzer\*[BOLDERX], eine \*[BOLDER]Gruppe\*[BOLDERX] und alle\*[BOLDER] Anderen \*[BOLDERX]
+.QUOTE OFF
+.SPACE
+.BOX TS
+.TS
+box center tab(|);
+l | l.
+Lesen (r) | Dateiinhalt ansehen / Ordner auflisten
+Schreiben (w) | Datei verändern / Dateien im Ordner hinzufügen oder löschen
+Ausführen (x) | Programm starten / Ordner öffnen
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Berechtigungen anzeigen lassen {{{
+.NEWSLIDE
+.HEADING 1 "Berechtigungen anzeigen lassen"
+.QUOTE
+Mit \*[BOLDER]ls -l\*[BOLDERX] lassen sich die Berechtigungen, Eigentümer und Gruppen einer Datei anzeigen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE ADJUST -1
+.CODE BREAK
+ls -l
+
+# Beispielausgabe:
+-rwxr-xr--  1 nick users   1234 Mär  5 10:00 skript.sh
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.LIST
+.ITEM 10p
+rwx: Der Besitzer \*[BOLDER]nick\*[BOLDERX] darf die Datei lesen, schreiben und ausführen.
+.ITEM 10p
+r-x: Mitglieder der Gruppe \*[BOLDER]users\*[BOLDERX] dürfen die Datei lesen und ausführen, aber nicht schreiben.
+.ITEM 10p
+r--: Alle anderen dürfen die Datei nur lesen.
+.LIST OFF
+.\": }}}
+.
+.\": Eigentümer und Gruppe ändern {{{
+.NEWSLIDE
+.HEADING 1 "Eigentümer und Gruppe ändern"
+.QUOTE
+Mit \*[BOLDER]chown\*[BOLDERX] (change owner) und \*[BOLDER]chgrp\*[BOLDERX] kann man den Besitzer und die Gruppe einer Datei ändern.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Besitzer ändern
+chown benutzer datei.txt
+
+# Besitzer und Gruppe ändern
+chown benutzer:gruppe datei.txt
+
+# Nur Gruppe ändern
+chgrp gruppe datei.txt
+
+# Rekursiv auf Verzeichnisse anwenden
+chown -R benutzer:gruppe ordner/
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Berechtigungen setzen {{{
+.NEWSLIDE
+.HEADING 1 "Berechtigungen setzen"
+.QUOTE
+Mit \*[BOLDER]chmod\*[BOLDERX] können Berechtigungen gesetzt werden.  
+Dies ist möglich mit Buchstaben oder Zahlen (Oktalnotation).
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Mit Buchstaben
+chmod \m[red]u\m[]\*[BOLDER]+\*[BOLDERX]\m[blue]x\m[] datei.sh   # \m[red]Benutzer\m[] \*[BOLDER]darf\*[BOLDERX] \m[blue]ausführen\m[]
+chmod \m[red]g\m[]\*[BOLDER]-\*[BOLDERX]\m[blue]w\m[] datei.txt  # \m[red]Gruppe\m[] darf \*[BOLDER]nicht\*[BOLDERX] mehr \m[blue]schreiben\m[]
+chmod \m[red]o\m[]\*[BOLDER]+\*[BOLDERX]\m[blue]r\m[] datei.txt  # \m[red]Andere\m[] \*[BOLDER]dürfen\*[BOLDERX] \m[blue]lesen\m[]
+
+# Mit Zahlen (r=4, w=2, x=1)
+chmod 755 datei.sh   # rwx für Benutzer, rx für Gruppe/Andere
+chmod 644 datei.txt  # rw für Benutzer, r für Gruppe/Andere
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE
+\*[BOLDER] Achtung: Ordner müssen immer ausführbar sein!\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
 .\": Hilfe bei Kommandos erhalten {{{
 .NEWSLIDE
 .HEADING 1 "Hilfe bei Kommandos erhalten"
@@ -1061,7 +1234,6 @@ man cp
 .\": Der Linux Bootvorgang {{{
 .NEWSLIDE
 .HEADING 1 "Der Linux Bootvorgang"
-.SPACE
 .BOX PS
 .PS
 box "Hardware Start" "BIOS/UEFI" "POST" wid 3 ht 2
@@ -1080,6 +1252,8 @@ box "User Slice" "User units" wid 3 ht 2
 .BOX OFF
 .QUOTE
 Das Init System startet für alle Funktionen (WLAN, Display...) das richtige Programm - \*[BOLDER]einen Prozess\*[BOLDERX]
+
+\*[BOLDER]Systemd Slice\*[BOLDERX] = Kapselung von Ressourcen und Berechtigungen → \*[BOLDER]Container\*[BOLDERX]
 .QUOTE OFF
 .\": }}}
 .
