@@ -74,50 +74,52 @@ arrow down right from H.b; box "Erwartungen an diesen Kurs" wid 3
 .ITEM 10p
 Bitte immer \*[BOLDER]SOFORT FRAGEN\*[BOLDERX] wenn etwas unverständlich ist
 .ITEM 10p
-Pausen und Mittagszeiten
+Wenn der Kurs zu eintönig, langweilig oder zu schwer ist, \*[BOLDER]SOFORT MELDEN\*[BOLDERX]
 .ITEM 10p
-Donnerstag kleiner Test mit Note
+Diese Präsentation wird euch über GitHub zur Verfügung gestellt - bitte aktuell halten!
 .ITEM 10p
-Mitarbeit Spielt auch eine Rolle
+Donnerstag kleiner Test (ca 20-30 min.) mit Note - Multiple Choice und Freitext Fragen.
+.ITEM 10p
+Mitarbeit Spielt für die Bewertung auch eine Rolle
+.ITEM 10p
+Anfangs und Endzeiten sowie Pausen und Mittagszeiten
 .LIST OFF
 .\": }}}
 .
 .\": Wochenüberblick {{{
 .NEWSLIDE
 .HEADING 1 "Wochenüberblick"
-.SPACE
-.LIST
-.ITEM 10p
-\*[BOLDER]Montag:\*[BOLDERX] Einführung, Distributionen, Desktop, Installation
-.ITEM 10p
-\*[BOLDER]Dienstag:\*[BOLDERX] Linux Grundlagen, Prozesse, Shell Scripting
-.ITEM 10p
-\*[BOLDER]Mittwoch:\*[BOLDERX] Systemd, Logging, SSH, Netzwerk
-.ITEM 10p
-\*[BOLDER]Donnerstag:\*[BOLDERX] Sicherheit, Backups, Virtualisierung, Container
-.LIST OFF
-.\": }}}
-.
-.\": Minecraft Server Projekt {{{
-.NEWSLIDE
-.HEADING 1 "Minecraft Server Projekt"
-.SPACE
-.LIST DIGIT
-.ITEM 10p
-Debian Server-VM ohne grafische Oberfläche aufsetzen
-.ITEM 10p
-Java und sonstige Abhängigkeiten installieren
-.ITEM 10p
-Service-Benutzer und Gruppe für Minecraft anlegen
-.ITEM 10p
-Minecraft Server Software finden, z.B. PaperMc
-.ITEM 10p
-Systemd-Service für Minecraft Server erstellen
-.ITEM 10p
-Automatische Backups der Welt einrichten
-.ITEM 10p
-SSH Zugang zum Server mit Schlüsseldatei einrichten
-.LIST OFF
+.QUOTE
+Als kleines Praxisprojekt kam die Idee auf, nach der Theorie am Nachmittag,
+einen Minecraft-Server in 2er- bis 3er-Teams aufzusetzen und zu konfigurieren.
+.QUOTE OFF
+.BOX TS
+.TS
+box center tab(|);
+lB | lB | lB
+- - -
+l | l | l
+l | l | l
+- - -
+l | l | l
+l | l | l
+- - -
+l | l | l
+l | l | l
+- - -
+l | l | l
+l | l | l.
+Wochentag | Vormittag | Nachmittag
+Montag | Organisatorisches • Einstieg in GNU/Linux | Vorstellung Minecraft-Projekt
+       | Installation der VM • Shellgrundlagen | Installation der Server-VM
+Dienstag | Benutzer & Berechtigungen • Softwareinstallation | Java installieren • Minecraft benutzer
+       | Prozesse, Systemd & Timer | Minecraft-Server installieren
+Mittwoch | Shell-Scripting • Logging | Systemd Service
+         | SSH Grundlagen | Systemd Timer Backup Skript
+Donnerstag | Minecraft-Server SSH konfigurieren & testen | Test schreiben
+           | Testvorbereitung | Feedback
+.TE
+.BOX OFF
 .\": }}}
 .
 .\": Einführung - Was ist Linux? - Rechercheaufgabe{{{
@@ -142,7 +144,9 @@ Was ist ein Display-Server?
 Wie unterscheiden sich Xorg und Wayland?
 .LIST OFF
 .SPACE
+.CENTER_BLOCK
 .pdfhref W -D "https://labex.io/linuxjourney" "Linux interaktiv Lernen"
+.CENTER_BLOCK OFF
 .\": }}}
 .
 .\": Was ist Linux? {{{
@@ -1135,6 +1139,21 @@ Lege einen Symbolischen Link von einer Dateiebene über deinem aktuellen Verzeic
 Zeige die ersten 2 und letzten 10 Zeilen von `test.txt`, sowie einmal die gesamte Datei an
 .ITEM 10p
 Suche in `test.txt` nach einem bestimmten Wort, das du vorher hineingeschrieben hast
+.LIST OFF
+.\": }}}
+.
+.\": Praxisprojekt Minecraft-Server (Teil 1) {{{
+.NEWSLIDE
+.HEADING 1 "Praxisprojekt Minecraft-Server"
+.LIST DIGIT
+.ITEM 10p
+Lege eine neue virtuelle Maschine in VirtualBox an und installiere ein aktuelles Debian-System – bewusst \*[BOLDER]ohne grafische Benutzeroberfläche\*[BOLDERX], um den Fokus auf die Shell zu legen.
+.ITEM 10p
+Richte in VirtualBox die notwendigen Portfreigaben ein:
+• \*[BOLDER]Port 22/TCP\*[BOLDERX] für den SSH-Zugang
+• \*[BOLDER]Port 25565/TCP\*[BOLDERX] für den Minecraft-Server
+.ITEM 10p
+Mache dich mit der Bedienung der Kommandozeile und den ersten Linux-Grundbefehlen vertraut – dies wird später für die Administration des Servers wichtig.
 .LIST OFF
 .\": }}}
 .
@@ -2241,6 +2260,25 @@ systemctl eingabe NAME.timer
 .QUOTE_CENTER
 .\": }}}
 .
+.\": Praxisprojekt Minecraft-Server (Teil 2) {{{
+.NEWSLIDE
+.HEADING 1 "Praxisprojekt Minecraft-Server"
+.LIST DIGIT
+.ITEM 10p
+Aktualisiere das gesamte System mit den offiziellen Paketquellen, um Sicherheit und Stabilität sicherzustellen.
+.ITEM 10p
+Installiere eine geeignete Java-Version (\*[BOLDER]headless\*[BOLDERX]), da der Server keine grafische Oberfläche benötigt.
+.ITEM 10p
+Lege einen dedizierten \*[BOLDER]Minecraft-Service-Benutzer\*[BOLDERX] an, unter dem der Server später betrieben wird.
+.ITEM 10p
+Suche im Dateisystem einen geeigneten Speicherort für die Minecraft-Server-Dateien, und lege dort ein neues Verzeichnis mit den entsprechenden Zugriffsrechten an.
+.ITEM 10p
+Recherchiere im Internet nach passender Minecraft-Server-Software, z. B. den offiziellen Mojang-Server oder PaperMC (für Plugin-Unterstützung). Achte auf die \*[BOLDER]Kompatibilität mit der installierten Java-Version\*[BOLDERX].
+.ITEM 10p
+Teste und starte den Minecraft-Server zunächst manuell, um sicherzustellen, dass er korrekt funktioniert.
+.LIST OFF
+.\": }}}
+.
 .\": Was ist ein Shell Skript? {{{
 .NEWSLIDE
 .HEADING 1 "Was ist ein Shell Skript?"
@@ -2768,261 +2806,6 @@ Suche Hardwarefehler mit dmesg | grep -i error.
 .LIST OFF
 .\": }}}
 .
-.\": Netzwerkgrundlagen {{{
-.NEWSLIDE
-.HEADING 1 "Netzwerkgrundlagen"
-.SPACE 1
-.BOX PIC
-.PS
-C: ellipse "Netzwerk" wid 2
-
-arrow up .8 from C.n; "IPv4/IPv6" above
-arrow up right from C.ne; "DHCP" ljust above
-arrow up left from C.nw; "DNS" rjust above
-
-arrow left .8 from C.w; "ping " rjust
-arrow right .8 from C.e; " sockets" ljust
-
-arrow down .8 from C.s; "TCP/UDP" below
-arrow down right from C.se; "Interfaces" ljust below
-arrow down left from C.sw; "OSI-Modell" rjust below
-.PE
-.BOX OFF
-.\": }}}
-.
-.\": Statusinformationen anzeigen {{{
-.NEWSLIDE
-.HEADING 1 "Statusinformationen anzeigen"
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-# Aktuelle IP-Adressen (IPv4 und IPv6) für alle Interfaces anzeigen
-ip address show
-
-# Routing-Tabelle inklusive Metric anzeigen
-ip route show
-
-# Aktive Netzwerkverbindungen und Ports (ähnlich wie netstat)
-ss -tulnp # ss = Moderne Alternative zu netstat
-
-# Verbindung Schließen
-kill (-9) PID_AUS_SS
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Netzwerkverbindung Testen {{{
-.NEWSLIDE
-.HEADING 1 "Netzwerkverbindung Testen"
-.QUOTE
-Wenn man einen Ping über das Netzwerk senden kann und der Zielrechner
-eine Antwort zurückschickt, zeigt das, dass die Konfiguration korrekt
-funktioniert. ICMP (Ping) wird in manchen Netzwerken blockiert – in solchen
-Fällen kann man sich damit behelfen, eine Webseite per HTTP herunterzuladen.
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-# ICMP Ping senden
-ping google.de
-ping 1.1.1.1
-
-# HTTP Request (Webseite Herunterladen)
-wget google.de
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Hostname Konfiguration {{{
-.NEWSLIDE
-.HEADING 1 "Hostname Konfiguration"
-.QUOTE
-Der Hostname gibt den Namen des Rechners innerhalb des lokalen Netzwerks an
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-# @root
-nano /etc/hostname
-MEIN_NAME
-
-# Hostname anzeigen
-hostname
-
-# Hostname für Netzwerke anzeigen
-getent hosts
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": DNS Server Konfiguration {{{
-.NEWSLIDE
-.HEADING 1 "DNS Server Konfiguration"
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK ADJUST -1
-# @root
-nano /etc/resolv.conf
-nameserver 1.1.1.1
-nameserver 8.8.8.8
-
-# DNS Server Testen
-dig google.de
-
-# IP adresse für Domain
-nslookup google.dein
-
-# Reverse-lookup - Domain für IP
-host 1.1.1.1
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Statische Hostname Auflösung {{{
-.NEWSLIDE
-.HEADING 1 "Statische Hostname Auflösung"
-.QUOTE
-Wenn dem DNS-Server der Name, z.B. 'vpn', eines lokalen Rechners nicht bekannt
-ist, kann man in der Hosts-Datei für jede IP-Adresse einen Hostnamen und eine
-Domain-Konfiguration eintragen und so auch im lokalen Netzwerk Namen anstelle
-von IP-Adressen verwenden – ganz ohne eigenen DNS-Server.
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK
-# @root
-nano /etc/hosts
-
-127.0.0.1       localhost
-127.0.1.1       pc-nh2.ts13.lan pc-nh2
-::1     localhost ip6-localhost ip6-loopback
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Netzwerk Frontends {{{
-.NEWSLIDE
-.HEADING 1 "Netzwerk Frontends"
-.SPACE 1
-.BOX PIC
-.PS
-Start: box "ip Befehl" wid 2
-arrow down 1 left 1.5 from Start.b; box "ifup/down" "/etc/network/interfaces" wid 2.5 ht 1
-arrow down 1 from Start.b; box "Network Manager" "nmtui/nmcli" wid 2.5 ht 1
-arrow down 1 right 1.5 from Start.b; box "Systemd Networkd" "Network Units" wid 2.5 ht 1
-.PE
-.BOX OFF
-.\": }}}
-.
-.\": ifup/down IPv4 über DHCP (Standard) {{{
-.NEWSLIDE
-.HEADING 1 "ifup/down IPv4 über DHCP (Standard)"
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK ADJUST -1
-# @root
-nano /etc/network/interfaces
-
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet dhcp
-
-# Netzwerk Neustarten und Konfiguration einlesen
-systemctl restart networking.service
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": ifup/down IPv4 über feste IP {{{
-.NEWSLIDE
-.HEADING 1 "ifup/down IPv4 über feste IP"
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK ADJUST -1
-# @root
-nano /etc/network/interfaces
-
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet static
-    address 192.168.1.10
-    netmask 255.255.255.0
-
-# Netzwerk Neustarten und Konfiguration einlesen
-systemctl restart networking.service
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Interfaces an- und ausschalten {{{
-.NEWSLIDE
-.HEADING 1 "Interfaces an- und ausschalten"
-.QUOTE
-Wenn das Netzwerkinterface heruntergefahren wird, sind keine Verbindungen mehr
-möglich. Wird es gestartet, wird die aktuelle Konfiguration aus
-/etc/network/interfaces geladen.
-.QUOTE OFF
-.QUOTE_LEFT
-.CENTER_BLOCK
-.QUOTE
-.CODE BREAK ADJUST -1
-# @root
-
-# Interface anschalten
-ifup INTERFACENAME
-
-# Interface ausschalten
-ifdown INTERFACENAME
-.QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.\": }}}
-.
-.\": Übungsaufgabe 9: Netzwerkbefehle {{{
-.NEWSLIDE
-.HEADING 1 "Übungsaufgabe 9: Netzwerkbefehle"
-.LIST DIGIT
-.ITEM 10p
-Zeige die aktuellen IP-Adressen (IPv4 und IPv6) und Routing-Tabelle an
-.ITEM 10p
-Liste alle aktiven Netzwerkverbindungen und zugehörige Ports auf
-.ITEM 10p
-Prüfe die Erreichbarkeit von google.de per ICMP (Ping) und HTTP
-.ITEM 10p
-Ändere den Hostnamen des Systems dauerhaft in /etc/hostname und zeige in an
-.ITEM 10p
-Trage den DNS-Server 1.1.1.1 in die Resolver-Konfiguration ein
-.ITEM 10p
-Ermittle die IP-Adresse einer Domain per nslookup und führe einen Reverse-Lookup durch
-.ITEM 10p
-Löse die IP-Adresse deines Banknachbarn über den Hostnamen nachbar.sepe.local auf
-.ITEM 10p
-Konfiguriere ein Interface mit statischer IP und danach wieder mit DHCP in der interfaces-Datei
-.ITEM 10p
-Aktiviere und Deaktiviere ein Netzwerkinterface manuell
-.LIST OFF
-.\": }}}
-.
 .\": SSH - Die Idee {{{
 .NEWSLIDE
 .HEADING 1 "SSH - Die Idee"
@@ -3172,9 +2955,9 @@ macht aber die automatische Anmeldung ohne Benutzereingabe unmöglich.
 .QUOTE OFF
 .\": }}}
 .
-.\": Übungsaufgabe 10: SSH {{{
+.\": Übungsaufgabe 9: SSH {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe 10: SSH"
+.HEADING 1 "Übungsaufgabe 9: SSH"
 .LIST DIGIT
 .ITEM 10p
 Installiere über apt das Paket openssh-server und stelle sicher, dass der
@@ -3194,5 +2977,84 @@ Testet die Anmeldung per SSH-Schlüssel ohne Passwortabfrage.
 .ITEM 10p
 Kopiert anschließend Dateien und Ordner per scp von einem Computer auf den
 anderen
+.LIST OFF
+.\": }}}
+.
+.\": Praxisprojekt Minecraft-Server (Teil 3) {{{
+.NEWSLIDE
+.HEADING 1 "Praxisprojekt Minecraft-Server"
+.LIST DIGIT
+.ITEM 10p
+Erstelle eine eigene \*[BOLDER]systemd-Service-Unit\*[BOLDERX] für den Minecraft-Server.
+Der Service soll unter dem Minecraft-Benutzer laufen und nur die nötigen Zugriffsrechte auf den Server-Ordner haben.
+.ITEM 10p
+Achte darauf, dass der Dienst im Fehlerfall automatisch neu startet und mit dem System hochfährt.
+.ITEM 10p
+Überprüfe die Rechtevergabe: Nur der Minecraft-Benutzer darf im Installationsordner schreiben, andere Benutzer haben keinen Zugriff.
+.ITEM 10p
+Teste, ob der Dienst korrekt startet und im Hintergrund stabil läuft.
+.ITEM 10p
+Erstelle ein Backup-Skript, das den gesamten Minecraft-Ordner sichert, und richte einen \*[BOLDER]systemd-Timer\*[BOLDERX] ein, um regelmäßige Backups automatisiert durchzuführen.
+.LIST OFF
+.\": }}}
+.
+.\": Praxisprojekt Minecraft-Server (Teil 4) {{{
+.NEWSLIDE
+.HEADING 1 "Praxisprojekt Minecraft-Server"
+.LIST DIGIT
+.ITEM 10p
+Richte den \*[BOLDER]SSH-Zugang\*[BOLDERX] für den Server ein. Deaktiviere die Root-Anmeldung
+und erlaubt ausschließlich die Anmeldung eines Administrationsbenutzers per \*[BOLDER]SSH-Schlüssel\*[BOLDERX]
+.ITEM 10p
+Überprüfe die Konfiguration des Minecraft-Servers und passe bei Bedarf Parameter in der \*[BOLDER]server.properties\*[BOLDERX]-Datei an (z. B. Servername, Whitelist, maximale Spielerzahl).
+.ITEM 10p
+Starte den Server und teste, ob ein Beitritt über einen Minecraft-Client möglich ist.
+.ITEM 10p
+Gehe offene Fragen im Team durch und reflektiere gemeinsam, welche Schritte noch optimiert werden können.
+.LIST OFF
+.\": }}}
+.
+.\": Testrelevante Themen {{{
+.NEWSLIDE
+.HEADING 1 "Testrelevante Themen"
+.LIST DIGIT
+.ITEM 10p
+Linux, GNU und Unix – Herkunft, Unterschiede, Open Source
+.ITEM 10p
+Desktop-Umgebungen, Display-Server, Distributionen
+.ITEM 10p
+Filesystem Hierarchy Standard (FHS)
+.ITEM 10p
+Shell und grundlegende Befehle: ls, cd, cp, mkdir, touch, echo, mv, rm, ln, cut, grep, nano, vim
+.ITEM 10p
+Berechtigungen unter Linux: sudo, Benutzer & Gruppen anlegen/löschen
+.ITEM 10p
+Dateiberechtigungen mit chmod und chown setzen
+.ITEM 10p
+Prozesse: Was ist ein Prozess, Zustände, Nice-Wert, Vorder-/Hintergrundprozesse, PIDs, Signale
+.ITEM 10p
+Systemd: Grundlagen, Aufbau eines Services, Timer vs. Cron
+.ITEM 10p
+Umgebungsvariablen, stdout/stderr, Umleiten und Pipen
+.ITEM 10p
+SSH-Konfiguration inkl. Schlüsseldateien
+.LIST OFF
+.\": }}}
+.
+.\": Feedback & Auswertung {{{
+.NEWSLIDE
+.HEADING 1 "Feedback & Auswertung"
+.SPACE
+.LIST DIGIT
+.ITEM 10p
+Was hat euch in dieser Woche besonders gut gefallen?
+.ITEM 10p
+Gab es Themen, die ihr noch ausführlicher behandelt haben wollt?
+.ITEM 10p
+Welche Inhalte waren für euch am wichtigsten oder spannendsten?
+.ITEM 10p
+Was hat euch weniger gefallen oder war schwer verständlich?
+.ITEM 10p
+Was nehmt ihr aus dem Kurs für eure weitere Arbeit mit Linux mit?
 .LIST OFF
 .\": }}}
