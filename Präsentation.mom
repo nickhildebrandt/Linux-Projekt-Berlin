@@ -1113,6 +1113,31 @@ vim datei.txt
 .QUOTE_CENTER
 .\": }}}
 .
+.\": Übungsaufgabe 1: Kommandozeilen-Basics & Editoren {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe 1: Kommandozeilen-Basics & Editoren"
+.LIST DIGIT
+.ITEM 10p
+Lege in deinem Home-Verzeichnis einen neuen Ordner `uebung` an und wechsle in diesen Ordner
+.ITEM 10p
+Erstelle darin eine neue Datei `test.txt` und schreibe mit einem Editor einen kurzen Text hinein
+.ITEM 10p
+Zeige dein aktuelles Arbeitsverzeichnis an und überprüfe den Inhalt des Ordners
+.ITEM 10p
+Kopiere die Datei `test.txt` in eine neue Datei `kopie.txt` im selben Ordner
+.ITEM 10p
+Verschiebe die Datei `kopie.txt` in ein neu erstelltes Unterverzeichnis `backup`
+.ITEM 10p
+Lösche anschließend den gesamten Ordner `backup`
+.ITEM 10p
+Lege einen Symbolischen Link von einer Dateiebene über deinem aktuellen Verzeichnis auf `test.txt` an
+.ITEM 10p
+Zeige die ersten 2 und letzten 10 Zeilen von `test.txt`, sowie einmal die gesamte Datei an
+.ITEM 10p
+Suche in `test.txt` nach einem bestimmten Wort, das du vorher hineingeschrieben hast
+.LIST OFF
+.\": }}}
+.
 .\": Administratorberechtigungen unter Linux {{{
 .NEWSLIDE
 .HEADING 1 "Administratorberechtigungen unter Linux"
@@ -1451,23 +1476,23 @@ Oktalwert | Symbolische Darstellung
 .BOX OFF
 .\": }}}
 .
-.\": Übungsaufgabe: Benutzer, Gruppen & Berechtigungen {{{
+.\": Übungsaufgabe 2: Benutzer, Gruppen & Berechtigungen {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Benutzer, Gruppen & Berechtigungen"
+.HEADING 1 "Übungsaufgabe 2: Benutzer, Gruppen & Berechtigungen"
 .SPACE
 .LIST DIGIT
 .ITEM 10p
-Arbeite als Administrator und lege einen neuen Benutzer an.
+Arbeite als Administrator und lege einen neuen Benutzer an
 .ITEM 10p
-Erstelle eine neue Gruppe und füge den Benutzer dieser Gruppe hinzu.
+Erstelle eine neue Gruppe und füge den Benutzer dieser Gruppe hinzu
 .ITEM 10p
-Lege einen gemeinsamen Ordner an, in dem nur Mitglieder der Gruppe lesen und schreiben dürfen.
+Lege einen gemeinsamen Ordner an, in dem nur Mitglieder der Gruppe lesen und schreiben dürfen
 .ITEM 10p
-Erstelle einen zweiten Benutzer der die daten im Ordner nur Lesen kann.
+Erstelle einen zweiten Benutzer der die daten im Ordner nur Lesen kann
 .ITEM 10p
-Entziehe allen anderen Benutzern (außer Besitzer und Gruppe) die Rechte auf diesen Ordner.
+Entziehe allen anderen Benutzern (außer Besitzer und Gruppe) die Rechte auf diesen Ordner
 .ITEM 10p
-Prüfe mit verschiedenen Benutzern, ob die Berechtigungen korrekt greifen.
+Prüfe mit verschiedenen Benutzern, ob die Berechtigungen korrekt greifen
 .LIST OFF
 .\": }}}
 .
@@ -1588,9 +1613,9 @@ flatpak install flathub org.mozilla.firefox
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe: Paketverwaltung (APT & Flatpak) {{{
+.\": Übungsaufgabe 3: Paketverwaltung (APT & Flatpak) {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Paketverwaltung mit APT & Flatpak"
+.HEADING 1 "Übungsaufgabe 3: Paketverwaltung mit APT & Flatpak"
 .SPACE
 .LIST DIGIT
 .ITEM 10p
@@ -1885,9 +1910,9 @@ pkill SIGNAL_NUMMER NAME
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgaben – Prozesse unter Linux {{{
+.\": Übungsaufgaben 4 – Prozesse unter Linux {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgaben – Prozesse unter Linux"
+.HEADING 1 "Übungsaufgaben 4 – Prozesse unter Linux"
 .SPACE
 .LIST DIGIT
 .ITEM 5p
@@ -2028,9 +2053,9 @@ Status anzeigen
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe: Eigener System Service {{{
+.\": Übungsaufgabe 5: Eigener System Service {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Eigener Systemd Service"
+.HEADING 1 "Übungsaufgabe 5: Eigener Systemd Service"
 .QUOTE
 Erstelle und starte mithilfe der Vorlage in /etc/systemd/system/test.service einen Service für den Befehl sleep infinity
 .QUOTE OFF
@@ -2187,9 +2212,9 @@ Timer aktivieren
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe Aufgabenplanung {{{
+.\": Übungsaufgabe 6: Aufgabenplanung {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Aufgabenplanung"
+.HEADING 1 "Übungsaufgabe 6: Aufgabenplanung"
 .LIST DIGIT
 .ITEM 10p
 Erstelle mit dem Befehl 'crontab -e' eine Crontab für den Root-Benutzer, die jede Stunde den Befehl 'echo "Hallo Welt"' ausführt.
@@ -2436,9 +2461,9 @@ find / -name datei 2>/dev/null
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe: Benutzer-Log {{{
+.\": Übungsaufgabe 7: Benutzer-Log {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Benutzer-Log"
+.HEADING 1 "Übungsaufgabe 7: Benutzer-Log"
 .QUOTE_LEFT
 .QUOTE
 Schreibe ein Bash-Skript, das:
@@ -2616,9 +2641,9 @@ done
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe: Interaktives Skript mit Argumenten {{{
+.\": Übungsaufgabe 8: Interaktives Skript mit Argumenten {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Interaktives Skript mit Argumenten"
+.HEADING 1 "Übungsaufgabe 8: Interaktives Skript mit Argumenten"
 .LIST DIGIT
 .ITEM 10p
 Brich das Skript bei Fehlern, nicht gesetzten Variablen oder Pipe-Fehlern ab
@@ -2690,24 +2715,6 @@ Kernel, Hardware oder Systemdienste – unterscheiden sie sich vor allem im
 Detailgrad und Kontext der protokollierten Ereignisse.
 .QUOTE OFF
 .BOX OFF
-.\": }}}
-.
-.\": Übungsaufgabe: Logs auslesen und durchsuchen {{{
-.NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Logs auslesen und durchsuchen"
-.SPACE 1
-.LIST DIGIT
-.ITEM 10p
-Lies mit journalctl -b das Log des aktuellen Bootvorgangs aus und beschreibe, was angezeigt wird.
-.ITEM 10p
-Zeige mit journalctl -k alle Kernelmeldungen an und erkläre, woran du sie erkennst.
-.ITEM 10p
-Finde mit journalctl -u ssh alle Logeinträge des SSH-Dienstes.
-.ITEM 10p
-Durchsuche mit journalctl | grep -i failed das Journal nach fehlgeschlagenen Aktionen.
-.ITEM 10p
-Zeige mit systemctl list-units --failed alle fehlgeschlagenen systemd-Units an.
-.LIST OFF
 .\": }}}
 .
 .\": Logs automatisch Löschen {{{
@@ -2991,9 +2998,9 @@ ifdown INTERFACENAME
 .QUOTE_CENTER
 .\": }}}
 .
-.\": Übungsaufgabe: Netzwerkbefehle {{{
+.\": Übungsaufgabe 9: Netzwerkbefehle {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: Netzwerkbefehle"
+.HEADING 1 "Übungsaufgabe 9: Netzwerkbefehle"
 .LIST DIGIT
 .ITEM 10p
 Zeige die aktuellen IP-Adressen (IPv4 und IPv6) und Routing-Tabelle an
@@ -3165,9 +3172,9 @@ macht aber die automatische Anmeldung ohne Benutzereingabe unmöglich.
 .QUOTE OFF
 .\": }}}
 .
-.\": Übungsaufgabe: SSH {{{
+.\": Übungsaufgabe 10: SSH {{{
 .NEWSLIDE
-.HEADING 1 "Übungsaufgabe: SSH"
+.HEADING 1 "Übungsaufgabe 10: SSH"
 .LIST DIGIT
 .ITEM 10p
 Installiere über apt das Paket openssh-server und stelle sicher, dass der
