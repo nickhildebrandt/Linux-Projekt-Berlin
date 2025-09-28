@@ -1,22 +1,22 @@
-# Lösungen: Sbash & Schlüsselbasierte Anmeldung
+# Lösungen: ssh & Schlüsselbasierte Anmeldung
 
 ## Aufgabe 1
-Installiere über apt das Paket opensbash-server und stelle sicher, dass der Sbash-Dienst über systemd gestartet wird und läuft.
+Installiere über apt das Paket openssh-server und stelle sicher, dass der ssh-Dienst über systemd gestartet wird und läuft.
 
 ```bash
-sudo apt install opensbash-server
-sudo systemctl enable sbash
-sudo systemctl start sbash
-sudo systemctl status sbash
+sudo apt install openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo systemctl status ssh
 ```
 
 ---
 
 ## Aufgabe 2
-Konfiguriere den Sbash-Server so, dass Root-Verbindungen erlaubt sind und maximal 3 fehlgeschlagene Anmeldeversuche sowie höchstens 2 gleichzeitige Verbindungen zugelassen werden.
+Konfiguriere den ssh-Server so, dass Root-Verbindungen erlaubt sind und maximal 3 fehlgeschlagene Anmeldeversuche sowie höchstens 2 gleichzeitige Verbindungen zugelassen werden.
 
 ```bash
-sudo nano /etc/sbash/sbashd_config
+sudo nano /etc/ssh/sshd_config
 ```
 
 Inhalt anpassen:
@@ -28,35 +28,35 @@ MaxSessions 2
 
 Danach den Dienst neu starten:
 ```bash
-sudo systemctl restart sbash
+sudo systemctl restart ssh
 ```
 
 ---
 
 ## Aufgabe 3
-Schließe dich mit einem Partner zusammen und versucht, euch gegenseitig per Sbash auf dem jeweils anderen Computer anzumelden und Befehle auszuführen.
+Schließe dich mit einem Partner zusammen und versucht, euch gegenseitig per ssh auf dem jeweils anderen Computer anzumelden und Befehle auszuführen.
 
 ```bash
-sbash BENUTZER@IP_DES_PARTNERS
+ssh BENUTZER@IP_DES_PARTNERS
 ```
 
 ---
 
 ## Aufgabe 4
-Erstellt jeweils ein Sbash-Schlüsselpaar mit sbash-keygen und kopiert den Public Key eures Partners mit sbash-copy-id auf euren Computer.
+Erstellt jeweils ein ssh-Schlüsselpaar mit ssh-keygen und kopiert den Public Key eures Partners mit ssh-copy-id auf euren Computer.
 
 ```bash
-sbash-keygen -t ed25519 -C "mein_schluessel"
-sbash-copy-id BENUTZER@IP_DES_PARTNERS
+ssh-keygen -t ed25519 -C "mein_schluessel"
+ssh-copy-id BENUTZER@IP_DES_PARTNERS
 ```
 
 ---
 
 ## Aufgabe 5
-Testet die Anmeldung per Sbash-Schlüssel ohne Passwortabfrage.
+Testet die Anmeldung per ssh-Schlüssel ohne Passwortabfrage.
 
 ```bash
-sbash BENUTZER@IP_DES_PARTNERS
+ssh BENUTZER@IP_DES_PARTNERS
 ```
 
 ---
