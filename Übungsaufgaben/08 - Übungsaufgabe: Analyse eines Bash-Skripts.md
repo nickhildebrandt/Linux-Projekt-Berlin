@@ -21,7 +21,7 @@ done
 
 ---
 
-**a)** Beschreibe, was dieser Codeblock in Bezug auf die Anzahl und den Inhalt der übergebenen Kommandozeilenargumente macht.  
+**a)** Beschreibe, was dieser Codeblock in Bezug auf die Anzahl und den Inhalt der übergebenen Kommandozeilenargumente macht.
 Gehe insbesondere auf die Funktion der Schleife und des `shift`-Befehls ein.
 
 **b)** Was genau passiert, wenn du das Skript mit folgendem Befehl ausführst?

@@ -637,12 +637,13 @@ S: box "\fBShell (Konsole)\fP" \
 .BOX OFF
 .SPACE
 .QUOTE
-Linux kann sowohl mit grafischen als auch mit rein textbasierten Oberflächen genutzt werden. 
-Auf Servern wird aus Sicherheits- und Stabilitätsgründen meist kein Desktop installiert, 
+Linux kann sowohl mit grafischen als auch mit rein textbasierten Oberflächen genutzt werden.
+Auf Servern wird aus Sicherheits- und Stabilitätsgründen meist kein Desktop installiert,
 sondern ausschließlich die Shell verwendet.
 .QUOTE OFF
 .\": }}}
 .
+.\": Was ist eine Shell? {{{
 .NEWSLIDE
 .HEADING 1 "Was ist eine Shell?"
 .BOX PIC
@@ -706,8 +707,8 @@ verschiedenen Unix-Systemen zu gewährleisten.
 .NEWSLIDE
 .HEADING 1 "Grafische Terminal-Emulatoren"
 .QUOTE
-Ein grafischer Terminal-Emulator ist ein Programm mit Fensteroberfläche,  
-das ein klassisches Text-Terminal nachbildet, in dem man Befehle eingeben  
+Ein grafischer Terminal-Emulator ist ein Programm mit Fensteroberfläche,
+das ein klassisches Text-Terminal nachbildet, in dem man Befehle eingeben
 und deren Ausgaben direkt angezeigt bekommen kann.
 .QUOTE OFF
 .SPACE
@@ -797,7 +798,7 @@ pwd
 .NEWSLIDE
 .HEADING 1 "ls - anzeigen, was sich in einem Ordner befindet"
 .QUOTE
-Mit \*[BOLDER]ls\*[BOLDERX] lässt sich der Inhalt eines Verzeichnisses anzeigen.  
+Mit \*[BOLDER]ls\*[BOLDERX] lässt sich der Inhalt eines Verzeichnisses anzeigen.
 Mit der Option \*[BOLDER]-a\*[BOLDERX] werden auch versteckte Dateien (beginnen mit Punkt) angezeigt.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -821,7 +822,7 @@ ls -a
 .NEWSLIDE
 .HEADING 1 "cd – in ein anderes Verzeichnis wechseln"
 .QUOTE
-Mit \*[BOLDER]cd\*[BOLDERX] kann man zwischen Verzeichnissen wechseln.  
+Mit \*[BOLDER]cd\*[BOLDERX] kann man zwischen Verzeichnissen wechseln.
 Es lassen sich sowohl relative als auch absolute Pfade verwenden.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -845,7 +846,7 @@ cd ~
 .NEWSLIDE
 .HEADING 1 "cp – Dateien und Ordner kopieren"
 .QUOTE
-Mit \*[BOLDER]cp\*[BOLDERX] werden Dateien und Verzeichnisse kopiert.  
+Mit \*[BOLDER]cp\*[BOLDERX] werden Dateien und Verzeichnisse kopiert.
 Für Ordner muss die Option \*[BOLDER]-r\*[BOLDERX] (rekursiv) verwendet werden.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -869,7 +870,7 @@ cp -r /home/nick/Bilder /home/nick/Backup/
 .NEWSLIDE
 .HEADING 1 "mv – Dateien und Ordner verschieben/umbenennen"
 .QUOTE
-Mit \*[BOLDER]mv\*[BOLDERX] können Dateien und Verzeichnisse verschoben oder umbenannt werden.  
+Mit \*[BOLDER]mv\*[BOLDERX] können Dateien und Verzeichnisse verschoben oder umbenannt werden.
 Es ist kein rekursives Flag erforderlich.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -893,7 +894,7 @@ mv /home/nick/Bilder /home/nick/Backup/
 .NEWSLIDE
 .HEADING 1 "rm – Dateien und Ordner löschen"
 .QUOTE
-Mit \*[BOLDER]rm\*[BOLDERX] werden Dateien gelöscht.  
+Mit \*[BOLDER]rm\*[BOLDERX] werden Dateien gelöscht.
 Für ganze Ordner und deren Inhalte wird die Option \*[BOLDER]-r\*[BOLDERX] (rekursiv) benötigt.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -914,8 +915,8 @@ rm -r alter_ordner
 .NEWSLIDE
 .HEADING 1 "ln – Verknüpfungen anlegen"
 .QUOTE
-Mit \*[BOLDER]ln\*[BOLDERX] lassen sich Verknüpfungen auf Dateien erstellen.  
-Es gibt \*[BOLDER]harte Links\*[BOLDERX] (Zeigen auf die Ziel Inode Nummer)  
+Mit \*[BOLDER]ln\*[BOLDERX] lassen sich Verknüpfungen auf Dateien erstellen.
+Es gibt \*[BOLDER]harte Links\*[BOLDERX] (Zeigen auf die Ziel Inode Nummer)
 und \*[BOLDER]symbolische Links\*[BOLDERX] (zeigen auf den Ziel Pfad).
 .QUOTE OFF
 .QUOTE_LEFT
@@ -974,7 +975,7 @@ cat datei.txt
 # less – gesamte Datei mit scrolling ausgeben
 less datei.txt
 
-# head – erste Zeilen anzeigen / tail – letzte Zeilen anzeigen  
+# head – erste Zeilen anzeigen / tail – letzte Zeilen anzeigen
 head datei.txt
 head -n 5 datei.txt
 tail datei.txt
@@ -984,11 +985,89 @@ tail -f /var/log/syslog   # "live" folgen
 .QUOTE_CENTER
 .\": }}}
 .
+.\": grep – Text in Dateien suchen {{{
+.NEWSLIDE
+.HEADING 1 "grep – Text in Dateien suchen"
+.QUOTE
+\*[BOLDER]grep\*[BOLDERX] durchsucht Dateien nach Textmustern (Strings oder regulären Ausdrücken).
+So kann man gezielt Zeilen finden, ohne die gesamte Datei öffnen zu müssen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# In einer einzelnen Datei nach "Fehler" suchen
+grep "Fehler" system.log
+
+# Groß-/Kleinschreibung ignorieren (-i)
+grep -i "warnung" messages.log
+
+# Rekursiv in allen Dateien ab aktuellem Verzeichnis suchen (-r)
+grep -r "TODO"
+
+# Zeilennummern mit ausgeben: -n
+# Nur Dateinamen ausgeben: -l
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": find – Dateien im Dateisystem suchen {{{
+.NEWSLIDE
+.HEADING 1 "find – Dateien im Dateisystem suchen"
+.QUOTE
+\*[BOLDER]find\*[BOLDERX] durchsucht Verzeichnisse nach Dateien oder Ordnern
+und erlaubt die Filterung nach Typ, Name, Größe, Datum und vielem mehr.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Alle Dateien mit bestimmtem Namen finden
+find /home/nick -name "test.txt"
+
+# Suche unabhängig von Groß-/Kleinschreibung
+find /home/nick -iname "bild.jpg"
+
+# Nur Verzeichnisse (d = directory) anzeigen
+find /etc -type d
+
+# Nur reguläre Dateien (f = file) anzeigen
+find /var/log -type f
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Hilfe bei Kommandos erhalten {{{
+.NEWSLIDE
+.HEADING 1 "Hilfe bei Kommandos erhalten"
+.QUOTE
+Unter Linux gibt es mehrere Möglichkeiten, sich Hilfe zu einem Befehl anzeigen zu lassen.
+Viele Programme bieten eine \*[BOLDER]-h\*[BOLDERX]- oder \*[BOLDER]--help\*[BOLDERX]-Option.
+Detaillierte Informationen stehen in den \*[BOLDER]Manpages\*[BOLDERX] zur Verfügung.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Kurzinfo zum Befehl
+ls --help
+cp -h
+
+# Ausführliche Dokumentation (Manpage)
+man ls
+man cp
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
 .\": Dateien bearbeiten mit Nano {{{
 .NEWSLIDE
 .HEADING 1 "Dateien bearbeiten mit Nano"
 .QUOTE
-\*[BOLDER]Nano\*[BOLDERX] ist ein einfacher Texteditor für die Shell, leicht verständlich  
+\*[BOLDER]Nano\*[BOLDERX] ist ein einfacher Texteditor für die Shell, leicht verständlich
 und für Einsteiger geeignet.
 .QUOTE OFF
 .QUOTE_LEFT
@@ -1010,9 +1089,9 @@ nano datei.txt # Datei öffnen/bearbeiten
 .NEWSLIDE
 .HEADING 1 "Dateien bearbeiten mit Vim"
 .QUOTE
-\*[BOLDER]Vim\*[BOLDERX] ist ein komplexer Editor mit vielen Funktionen, der durch Plugins  
+\*[BOLDER]Vim\*[BOLDERX] ist ein komplexer Editor mit vielen Funktionen, der durch Plugins
 zu einer vollwertigen Entwicklungsumgebung erweitert werden kann.
-.pdfhref W -D "https://www.youtube.com/watch?v=-txKSRn0qeA" "Vim in 100 Sekunden" 
+.pdfhref W -D "https://www.youtube.com/watch?v=-txKSRn0qeA" "Vim in 100 Sekunden"
 .QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
@@ -1038,71 +1117,209 @@ vim datei.txt
 .NEWSLIDE
 .HEADING 1 "Administratorberechtigungen unter Linux"
 .QUOTE
-Wie unter Windows sind für systemverändernde Aktionen unter Linux höhere Rechte nötig. 
+Wie unter Windows sind für systemverändernde Aktionen unter Linux höhere Rechte nötig.
 Dafür gibt es den \*[BOLDER]Root\-Nutzer\*[BOLDERX], der volle Systemrechte hat. Oft ist das Root-Konto deaktiviert.
 Stattdessen erhalten normale Benutzer per \*[BOLDER]sudo\*[BOLDERX] oder \*[BOLDER]doas\*[BOLDERX] temporär Root-Rechte.
 .QUOTE OFF
-\*[BOLDER]Einmalig als Root einen Befehl ausführen\*[BOLDERX]:
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Ein einzelner Befehl als Root ausführen
+sudo BEFEHL z.B sudo rm -r /ordner
+
+# Eine Interaktive Root-Shell starten
+sudo -i # Mit exit wieder verlassen
+sudo -u BENUTZER # Befehle als anderer Benutzer ausführen
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE
+\*[BOLDER]Wichtig:\*[BOLDERX] Damit ein Benutzer sudo verwenden kann, muss er in der \*[BOLDER]sudo\*[BOLDERX] Gruppe sein.
+Bei einigen Distributionen wird stattdessen die Gruppe \*[BOLDER]wheel\*[BOLDERX] verwendet.
+.QUOTE OFF
+.\": }}}
+.
+.\": Benutzer & Gruppen – Einführung {{{
+.NEWSLIDE
+.HEADING 1 "Benutzer & Gruppen – Einführung"
+.QUOTE
+Linux ist ein \*[BOLDER]Mehrbenutzersystem\*[BOLDERX]: Es können mehrere Benutzer gleichzeitig am System arbeiten
+Benutzer können reale \*[BOLDER]Personen oder Dienste\*[BOLDERX] (z. B. Webserver) sein.  Benutzer werden in
+\*[BOLDER]Gruppen\*[BOLDERX] organisiert. Ein Benutzer kann in \*[BOLDER]mehreren Gruppen\*[BOLDERX] sein.
+Über Gruppen werden Berechtigungen auf Geräte, Dateien und Befehle vergeben.
+.QUOTE OFF
+.TS
+box center tab(|);
+lB | lB
+- -
+  l | l.
+Benutzer | Gruppe
+Benutzername (login) | Gruppenname
+Benutzer-ID (UID) | Gruppen-ID (GID)
+Passwort-Hash | Mitgliederliste (Benutzer)
+Passwort-Aging (min/max/warn/expire) | -
+Primäre Gruppen-ID (GID) | -
+Home-Verzeichnis | -
+Login-Shell | -
+Kommentar | Kommentar
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Benutzer & Gruppen – Informationen anzeigen {{{
+.NEWSLIDE
+.HEADING 1 "Benutzer & Gruppen – Informationen anzeigen"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Aktuellen Benutzer anzeigen
+whoami
+
+# UID, GID und alle Gruppenmitgliedschaften
+id
+
+# Nur Gruppenmitgliedschaften
+groups
+
+# Details zu einem spezifischen Eintrag
+getent passwd BENUTZERNAME
+getent group  GRUPPENNAME
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE
+Benutzer- und Gruppendaten stehen klassisch in \*[BOLDER]/etc/passwd\*[BOLDERX] und \*[BOLDER]/etc/group\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Benutzer anlegen – interaktiv (adduser) {{{
+.NEWSLIDE
+.HEADING 1 "Benutzer anlegen – interaktiv (adduser)"
+.QUOTE
+\*[BOLDER]adduser\*[BOLDERX] (Debian/Ubuntu) ist ein Assistent welcher das Home-Verzeichnis anlegt,
+Shell und Passwort setzt und eine gleichnamige Primärgruppe erstellt.
+.QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
 .CODE BREAK
-sudo apt update
+# @root
+sudo adduser alice
+
+# Folgt interaktiver Dialog (Passwort, Name, etc.)
+# Danach kann man sich als alice anmelden
+su alice
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.ITEM 10p
-\*[BOLDER]Root-Shell öffnen\*[BOLDERX]:
+.\": }}}
+.
+.\": Benutzer anlegen – nicht-interaktiv (useradd) {{{
+.NEWSLIDE
+.HEADING 1 "Benutzer anlegen – nicht-interaktiv (useradd)"
+.QUOTE
+\*[BOLDER]useradd\*[BOLDERX] ist das \*[BOLDER]low-level\*[BOLDERX]-Tool (universell verfügbar)
+was es ermöglicht, alle Einstellungen zu setzen.
+.QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
-CODE BREAK
-sudo -i        # oder: su -  (wenn Root-Account aktiv)
+.CODE BREAK
+# @root
+# -m: Home anlegen, -s: Login-Shell setzen,
+# -c: Kommentar, -U: Primärgruppe anlegen
+sudo useradd -m -s /bin/bash -c "Bob Beispiel" -U bob
+
+# Passwort für bob setzen
+sudo passwd bob
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.ITEM 10p
-\*[BOLDER]Datei sicher als Root bearbeiten\*[BOLDERX]:
+.QUOTE
+Standardwerte kommen aus \*[BOLDER]/etc/login.defs\*[BOLDERX] und \*[BOLDER]/etc/default/useradd\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Dienst-/Service-Benutzer anlegen {{{
+.NEWSLIDE
+.HEADING 1 "Dienst-/Service-Benutzer anlegen"
+.QUOTE
+Dienstkonten haben i. d. R. \*[BOLDER]keine Login-Shell\*[BOLDERX] und
+\*[BOLDER]kein Home.\*[BOLDERX] Sie dienen Prozessen (Diensten), um Rechte sauber zu trennen.
+.QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
-CODE BREAK
-sudoedit /etc/fstab
+.CODE BREAK ADJUST -1
+# @root
+# --system: UID im Systembereich <1000,
+# --shell /usr/sbin/nologin: keine Anmeldung möglich
+sudo useradd --system --no-create-home \\
+     --shell /usr/sbin/nologin neuer_dienst
+
+# Alternativ mit eigener Gruppe:
+sudo useradd --system --user-group --no-create-home \\
+     --shell /usr/sbin/nologin appuser
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.ITEM 10p
-\*[BOLDER]Benutzer zur sudo-Gruppe hinzufügen\*[BOLDERX] (Beispiel):
+.QUOTE ADJUST -1
+Service-Benutzer werden oft in \*[BOLDER]systemd-Units\*[BOLDERX] via \*[BOLDER]User=\*[BOLDERX]
+und \*[BOLDER]Group=\*[BOLDERX] gesetzt und nach dem Service benannt.
+.QUOTE OFF
+.\": }}}
+.
+.\": Benutzer löschen {{{
+.NEWSLIDE
+.HEADING 1 "Benutzer löschen"
+.QUOTE
+Beim Löschen entscheiden: Home-Verzeichnis und Mailspool mit entfernen?
+Achtung bei gemeinsam genutzten Gruppen/Verzeichnissen!
+.QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
-CODE BREAK
-sudo usermod -aG sudo nick
-# oder bei Debian-basierten Systemen: adduser nick sudo
+.CODE BREAK
+# @root
+# Komfortbefehl (Debian/Ubuntu):
+sudo deluser alice
+sudo deluser --remove-home alice   # inkl. /home/alice
+
+# Generisch:
+sudo userdel bob
+sudo userdel -r bob                # inkl. HOME und Mailspool
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.ITEM 10p
-\*[BOLDER]Sudo-Rechte sicher verwalten\*[BOLDERX]:
+.\": }}}
+.
+.\": Gruppen verwalten {{{
+.NEWSLIDE
+.HEADING 1 "Gruppen verwalten"
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
-CODE BREAK
-sudo visudo
+.CODE BREAK ADJUST -1
+# @root
+# Gruppe anlegen
+sudo groupadd developers
+
+# Benutzer zu Zusatzgruppei \*[BOLDER]sudo\*[BOLDERX] hinzufügen ⇒ Benutzer zum Admin machen
+sudo usermod -aG sudo alice
+
+# Benutzer aus Gruppe entfernen
+sudo gpasswd -d alice developers
+
+# Gruppe löschen
+sudo groupdel developers
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
-.ITEM 10p
-\*[BOLDER]Alternative zu sudo: doas\*[BOLDERX] (einfachere Konfiguration):
-.QUOTE_LEFT
-.CENTER_BLOCK
 .QUOTE
-CODE BREAK
-doas systemctl restart sshd
+\*[BOLDER]-aG\*[BOLDERX] ist entscheidend: Ohne \*[BOLDER]-a\*[BOLDERX] werden bestehende Zusatzgruppen überschrieben!
 .QUOTE OFF
-.CENTER_BLOCK OFF
-.QUOTE_CENTER
-.LIST OFF
 .\": }}}
 .
 .\": Dateiberechtigungen unter Linux {{{
@@ -1110,7 +1327,7 @@ doas systemctl restart sshd
 .HEADING 1 "Dateiberechtigungen unter Linux"
 .SPACE
 .QUOTE
-Unter Linux gibt es drei grundlegende Berechtigungen: 
+Unter Linux gibt es drei grundlegende Berechtigungen:
 \*[BOLDER]Lesen, Schreiben \*[BOLDERX] und \*[BOLDER]Ausführen \*[BOLDERX].
 Diese gelten jeweils für:
 einen \*[BOLDER]Benutzer\*[BOLDERX], eine \*[BOLDER]Gruppe\*[BOLDERX] und alle\*[BOLDER] Anderen \*[BOLDERX]
@@ -1184,7 +1401,7 @@ chown -R benutzer:gruppe ordner/
 .NEWSLIDE
 .HEADING 1 "Berechtigungen setzen"
 .QUOTE
-Mit \*[BOLDER]chmod\*[BOLDERX] können Berechtigungen gesetzt werden.  
+Mit \*[BOLDER]chmod\*[BOLDERX] können Berechtigungen gesetzt werden.
 Dies ist möglich mit Buchstaben oder Zahlen (Oktalnotation).
 .QUOTE OFF
 .QUOTE_LEFT
@@ -1207,28 +1424,190 @@ chmod 644 datei.txt  # rw für Benutzer, r für Gruppe/Andere
 .QUOTE OFF
 .\": }}}
 .
-.\": Hilfe bei Kommandos erhalten {{{
+.\": Oktalnotation von Berechtigungen {{{
 .NEWSLIDE
-.HEADING 1 "Hilfe bei Kommandos erhalten"
+.HEADING 1 "Oktalnotation von Berechtigungen"
 .QUOTE
-Unter Linux gibt es mehrere Möglichkeiten, sich Hilfe zu einem Befehl anzeigen zu lassen.  
-Viele Programme bieten eine \*[BOLDER]-h\*[BOLDERX]- oder \*[BOLDER]--help\*[BOLDERX]-Option.  
-Detaillierte Informationen stehen in den \*[BOLDER]Manpages\*[BOLDERX] zur Verfügung.
+Die Oktalnotation ist eine \*[BOLDER]Alternative zur
+Buchstabendarstellung\*[BOLDERX] (r, w, x) und fasst die Rechte für
+\m[red]Benutzer, Gruppe und Andere\m[] inform von \*[BOLDER]3 Oktalzahlen\*[BOLDERX] (0-7) zusammen.
+.QUOTE OFF
+.BOX TS
+.TS
+box center tab(|);
+lB | lB
+- -
+l | l.
+Oktalwert | Symbolische Darstellung
+0 | ---
+1 | --x
+2 | -w-
+3 | -wx
+4 | r--
+5 | r-x
+6 | rw-
+7 | rwx
+.TE
+.BOX OFF
+.\": }}}
+.
+.\": Übungsaufgabe: Benutzer, Gruppen & Berechtigungen {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Benutzer, Gruppen & Berechtigungen"
+.SPACE
+.LIST DIGIT
+.ITEM 10p
+Arbeite als Administrator und lege einen neuen Benutzer an.
+.ITEM 10p
+Erstelle eine neue Gruppe und füge den Benutzer dieser Gruppe hinzu.
+.ITEM 10p
+Lege einen gemeinsamen Ordner an, in dem nur Mitglieder der Gruppe lesen und schreiben dürfen.
+.ITEM 10p
+Erstelle einen zweiten Benutzer der die daten im Ordner nur Lesen kann.
+.ITEM 10p
+Entziehe allen anderen Benutzern (außer Besitzer und Gruppe) die Rechte auf diesen Ordner.
+.ITEM 10p
+Prüfe mit verschiedenen Benutzern, ob die Berechtigungen korrekt greifen.
+.LIST OFF
+.\": }}}
+.
+.\": Softwareinstallation unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Softwareinstallation unter Linux"
+.BOX PIC
+.PS
+Main: box "\fBInstallation über Paketmanager\fP" \
+"Installation von Webseiten nur als Letzte Option" \
+"wenn kein Paket im Paketmanager verfügbar ist" wid 7 ht 1.2
+
+arrow down left from Main.s; box  "Flatpak" wid 2 ht 0.5
+
+arrow down 1 from Main.s; box "System-Paketmanager" \
+"(APT, DNF, zypper …)" wid 3 ht 0.8
+
+arrow down right from Main.s;box "Snap" wid 2 ht 0.5
+.PE
+.BOX OFF
+.\": }}}
+.
+.\": Paketmanager unter Linux – APT {{{
+.NEWSLIDE
+.HEADING 1 "Paketmanager unter Linux – APT"
+.QUOTE
+\fBAPT\fP ist der Standard-Paketmanager für Debian, Ubuntu und viele Derivate. Es verwaltet
+Abhängigkeiten automatisch, aktualisiert \fBDEB-Pakete\fP und kann sowohl über
+Kommandozeile als auch grafische Oberflächen genutzt werden. Die Software
+stammt aus den \fBPaketquellen\fP, die regelmäßig aktualisiert werden müssen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Paketlisten aktualisieren
+sudo apt update
+
+# Installierte Pakete aktualisieren
+sudo apt upgrade
+
+# Erweiterte Aktualisierung (neue Abhängigkeiten, Kernel usw.)
+sudo apt full-upgrade
+# alias: sudo apt dist-upgrade
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+
+.\": Software installieren mit APT {{{
+.NEWSLIDE
+.HEADING 1 "Software installieren mit APT"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Paketlisten aktualisieren
+sudo apt update
+
+# Paket installieren
+sudo apt install PAKETNAME
+
+# Nach Paketen suchen
+sudo apt search SUCHBEGRIFF
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Automatische Updates & Neustart von Diensten {{{
+.NEWSLIDE
+.HEADING 1 "Automatische Updates & Neustart von Diensten"
+.QUOTE
+Mit \fBunattended-upgrades\fP können Sicherheits- und Paketupdates automatisch
+im Hintergrund eingespielt werden.
+.QUOTE OFF
+.QUOTE
+Das Tool \fBneedrestart\fP prüft nach einem Update, welche Dienste oder Bibliotheken
+neu gestartet werden müssen, damit die Änderungen wirksam werden.
 .QUOTE OFF
 .QUOTE_LEFT
 .CENTER_BLOCK
 .QUOTE
 .CODE BREAK
-# Kurzinfo zum Befehl
-ls --help
-cp -h
+# Automatische Updates aktivieren
+sudo apt install unattended-upgrades
 
-# Ausführliche Dokumentation (Manpage)
-man ls
-man cp
+# Neustart relevanter Dienste nach Updates
+sudo apt install needrestart
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
+.\": }}}
+.
+.\": Moderne Paketformate – Flatpak & Snap {{{
+.NEWSLIDE
+.HEADING 1 "Moderne Paketformate – Flatpak & Snap"
+.QUOTE
+Moderne Paketformate bündeln alle Abhängigkeiten mit in einem Paket.
+Das erleichtert die Installation verschiedener Versionen und macht die Pakete
+auf allen Linux-Distributionen nutzbar.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Flatpak installieren (Debian/Ubuntu)
+sudo apt install flatpak
+
+# Flatpak-Standard-Repository (Flathub) hinzufügen
+flatpak remote-add --if-not-exists flathub \\
+https://flathub.org/repo/flathub.flatpakrepo
+
+# Paket über Flatpak installieren
+flatpak install flathub org.mozilla.firefox
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": Übungsaufgabe: Paketverwaltung (APT & Flatpak) {{{
+.NEWSLIDE
+.HEADING 1 "Übungsaufgabe: Paketverwaltung mit APT & Flatpak"
+.SPACE
+.LIST DIGIT
+.ITEM 10p
+Aktualisiere die Paketquellen
+.ITEM 10p
+Aktualisiere alle installierten Pakete und das System
+.ITEM 10p
+Suche nach einem Programm deiner Wahl (z. B. gedit)
+.ITEM 10p
+Installiere ein Programm (z. B. htop)
+.ITEM 10p
+Konfiguration Flatpak und installiere eine Anwendung aus Flathub (z. B. Firefox)
+.ITEM 10p
+Richte automatische Updates mit unattended-upgrades ein
+.ITEM 10p
+Sorge dafür, dass nach Updates automatisch Dienste neu gestartet werden
+.LIST OFF
 .\": }}}
 .
 .\": Der Linux Bootvorgang {{{
@@ -2382,7 +2761,7 @@ Suche Hardwarefehler mit dmesg | grep -i error.
 .LIST OFF
 .\": }}}
 .
-.\":  Netzwerkgrundlagen {{{
+.\": Netzwerkgrundlagen {{{
 .NEWSLIDE
 .HEADING 1 "Netzwerkgrundlagen"
 .SPACE 1
@@ -2730,10 +3109,65 @@ scp -r ZIEL_BENUTZER@ZIEL_HOST:/PFAD SPEICHERORT
 .QUOTE_CENTER
 .\": }}}
 .
+.\": SSH-Schlüssel: Konzept (Public / Private Key) {{{
+.NEWSLIDE
+.HEADING 1 "SSH-Anmeldung mit Schlüsseldateien – Konzept"
+.QUOTE
+SSH-Schlüssel verwenden ein asymmetrisches Schlüsselpaar, bestehend aus: \*[BOLDER]Private Key\*[BOLDERX]
+(geheim, bleibt auf dem Client) und \*[BOLDER]Public Key\*[BOLDERX] (wird auf den Ziel-Server kopiert).
+So ist eineautomatische sichere Anmeldung ohne Passwort möglich.
+.QUOTE OFF
+.BOX PIC
+.PS
+Client: box "\fBClient\fP" wid 2 ht 0.5
+move down 0.5 left 0
+PublicKey: box "Public Key" wid 2 ht 0.50
+move down 0.5 right 0
+PrivateKey: box "Private Key" wid 2 ht 0.50
+move up 1 right 4
+Server: box "\fBServer\fP" wid 2 ht 0.5
+move down left 0
+ServerKeys: box "authorized_keys" wid 2 ht 0.5
+arrow right from PublicKey.e to ServerKeys.w \
+"Einmalige Übermittlung des Public-Keys" above dashed;
+arrow right from PrivateKey.e to ServerKeys.se.x+0.25,PrivateKey.e.y then up to ServerKeys.se.x+0.25,Server.e.y then left 0.25;
+"Nutzt Client zur Anmeldung am Server" at (last arrow.c.x-1.05,last arrow.s.y+0.12);
+.PE
+.BOX OFF
+.QUOTE
+Wichtig: Der \*[BOLDER]Private Key\*[BOLDERX] darf niemals weitergegeben werden.
+Der Public Key hingegen kann bedenkenlos auf beliebig vielen Servern hinterlegt werden.
+.QUOTE OFF
+.\": }}}
+.
+.\": SSH-Schlüssel: Erzeugen & auf den Server kopieren {{{
+.NEWSLIDE
+.HEADING 1 "SSH-Schlüssel erzeugen & auf Server kopieren"
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# 1) Auf dem Client: Schlüsselpaar erzeugen (ed25519 empfohlen)
+ssh-keygen -t ed25519
+# Folgen: Eingabepfad (z.B. /home/nick/.ssh/id_ed25519) und optional Passwort
+
+# 2) Public Key auf den Server kopieren (einfachste Methode)
+ssh-copy-id -i ~/.ssh/id_ed25519.pub BENUTZER@SERVER
+
+# 4) Verbindung per Schlüssel testen (mit -i Pfad zum Private Key)
+ssh BENUTZER@SERVER
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.QUOTE
+Hinweis: Das setzten eines Passworts für den Private Key erhöht die Sicherheit,
+macht aber die automatische Anmeldung ohne Benutzereingabe unmöglich.
+.QUOTE OFF
+.\": }}}
+.
 .\": Übungsaufgabe: SSH {{{
 .NEWSLIDE
 .HEADING 1 "Übungsaufgabe: SSH"
-.SPACE 1
 .LIST DIGIT
 .ITEM 10p
 Installiere über apt das Paket openssh-server und stelle sicher, dass der
@@ -2745,6 +3179,11 @@ zugelassen werden.
 .ITEM 10p
 Schließe dich mit einem Partner zusammen und versucht, euch gegenseitig per SSH
 auf dem jeweils anderen Computer anzumelden und Befehle auszuführen.
+.ITEM 10p
+Erstellt jeweils ein SSH-Schlüsselpaar mit ssh-keygen und kopiert den Public Key
+eures Partners mit ssh-copy-id auf euren Computer.
+.ITEM 10p
+Testet die Anmeldung per SSH-Schlüssel ohne Passwortabfrage.
 .ITEM 10p
 Kopiert anschließend Dateien und Ordner per scp von einem Computer auf den
 anderen
