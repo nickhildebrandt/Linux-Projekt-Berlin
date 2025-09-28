@@ -1,9 +1,9 @@
 .\" vim:fileencoding=utf-8:ft=nroff:foldmethod=marker
 .\" ! pdfmom -G -t -mpic -Kutf8 "%" > "%:r.pdf"
 .TITLE "Linux Grundlagen und Projekt Kurs"
-.SUBTITLE "Distributionen, Desktop, Installation, Kernel, Prozesse, Shell Scripting," "Systemd, Logging, SSH, Netzwerk"
+.SUBTITLE "Von den Grundlagen der Linux-Distributionen, Installation und Desktop-Umgebungen" "über die Arbeit mit Shell und Prozessen bis hin zu Systemd, Logging und SSH."
 .AUTHOR "Nick Hildebrandt"
-.MISC "Linux Projekt Kurs" "Siemens Energy"
+.MISC "Linux Projekt Kurs" "SE-BETI/FIAE-25"
 .COPYRIGHT " \*[$AUTHOR] 2025"
 .
 .\": {{{ Präsentation einrichten
@@ -798,6 +798,56 @@ pwd
 .QUOTE_CENTER
 .\": }}}
 .
+.\": Absolute vs. relative Pfade {{{
+.NEWSLIDE
+.HEADING 1 "Absolute vs. relative Pfade"
+.QUOTE
+Ein \*[BOLDER]absoluter Pfad\*[BOLDERX] beginnt immer mit \*[BOLDER]/\*[BOLDERX] und beschreibt den vollständigen Weg vom Wurzelverzeichnis aus.
+Ein \*[BOLDER]relativer Pfad\*[BOLDERX] bezieht sich auf das aktuelle Arbeitsverzeichnis, das mit \*[BOLDER]pwd\*[BOLDERX] angezeigt werden kann.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Absoluter Pfad
+cd /home/nick/Dokumente
+
+# Relativer Pfad (ein Verzeichnis höher)
+cd ..
+
+# Relativer Pfad (in Unterordner wechseln)
+cd Projekte/Linux
+
+# Absoluter Pfad zum selben Ziel
+cd /home/nick/Projekte/Linux
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": echo – Text ausgeben {{{
+.NEWSLIDE
+.HEADING 1 "echo – Text ausgeben"
+.QUOTE
+Mit \*[BOLDER]echo\*[BOLDERX] können einfache Textzeilen im Terminal ausgegeben werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Einfacher Text
+echo "Hallo Welt"
+
+# Ohne Zeilenumbruch (-n)
+echo -n "Hallo Welt"
+
+# Mit Escape-Sequenzen (-e)
+echo -e "Zeile 1\nZeile 2"
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
 .\": ls anzeigen - was sich in einem Ordner befindet {{{
 .NEWSLIDE
 .HEADING 1 "ls - anzeigen, was sich in einem Ordner befindet"
@@ -841,6 +891,50 @@ cd /home/nick/Dokumente
 
 # Zurück ins Home-Verzeichnis
 cd ~
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": mkdir – Verzeichnisse anlegen {{{
+.NEWSLIDE
+.HEADING 1 "mkdir – Verzeichnisse anlegen"
+.QUOTE
+Mit \*[BOLDER]mkdir\*[BOLDERX] können neue Verzeichnisse (Ordner) erstellt werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Ein Verzeichnis anlegen
+mkdir Projekte
+
+# Übergeordnete Verzeichnisse automatisch mit anlegen (-p)
+mkdir -p Projekte/2025/Notizen
+
+# Meldung bei Erstellung anzeigen (-v)
+mkdir -v Bilder
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": touch – Dateien erstellen & Zeitstempel ändern {{{
+.NEWSLIDE
+.HEADING 1 "touch – Dateien erstellen & Zeitstempel ändern"
+.QUOTE
+Mit \*[BOLDER]touch\*[BOLDERX] können leere Dateien erstellt oder Zeitstempel
+vorhandener Dateien aktualisiert werden.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Neue leere Datei anlegen
+touch datei.txt
+
+# Zeitstempel aktualisieren (Datei muss existieren) (-c)
+touch -c vorhandene.txt
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
