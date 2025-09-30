@@ -872,6 +872,52 @@ ls -a
 .QUOTE_CENTER
 .\": }}}
 .
+.\": Versteckte Dateien unter Linux {{{
+.NEWSLIDE
+.HEADING 1 "Versteckte Dateien unter Linux"
+.QUOTE
+Unter Linux gelten alle Dateien und Verzeichnisse als \*[BOLDER]versteckt\*[BOLDERX],
+deren Name mit einem Punkt (\*[BOLDER] . \*[BOLDERX]) beginnt. Sie werden standardmäßig
+nicht angezeigt, da sie meist Konfigurationsdateien sind.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Versteckte Dateien anzeigen (-a)
+ls -a
+
+# Nur versteckte Dateien anzeigen
+ls -d .*
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
+.\": tree – Verzeichnisbaum anzeigen {{{
+.NEWSLIDE
+.HEADING 1 "tree – Verzeichnisbaum anzeigen"
+.QUOTE
+Mit \*[BOLDER]tree\*[BOLDERX] lassen sich Verzeichnisse und deren Inhalte in
+einer \*[BOLDER]baumartigen Struktur\*[BOLDERX] darstellen.
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Einfacher Verzeichnisbaum
+tree
+
+# Nur eine bestimmte Tiefe anzeigen (-L)
+tree -L 2
+
+# Versteckte Dateien und Ordner mit anzeigen (-a)
+tree -a
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
 .\": cd – in ein anderes Verzeichnis wechseln {{{
 .NEWSLIDE
 .HEADING 1 "cd – in ein anderes Verzeichnis wechseln"
@@ -1021,10 +1067,11 @@ und \*[BOLDER]symbolische Links\*[BOLDERX] (zeigen auf den Ziel Pfad).
 .CENTER_BLOCK
 .QUOTE
 .CODE BREAK
-# Harter Link (zweiter Name für dieselbe Datei)
+# Harter Link (auf die Inode Nummer)
 ln original.txt kopie.txt
 
-# Symbolischer Link (wie eine Abkürzung)
+# Symbolischer Link (auf den Pfad)
+# Achtung: \*[BOLDER]Am besten KEINE relativen Pfade\*[BOLDERX]
 ln -s /home/nick/original.txt link.txt
 
 # Symbolischen Link löschen
@@ -1589,6 +1636,34 @@ Oktalwert | Symbolische Darstellung
 .BOX OFF
 .\": }}}
 .
+.\": umask – Standardrechte für neue Dateien & Ordner {{{
+.NEWSLIDE
+.HEADING 1 "umask – Standardrechte für neue Dateien & Ordner"
+.QUOTE
+Die \*[BOLDER]umask\*[BOLDERX] legt fest, welche Berechtigungen beim Erstellen von Dateien
+oder Verzeichnissen entfernt werden. Die Standard-umask ist \*[BOLDER]0002\*[BOLDERX]
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK ADJUST -1
+# Aktuelle umask anzeigen
+umask
+
+# Aufbau der 4 Ziffern: [optional special] [user] [group] [others]
+# 0 = keine Einschränkung, 1 = Ausführen entfernen,
+# 2 = Schreiben entfernen, 4 = Lesen entfernen
+#
+# Standardwerte (umask 0002):
+# Dateien: 666 - 0\m[red]002\m[] = 664 (rw-rw-r--) Ordner:  777 - 0\m[red]002\m[] = 775 (rwxrwxr-x)
+
+# Neue umask temporär setzen
+umask 0077   # Dateien 600, Ordner 700
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.\": }}}
+.
 .\": Übungsaufgabe 2: Benutzer, Gruppen & Berechtigungen {{{
 .NEWSLIDE
 .HEADING 1 "Übungsaufgabe 2: Benutzer, Gruppen & Berechtigungen"
@@ -1599,13 +1674,16 @@ Arbeite als Administrator und lege einen neuen Benutzer an
 .ITEM 10p
 Erstelle eine neue Gruppe und füge den Benutzer dieser Gruppe hinzu
 .ITEM 10p
-Lege einen gemeinsamen Ordner an, in dem nur Mitglieder der Gruppe lesen und schreiben dürfen
+Lege einen gemeinsamen Ordner in /tmp an, in dem nur Mitglieder der Gruppe lesen und schreiben dürfen
 .ITEM 10p
 Erstelle einen zweiten Benutzer der die daten im Ordner nur Lesen kann
 .ITEM 10p
 Entziehe allen anderen Benutzern (außer Besitzer und Gruppe) die Rechte auf diesen Ordner
 .ITEM 10p
-Prüfe mit verschiedenen Benutzern, ob die Berechtigungen korrekt greifen
+Ändere temporär deine umask so, dass neu erstellte Dateien den modus 644 und Ordner 755 haben
+.ITEM 10p
+Prüfe mit verschiedenen Benutzern, ob die Berechtigungen korrekt greifen, und
+erstelle testweise Dateien und Ordner zum prüfen der Umask
 .LIST OFF
 .\": }}}
 .
@@ -1620,10 +1698,19 @@ Main: box "\fBInstallation über Paketmanager\fP" \
 
 arrow down left from Main.s; box  "Flatpak" wid 2 ht 0.5
 
-arrow down 1 from Main.s; box "System-Paketmanager" \
+arrow down 1 from Main.s;
+SYS: box "System-Paketmanager" \
 "(APT, DNF, zypper …)" wid 3 ht 0.8
 
 arrow down right from Main.s;box "Snap" wid 2 ht 0.5
+
+
+move down 1 left 4.5
+DEB: box "DEB-Pakete" wid 1.5 ht 0.5
+move right 5.5
+RPM: box "RPM-Pakete" wid 1.5 ht 0.5
+arrow right from DEB.e to SYS.w
+arrow left from RPM.w to SYS.e
 .PE
 .BOX OFF
 .\": }}}
@@ -1673,6 +1760,31 @@ sudo apt search SUCHBEGRIFF
 .QUOTE OFF
 .CENTER_BLOCK OFF
 .QUOTE_CENTER
+.\": }}}
+.
+.\": Manuelle Installation von DEB-Paketen {{{
+.NEWSLIDE
+.HEADING 1 "Manuelle Installation von DEB-Paketen"
+.QUOTE
+In Ausnahmefällen lädt man Software direkt von einer Webseite herunter.
+Für Debian- und Ubuntu-Systeme sind dies oft \*[BOLDER] .deb \*[BOLDERX]-Dateien. Diese lassen sich
+auf grafischen Systemen per Doppelklick installieren – oder im Terminal mit \*[BOLDER]dpkg.\*[BOLDERX]
+.QUOTE OFF
+.QUOTE_LEFT
+.CENTER_BLOCK
+.QUOTE
+.CODE BREAK
+# Installation eines DEB-Pakets über das Terminal
+sudo dpkg -i paketname.deb
+.QUOTE OFF
+.CENTER_BLOCK OFF
+.QUOTE_CENTER
+.SPACE
+.QUOTE
+\*[BOLDER]Hinweis:\*[BOLDERX] APT lädt im Hintergrund ebenfalls nur DEB-Dateien herunter
+und installiert sie. Der Vorteil ist, dass APT Abhängigkeiten automatisch
+auflöst, Updates verwaltet und die Installation komfortabler macht.
+.QUOTE OFF
 .\": }}}
 .
 .\": Automatische Updates & Neustart von Diensten {{{
@@ -1746,59 +1858,6 @@ Richte automatische Updates mit unattended-upgrades ein
 .ITEM 10p
 Sorge dafür, dass nach Updates automatisch Dienste neu gestartet werden
 .LIST OFF
-.\": }}}
-.
-.\": Der Linux Bootvorgang {{{
-.NEWSLIDE
-.HEADING 1 "Der Linux Bootvorgang"
-.BOX PS
-.PS
-box "Hardware Start" "BIOS/UEFI" "POST" wid 3 ht 2
-arrow right
-box "Bootloader" "z.b. GRUB/LILO" "Linux Kernel" wid 3 ht 2
-arrow right
-box "Kernel laden" "vmlinuz &" "initrd" wid 3 ht 2
-arrow right
-box "PID 1 starten" "Init System" "Systemd" wid 3 ht 2
-arrow right
-box "Systemd Targets" "Festplatten," "Netzwerk usw." wid 3 ht 2
-move to last box.x,-1
-arrow down
-box "User Slice" "User units" wid 3 ht 2
-.PE
-.BOX OFF
-.QUOTE
-Das Init System startet für alle Funktionen (WLAN, Display...) das richtige Programm - \*[BOLDER]einen Prozess\*[BOLDERX]
-
-\*[BOLDER]Systemd Slice\*[BOLDERX] = Kapselung von Ressourcen und Berechtigungen → \*[BOLDER]Container\*[BOLDERX]
-.QUOTE OFF
-.\": }}}
-.
-.\": Runlevel und Systemd Targets {{{
-.NEWSLIDE
-.HEADING 1 "Runlevel und Systemd Targets"
-.BOX TS
-.TS
-box center nospaces tab(|);
-lB | lB | lB
-- - -
-n | l | l.
-Runlevel | Modus | Systemd Target
-0 | Herunterfahren                              | poweroff.target
-1 | Einzelbenutzermodus ohne Netzwerk und GUI   | rescue.target
-2 | Mehrbenutzerbetrieb ohne Netzwerk und GUI   | wie rescue.target
-3 | Mehrbenutzerbetrieb ohne GUI                | multi-user.target
-4 | Nicht definiert                             | Nicht definiert
-5 | Mehrbenutzerbetrieb mit GUI                 | graphical.target
-6 | Neustart                                    | reboot.target
-.TE
-.BOX OFF
-.QUOTE
-Runlevel wurden von \*[BOLDER]Systemd Targets\*[BOLDERX] abgelöst
-.QUOTE OFF
-.QUOTE
-init und runnlevel geht noch: \*[BOLDER]systemctl isolate und systemctl get-default\*[BOLDERX] ist bevorzugt
-.QUOTE OFF
 .\": }}}
 .
 .\": Was ist eigentlich ein Prozess?  {{{
@@ -2065,6 +2124,59 @@ arrow down right from C.se; "Aufgabenplanung" ljust below
 arrow down left from C.sw; "D-BUS API" rjust below
 .PE
 .BOX OFF
+.\": }}}
+.
+.\": Der Linux Bootvorgang {{{
+.NEWSLIDE
+.HEADING 1 "Der Linux Bootvorgang"
+.BOX PS
+.PS
+box "Hardware Start" "BIOS/UEFI" "POST" wid 3 ht 2
+arrow right
+box "Bootloader" "z.b. GRUB/LILO" "Linux Kernel" wid 3 ht 2
+arrow right
+box "Kernel laden" "vmlinuz &" "initrd" wid 3 ht 2
+arrow right
+box "PID 1 starten" "Init System" "Systemd" wid 3 ht 2
+arrow right
+box "Systemd Targets" "Festplatten," "Netzwerk usw." wid 3 ht 2
+move to last box.x,-1
+arrow down
+box "User Slice" "User units" wid 3 ht 2
+.PE
+.BOX OFF
+.QUOTE
+Das Init System startet für alle Funktionen (WLAN, Display...) das richtige Programm - \*[BOLDER]einen Prozess\*[BOLDERX]
+
+\*[BOLDER]Systemd Slice\*[BOLDERX] = Kapselung von Ressourcen und Berechtigungen → \*[BOLDER]Container\*[BOLDERX]
+.QUOTE OFF
+.\": }}}
+.
+.\": Runlevel und Systemd Targets {{{
+.NEWSLIDE
+.HEADING 1 "Runlevel und Systemd Targets"
+.BOX TS
+.TS
+box center nospaces tab(|);
+lB | lB | lB
+- - -
+n | l | l.
+Runlevel | Modus | Systemd Target
+0 | Herunterfahren                              | poweroff.target
+1 | Einzelbenutzermodus ohne Netzwerk und GUI   | rescue.target
+2 | Mehrbenutzerbetrieb ohne Netzwerk und GUI   | wie rescue.target
+3 | Mehrbenutzerbetrieb ohne GUI                | multi-user.target
+4 | Nicht definiert                             | Nicht definiert
+5 | Mehrbenutzerbetrieb mit GUI                 | graphical.target
+6 | Neustart                                    | reboot.target
+.TE
+.BOX OFF
+.QUOTE
+Runlevel wurden von \*[BOLDER]Systemd Targets\*[BOLDERX] abgelöst
+.QUOTE OFF
+.QUOTE
+init und runnlevel geht noch: \*[BOLDER]systemctl isolate und systemctl get-default\*[BOLDERX] ist bevorzugt
+.QUOTE OFF
 .\": }}}
 .
 .\": Wie funktioniert Systemd? {{{
@@ -3121,7 +3233,7 @@ Filesystem Hierarchy Standard (FHS)
 .ITEM 10p
 Shell und grundlegende Befehle: ls, cd, cp, mkdir, touch, echo, mv, rm, ln, cut, grep, nano, vim
 .ITEM 10p
-Berechtigungen unter Linux: sudo, Benutzer & Gruppen anlegen/löschen
+Berechtigungen unter Linux: sudo, Benutzer & Gruppen anlegen/löschen, umask setzen/berrechnen
 .ITEM 10p
 Dateiberechtigungen mit chmod und chown setzen
 .ITEM 10p
@@ -3129,9 +3241,20 @@ Prozesse: Was ist ein Prozess, Zustände, Nice-Wert, Vorder-/Hintergrundprozesse
 .ITEM 10p
 Systemd: Grundlagen, Aufbau eines Services, Timer vs. Cron
 .ITEM 10p
-Umgebungsvariablen, stdout/stderr, Umleiten und Pipen
+Shellvariablen, stdout/stderr, Umleiten und Pipen
 .ITEM 10p
 SSH-Konfiguration inkl. Schlüsseldateien
+.LIST OFF
+.\": }}}
+.
+.\": Wichtige Ressourcen für die Testvorbereitung {{{
+.NEWSLIDE
+.HEADING 1 "Wichtige Ressourcen für die Testvorbereitung"
+.LIST
+.ITEM 10p
+.pdfhref W -D "https://www.youtube.com/watch?v=rrB13utjYV4" "Linux in 100 Sekunden"
+.ITEM 10p
+.pdfhref W -D "https://www.youtube.com/watch?v=42iQKuQodW4" "Linux-Verzeichnis in 100 Sekunden"
 .LIST OFF
 .\": }}}
 .
@@ -3141,7 +3264,7 @@ SSH-Konfiguration inkl. Schlüsseldateien
 .SPACE
 .LIST DIGIT
 .ITEM 10p
-Was hat euch in dieser Woche besonders gut gefallen?
+Was hat euch in dieser Woche besonders gut gefallen und was nicht?
 .ITEM 10p
 Gab es Themen, die ihr noch ausführlicher behandelt haben wollt?
 .ITEM 10p
@@ -3150,5 +3273,7 @@ Welche Inhalte waren für euch am wichtigsten oder spannendsten?
 Was hat euch weniger gefallen oder war schwer verständlich?
 .ITEM 10p
 Was nehmt ihr aus dem Kurs für eure weitere Arbeit mit Linux mit?
+.ITEM 10p
+Wie denkt ihr jetzt über Linux im Vergleich zu anderen Betriebssystemen?
 .LIST OFF
 .\": }}}
